@@ -5,8 +5,7 @@ namespace ItsMyConsole.Tools.AzureDevOps.Sample
 {
     class Program
     {
-        static async Task Main()
-        {
+        static async Task Main() {
             ConsoleCommandLineInterpreter ccli = new ConsoleCommandLineInterpreter();
 
             ccli.Configure(options => {
@@ -16,12 +15,11 @@ namespace ItsMyConsole.Tools.AzureDevOps.Sample
                 options.TrimCommand = true;
             });
 
-            ccli.AddAzureDevOpsServer(new AzureDevOpsServer
-            {
-                Name = "TEST",
-                Url = "https://<SERVEUR>",
-                PersonalAccessToken = "<TOKEN>"
-            });
+            ccli.AddAzureDevOpsServer(new AzureDevOpsServer {
+                                          Name = "TEST",
+                                          Url = "https://<SERVEUR>",
+                                          PersonalAccessToken = "<TOKEN>"
+                                      });
 
             ccli.AddCommand("^wi [0-9]*$", async tools => {
                 int workItemId = Convert.ToInt32(tools.CommandArgs[1]);

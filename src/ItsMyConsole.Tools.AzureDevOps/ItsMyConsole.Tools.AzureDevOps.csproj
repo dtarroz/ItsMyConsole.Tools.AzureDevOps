@@ -2,11 +2,28 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageVersion>0.1.0</PackageVersion>
+    <Title>ItsMyConsole.Tools.AzureDevOps</Title>
+    <Authors>Damien TARROZ</Authors>
+    <Description>Outil Azure Dev Ops (Création/Modification WorkItem) pour le Framework ItsMyConsole</Description>
+    <Copyright>Copyright © 2021 Damien TARROZ</Copyright>
+    <PackageProjectUrl>https://github.com/dtarroz/ItsMyConsole.Tools.AzureDevOps</PackageProjectUrl>
+    <AssemblyVersion>0.1.0</AssemblyVersion>
+    <FileVersion>0.1.0</FileVersion>
+    <PackageIcon>logo.png</PackageIcon>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DocumentationFile>bin\Release\ItsMyConsole.Tools.AzureDevOps.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="ItsMyConsole" Version="0.2.0" />
     <PackageReference Include="Microsoft.TeamFoundationServer.Client" Version="16.170.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\docs\logo.png" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>

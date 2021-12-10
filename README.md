@@ -9,6 +9,7 @@ Outil Azure Dev Ops (Création/Modification WorkItem) pour le Framework [```ItsM
 - [Pourquoi faire ?](#pourquoi-faire-)
 - [Getting Started](#getting-started)
 - [Ajout d'une configuration serveur Azure Dev Ops](#ajout-dune-configuration-serveur-azure-dev-ops)
+- [Comment se servir de l'outil ?](#comment-se-servir-de-loutil-)
 - [Création d'un Workitem](#création-dun-workitem)
 - [Modification d'un Workitem](#modification-dun-workitem)
 - [Ajout d'une relation entre Workitems](#ajout-dune-relation-entre-workitems)
@@ -34,6 +35,8 @@ L'outil ```ItsMyConsole.Tools.AzureDevOps``` met à disposition :
 6. [Créer un nouveau jeton d'accès personnel](https://docs.microsoft.com/fr-fr/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page#create-a-pat) et **faite une sauvegarde de la valeur**
 5. Dans le projet, modifier la méthode **"Main"** dans le fichier **"Program.cs"** par le code suivant :
 ```cs
+using ItsMyConsole;
+using ItsMyConsole.Tools.AzureDevOps;
 using System;
 using System.Threading.Tasks;
 
@@ -113,7 +116,26 @@ ccli.AddAzureDevOpsServer(new AzureDevOpsServer
 });
 ```
 
+## Comment se servir de l'outil ?
 
+Vous pouvez accéder à l'outil Azure Dev Ops lorsque vous ajoutez une interprétation de commande avec ```AddCommand```.
+
+```cs
+ConsoleCommandLineInterpreter ccli = new ConsoleCommandLineInterpreter();
+
+// Azure Dev Ops configuration
+ccli.AddAzureDevOpsServer(new AzureDevOpsServer {/*  */});
+
+// Add command
+ccli.AddCommand("<PATERN>", async tools => 
+{
+    var example = tools.AzureDevOps("<NAME>").GetWorkItemAsync(1234);
+});
+```
+
+Utiliser ```using ItsMyConsole.Tools.AzureDevOps;``` pour avoir accés a l'outil Azure Dev Ops depuis ```tools```.
+
+*coming soon*
 
 ## Création d'un Workitem
 *coming soon*

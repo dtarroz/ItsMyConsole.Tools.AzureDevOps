@@ -37,7 +37,7 @@ L'outil ```ItsMyConsole.Tools.AzureDevOps``` met à disposition :
 using System;
 using System.Threading.Tasks;
 
-namespace ItsMyConsole.Tools.AzureDevOps.Sample
+namespace MyExampleConsole
 {
     class Program
     {

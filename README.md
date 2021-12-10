@@ -2,13 +2,13 @@
 
 # ItsMyConsole.Tools.AzureDevOps
 
-Outil Azure Dev Ops (Création/Modification WorkItem) pour le Framework ```ItsMyConsole```
+Outil Azure Dev Ops (Création/Modification WorkItem) pour le Framework [```ItsMyConsole```](https://github.com/dtarroz/ItsMyConsole)
 
 ## Sommaire
 
 - [Pourquoi faire ?](#pourquoi-faire-)
 - [Getting Started](#getting-started)
-- [Ajout d'une configuration serveur](#ajout-dune-configuration-serveur)
+- [Ajout d'une configuration serveur Azure Dev Ops](#ajout-dune-configuration-serveur-azure-dev-ops)
 - [Création d'un Workitem](#création-dun-workitem)
 - [Modification d'un Workitem](#modification-dun-workitem)
 - [Ajout d'une relation entre Workitems](#ajout-dune-relation-entre-workitems)
@@ -16,7 +16,7 @@ Outil Azure Dev Ops (Création/Modification WorkItem) pour le Framework ```ItsMy
 
 ## Pourquoi faire ?
 
-Vous allez pouvoir étendre le Framework pour application Console .Net ```ItsMyConsole``` ([accessible ici](https://github.com/dtarroz/ItsMyConsole)) avec un outil de manipulation des WorkItems d'Azure Dev Ops.
+Vous allez pouvoir étendre le Framework pour application Console .Net [```ItsMyConsole```](https://github.com/dtarroz/ItsMyConsole) avec un outil de manipulation des WorkItems d'Azure Dev Ops.
 
 L'outil ```ItsMyConsole.Tools.AzureDevOps``` met à disposition :
  - La création de WorkItem
@@ -27,11 +27,11 @@ L'outil ```ItsMyConsole.Tools.AzureDevOps``` met à disposition :
 ## Getting Started
 
 1. Créer un projet **"Application Console .Net"** avec le nom *"MyExampleConsole"*
-2. Ajouter ```ItsMyConsole``` au projet depuis le gestionnaire de package NuGet
+2. Ajouter [```ItsMyConsole```](https://github.com/dtarroz/ItsMyConsole) au projet depuis le gestionnaire de package NuGet
 3. Ajouter ```ItsMyConsole.Tools.AzureDevOps``` au projet depuis le gestionnaire de package NuGet
 4. Aller sur l'application web de votre serveur Azure Dev Ops
 5. Cliquer sur l'icône de votre profil, puis **"Sécurité"**
-6. Créer un nouveau jeton d'accès personnel et **faite une sauvegarde de la valeur**
+6. [Créer un nouveau jeton d'accès personnel](https://docs.microsoft.com/fr-fr/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page#create-a-pat) et **faite une sauvegarde de la valeur**
 5. Dans le projet, modifier la méthode **"Main"** dans le fichier **"Program.cs"** par le code suivant :
 ```cs
 using System;
@@ -91,8 +91,29 @@ Lors de l'exécution de la Console, si on saisie une commande qui commence par *
 
 Maintenant que l'on a configuré la Console et l'implémention de l'action associée au pattern ```^wi [0-9]*$```, l'utilisation de ```RunAsync``` lance la mise en attente d'une saisie de commande par l'utilisateur.
 
-## Ajout d'une configuration serveur
-*coming soon*
+## Ajout d'une configuration serveur Azure Dev Ops
+
+Vous pouvez ajouter une configuration d'un serveur Azure Dev Ops en utilisant ```AddAzureDevOpsServer```.
+
+| Propriété | Description |
+| :-------- | :---------- |
+| Name | Nom unique du serveur Azure Dev Ops qui sert de désignation lors de son utilisation |
+| Url | L'URL du serveur Azure Dev Ops |
+| PersonalAccessToken | Le token d'accès personnel au serveur Azure Dev Ops. Vous devez le créer [depuis le site web d'Azure Dev Ops.](https://docs.microsoft.com/fr-fr/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page#create-a-pat) |
+
+```cs
+ConsoleCommandLineInterpreter ccli = new ConsoleCommandLineInterpreter();
+
+// Azure Dev Ops configuration
+ccli.AddAzureDevOpsServer(new AzureDevOpsServer 
+{
+    Name = "TEST",
+    Url = "https://<SERVEUR>",
+    PersonalAccessToken = "<TOKEN>"
+});
+```
+
+
 
 ## Création d'un Workitem
 *coming soon*

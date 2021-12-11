@@ -135,23 +135,120 @@ ccli.AddAzureDevOpsServer(new AzureDevOpsServer {/*  */});
 // Add command
 ccli.AddCommand("<PATERN>", async tools => 
 {
-    var example = tools.AzureDevOps("<NAME>").GetWorkItemAsync(1234);
+    WorkItem example = await tools.AzureDevOps("<NAME>").GetWorkItemAsync(1234);
 });
 ```
 
 Vous devez ajouter ```using ItsMyConsole.Tools.AzureDevOps;``` pour avoir accés a l'outil Azure Dev Ops depuis ```tools``` de ```AddCommand```.
 
 ## Création d'un Workitem
-*coming soon*
+
+Vous pouvez créer des WorkItems en utilisant ```CreateWorkItemAsync```.
+
+| Propriété | Description |
+| :-------- | :---------- |
+| workItemFields | La liste des champs à renseigner lors de la création du WorkItem |
+
+```cs
+ccli.AddCommand("<PATERN>", async tools => 
+{
+    WorkItem newWorkItem = await tools.AzureDevOps("<NAME>").CreateWorkItemAsync(new WorkItemFields
+    {
+        // Insert yours fields here
+    });
+});
+```
+
+| Nom du champ | Description |
+| :----------- | :---------- |
+| AreaPath | La zone |
+| TeamProject |  *(obligatoire)* Le projet |
+| IterationPath | L'itération |
+| Title | Le titre |
+| State | L'état |
+| WorkItemType | *(obligatoire)* Le type |
+| AssignedTo | Assigner à une personne |
+| Activity | Activité |
 
 ## Modification d'un Workitem
-*coming soon*
+
+Vous pouvez modifier un WorkItem en utilisant ```UpdateWorkItemAsync```.
+
+| Propriété | Description |
+| :-------- | :---------- |
+| workItemId | L'identifiant du WorkItem à mettre à jour |
+| workItemFields | La liste des champs à mettre à jour sur le WorkItem. Tous les champs sont facultatifs, vous pouvez mettre à jour seulement ceux que vous voulez. |
+
+```cs
+ccli.AddCommand("<PATERN>", async tools => 
+{
+    await tools.AzureDevOps("<NAME>").UpdateWorkItemAsync(1234, new WorkItemFields
+    {
+        // Insert yours fields here
+    });
+});
+```
+
+| Nom du champ | Description |
+| :----------- | :---------- |
+| AreaPath | *(facultatif)* La zone |
+| TeamProject | *(facultatif)* Le projet |
+| IterationPath | *(facultatif)* L'itération |
+| Title | *(facultatif)* Le titre |
+| State | *(facultatif)* L'état |
+| WorkItemType | *(facultatif)* Le type |
+| AssignedTo | *(facultatif)* Assigner à une personne |
+| Activity | *(facultatif)* Activité |
 
 ## Récupération des informations d'un Workitem
-*coming soon*
+
+Vous pouvez récupérer les informations d'un WorkItem en utilisant ```GetWorkItemAsync```.
+
+| Propriété | Description |
+| :-------- | :---------- |
+| workItemId | L'identifiant du WorkItem |
+
+```cs
+ccli.AddCommand("<PATERN>", async tools => 
+{
+    WorkItem workItem = await tools.AzureDevOps("<NAME>").GetWorkItemAsync(1234);
+});
+```
+
+| Nom de la propriété | Description |
+| :------------------ | :---------- |
+| Id | L'identifiant |
+| AreaPath | La zone |
+| TeamProject | Le projet |
+| IterationPath | L'itération |
+| Title | Le titre |
+| State | L'état |
+| WorkItemType | Le type |
+| AssignedTo | Assigner à une personne |
+| Activity | Activité |
+| Childs | La liste des identifiants des WorkItems enfants |
+| Parents | La liste des identifiants des WorkItems parents |
+| Related | La liste des identifiants des WorkItems associés |
 
 ## Ajout d'une relation entre Workitems
-*coming soon*
+
+Vous pouvez ajouter des relations entre WorkItems en utilisant ```AddWorkItemRelationsAsync```.
+
+| Propriété | Description |
+| :-------- | :---------- |
+| workItemId | L'identifiant du WorkItem qui va recevoir la relation |
+| workItemToAdd | Le WorkItem à ajouter |
+| linkType | Le type de lien entre le WorkItem est celui que l'on veut ajouter |
+
+Vous avez aussi une surchage de la méthode pour ajouter plusieurs WorkItems en même temps.
+
+```cs
+ccli.AddCommand("<PATERN>", async tools => 
+{
+    WorkItem workItemToAdd = await tools.AzureDevOps("<NAME>").GetWorkItemAsync(5678);
+    await tools.AzureDevOps("<NAME>").AddWorkItemRelationsAsync(1234, workItemToAdd, LinkType.Child);
+});
+```
 
 ## Récupération des itérations courantes d'un projet
 *coming soon*

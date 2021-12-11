@@ -12,6 +12,7 @@ Outil Azure Dev Ops (Création/Modification WorkItem) pour le Framework [```ItsM
 - [Comment se servir de l'outil ?](#comment-se-servir-de-loutil-)
 - [Création d'un Workitem](#création-dun-workitem)
 - [Modification d'un Workitem](#modification-dun-workitem)
+- [Récupération des informations d'un Workitem](#récupération-des-informations-dun-workitem)
 - [Ajout d'une relation entre Workitems](#ajout-dune-relation-entre-workitems)
 - [Récupération des itérations courantes d'un projet](#récupération-des-itérations-courantes-dun-projet)
 
@@ -22,6 +23,7 @@ Vous allez pouvoir étendre le Framework pour application Console .Net [```ItsMy
 L'outil ```ItsMyConsole.Tools.AzureDevOps``` met à disposition :
  - La création de WorkItem
  - La modification de WorkItem
+ - La récupération des informations d'un WorkItem
  - L'ajout de relations entre les WorkItems
  - Les itérations courantes disponibles pour un projet
 
@@ -30,7 +32,7 @@ L'outil ```ItsMyConsole.Tools.AzureDevOps``` met à disposition :
 1. Créer un projet **"Application Console .Net"** avec le nom *"MyExampleConsole"*
 2. Ajouter [```ItsMyConsole```](https://github.com/dtarroz/ItsMyConsole) au projet depuis le gestionnaire de package NuGet
 3. Ajouter ```ItsMyConsole.Tools.AzureDevOps``` au projet depuis le gestionnaire de package NuGet
-4. Aller sur l'application web de votre serveur Azure Dev Ops
+4. Aller sur le site web de votre serveur Azure Dev Ops
 5. Cliquer sur l'icône de votre profil, puis **"Sécurité"**
 6. [Créer un nouveau jeton d'accès personnel](https://docs.microsoft.com/fr-fr/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page#create-a-pat) et **faite une sauvegarde de la valeur**
 5. Dans le projet, modifier la méthode **"Main"** dans le fichier **"Program.cs"** par le code suivant :
@@ -116,9 +118,13 @@ ccli.AddAzureDevOpsServer(new AzureDevOpsServer
 });
 ```
 
+Si vous avez plusieurs serveurs Azure Dev Ops, le nom ```Name``` permet de cibler celui que vous voulez lors de la manipulation des WorkItems.
+
 ## Comment se servir de l'outil ?
 
-Vous pouvez accéder à l'outil Azure Dev Ops lorsque vous ajoutez une interprétation de commande avec ```AddCommand```.
+Tout d'abord, vous devez ajouter une configuration serveur Azure Dev Ops avec ```AddAzureDevOpsServer```et définir un nom ```Name```.
+Vous pouvez ensuite accéder à l'outil Azure Dev Ops lorsque vous ajoutez une interprétation de commande avec ```AddCommand```.  
+Le nom défini lors de la configuration permet de cibler le serveur lors de l'utilisation de l'outil.
 
 ```cs
 ConsoleCommandLineInterpreter ccli = new ConsoleCommandLineInterpreter();
@@ -133,14 +139,15 @@ ccli.AddCommand("<PATERN>", async tools =>
 });
 ```
 
-Utiliser ```using ItsMyConsole.Tools.AzureDevOps;``` pour avoir accés a l'outil Azure Dev Ops depuis ```tools```.
-
-*coming soon*
+Vous devez ajouter ```using ItsMyConsole.Tools.AzureDevOps;``` pour avoir accés a l'outil Azure Dev Ops depuis ```tools``` de ```AddCommand```.
 
 ## Création d'un Workitem
 *coming soon*
 
 ## Modification d'un Workitem
+*coming soon*
+
+## Récupération des informations d'un Workitem
 *coming soon*
 
 ## Ajout d'une relation entre Workitems

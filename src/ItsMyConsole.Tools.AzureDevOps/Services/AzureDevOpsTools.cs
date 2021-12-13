@@ -122,6 +122,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// <param name="workItemToAdd">Le WorkItem à ajouter</param>
         /// <param name="linkType">Le type de lien entre le WorkItem est celui que l'on veut ajouter</param>
         public async Task AddWorkItemRelationsAsync(int workItemId, WorkItem workItemToAdd, LinkType linkType) {
+            if (workItemToAdd == null)
+                throw new ArgumentNullException(nameof(workItemToAdd));
             await AddWorkItemRelationsAsync(workItemId, new List<WorkItem> { workItemToAdd }, linkType);
         }
 

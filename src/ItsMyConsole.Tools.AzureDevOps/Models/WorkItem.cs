@@ -7,68 +7,65 @@
     {
         internal WorkItem() { }
 
+        internal string Url { get; set; }
+
         /// <summary>
-        /// L'identifiant
+        /// L'identifiant du WorkItem
         /// </summary>
         public int Id { get; internal set; }
 
         /// <summary>
-        /// Url des données
-        /// </summary>
-        public string Url { get; internal set; }
-
-        /// <summary>
-        /// La zone
+        /// La zone du WorkItem
         /// </summary>
         public string AreaPath { get; internal set; }
 
         /// <summary>
-        /// Le projet
+        /// Le projet du WorkItem
         /// </summary>
         public string TeamProject { get; internal set; }
 
         /// <summary>
-        /// L'itération
+        /// L'itération du WorkItem
         /// </summary>
         public string IterationPath { get; internal set; }
 
         /// <summary>
-        /// Le titre
+        /// Le titre du WorkItem
         /// </summary>
         public string Title { get; internal set; }
 
         /// <summary>
-        /// L'état
+        /// L'état du WorkItem
         /// </summary>
         public string State { get; internal set; }
 
         /// <summary>
-        /// Le type
+        /// Le type du WorkItem
         /// </summary>
         public string WorkItemType { get; internal set; }
 
         /// <summary>
-        /// Assigner à une personne
+        /// La personne assignée au WorkItem
         /// </summary>
         public string AssignedTo { get; internal set; }
 
         /// <summary>
-        /// Activité
+        /// L'activité du WorkItem
         /// </summary>
         public string Activity { get; internal set; }
 
         /// <summary>
-        /// Liste des WorkItems enfants
+        /// Liste des WorkItems enfants du WorkItem
         /// </summary>
         public int[] Childs { get; internal set; }
 
         /// <summary>
-        /// Liste des WorkItems parents
+        /// Liste des WorkItems parents du WorkItem
         /// </summary>
         public int[] Parents { get; internal set; }
 
         /// <summary>
-        /// Liste des WorkItems associés
+        /// Liste des WorkItems associés du WorkItem
         /// </summary>
         public int[] Related { get; internal set; }
     }

@@ -110,7 +110,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 throw new ArgumentNullException(nameof(workItemFields));
             using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient()) {
                 JsonPatchDocument jsonPatchDocument = CreateJsonPatchDocument(Operation.Replace, workItemFields);
-                await workItemTrackingHttpClient.UpdateWorkItemAsync(jsonPatchDocument, workItemId);
+                if (jsonPatchDocument.Count > 0)
+                    await workItemTrackingHttpClient.UpdateWorkItemAsync(jsonPatchDocument, workItemId);
             }
         }
 

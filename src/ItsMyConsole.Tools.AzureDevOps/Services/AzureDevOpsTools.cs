@@ -47,9 +47,11 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// </summary>
         /// <param name="project">Le nom du projet</param>
         /// <param name="team">Le nom de l'équipe</param>
-        public async Task<List<TeamSettingsIteration>> GetCurrentTeamIterationsAsync(string project, string team = null) {
+        public async Task<List<TeamIteration>> GetCurrentTeamIterationsAsync(string project, string team = null) {
             using (WorkHttpClient workHttpClient = GetWorkHttpClient())
-                return await workHttpClient.GetTeamIterationsAsync(new TeamContext(project, team), "Current");
+                return (await workHttpClient.GetTeamIterationsAsync(new TeamContext(project, team), "Current"))
+                       .Select(t => t.ToModel())
+                       .ToList();
         }
 
         private WorkHttpClient GetWorkHttpClient() {
@@ -113,7 +115,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// Ajoute une relation de WorkItem à un WorkItem
         /// </summary>
         /// <param name="workItemId">L'identifiant du WorkItem qui va recevoir la relation</param>
-        /// <param name="workItemToAdd">le WorkItem à ajouter</param>
+        /// <param name="workItemToAdd">Le WorkItem à ajouter</param>
         /// <param name="linkType">Le type de lien entre le WorkItem est celui que l'on veut ajouter</param>
         public async Task AddWorkItemRelationsAsync(int workItemId, WorkItem workItemToAdd, LinkType linkType) {
             await AddWorkItemRelationsAsync(workItemId, new List<WorkItem> { workItemToAdd }, linkType);

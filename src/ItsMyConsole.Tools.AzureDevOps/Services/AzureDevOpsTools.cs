@@ -90,11 +90,14 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 { "/fields/Microsoft.VSTS.Common.Activity", workItemFields.Activity }
             };
             return fields.Where(f => f.Value != null)
-            .Select(f => new JsonPatchOperation {
-                        Operation = operation,
-                        Path = f.Key,
-                        Value = f.Value
-                    }) as JsonPatchDocument;
+                         .Aggregate(new JsonPatchDocument(), (document, field) => {
+                             document.Add(new JsonPatchOperation {
+                                              Operation = operation,
+                                              Path = field.Key,
+                                              Value = field.Value
+                                          });
+                             return document;
+                         });
         }
 
         /// <summary>
@@ -131,15 +134,19 @@ namespace ItsMyConsole.Tools.AzureDevOps
             if (workItemsToAdd == null)
                 throw new ArgumentNullException(nameof(workItemsToAdd));
             using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient()) {
-                JsonPatchDocument document = workItemsToAdd.Select(w => new JsonPatchOperation {
-                                                                       Operation = Operation.Add,
-                                                                       Path = "/relations/-",
-                                                                       Value = new {
-                                                                           rel = linkType.GetName(),
-                                                                           url = w.Url
-                                                                       }
-                                                                   }) as JsonPatchDocument;
-                await workItemTrackingHttpClient.UpdateWorkItemAsync(document, workItemId);
+                JsonPatchDocument jsonPatchDocument = workItemsToAdd.Aggregate(new JsonPatchDocument(), (document, field) => {
+                    document.Add(new JsonPatchOperation {
+                                     Operation = Operation.Add,
+                                     Path = "/relations/-",
+                                     Value = new {
+                                         rel = linkType.GetName(),
+                                         url = field.Url
+                                     }
+                                 });
+                    return document;
+                });
+                if (jsonPatchDocument.Count > 0)
+                    await workItemTrackingHttpClient.UpdateWorkItemAsync(jsonPatchDocument, workItemId);
             }
         }
     }

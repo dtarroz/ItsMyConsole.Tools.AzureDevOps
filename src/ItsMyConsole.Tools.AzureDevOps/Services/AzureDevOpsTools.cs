@@ -87,7 +87,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 { "/fields/System.State", workItemFields.State },
                 { "/fields/System.WorkItemType", workItemFields.WorkItemType },
                 { "/fields/System.AssignedTo", workItemFields.AssignedTo },
-                { "/fields/System.Microsoft.VSTS.Common.Activity", workItemFields.Activity }
+                { "/fields/Microsoft.VSTS.Common.Activity", workItemFields.Activity }
             };
             return fields.Where(f => f.Value != null)
             .Select(f => new JsonPatchOperation {

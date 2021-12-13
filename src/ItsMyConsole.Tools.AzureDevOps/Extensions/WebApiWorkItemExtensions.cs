@@ -16,7 +16,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 State = workItem.GetFieldValue("System.State"),
                 WorkItemType = workItem.GetFieldValue("System.WorkItemType"),
                 AssignedTo = workItem.GetFieldValue("System.AssignedTo"),
-                Activity = workItem.GetFieldValue("System.Microsoft.VSTS.Common.Activity"),
+                Activity = workItem.GetFieldValue("Microsoft.VSTS.Common.Activity"),
                 Childs = workItem.GetRelationIds(LinkType.Child),
                 Parents = workItem.GetRelationIds(LinkType.Parent),
                 Related = workItem.GetRelationIds(LinkType.Related)

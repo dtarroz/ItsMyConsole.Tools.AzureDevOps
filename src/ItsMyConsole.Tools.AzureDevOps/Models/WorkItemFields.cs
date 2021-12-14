@@ -44,5 +44,25 @@
         /// Activité
         /// </summary>
         public string Activity { get; set; }
+
+        /// <summary>
+        /// La description
+        /// </summary>
+        public string Description { get; set; }
+
+        /// <summary>
+        /// Les étapes de reproduction
+        /// </summary>
+        public string ReproSteps { get; set; }
+
+        /// <summary>
+        /// Les informations systèmes
+        /// </summary>
+        public string SystemInfo { get; set; }
+
+        /// <summary>
+        /// Les critères d'acceptation
+        /// </summary>
+        public string AcceptanceCriteria { get; set; }
     }
 }

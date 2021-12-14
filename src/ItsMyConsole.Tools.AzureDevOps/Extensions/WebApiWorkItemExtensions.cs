@@ -18,6 +18,10 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 WorkItemType = workItem.GetFieldValue<string>("System.WorkItemType"),
                 AssignedToDisplayName = workItem.GetFieldValue<IdentityRef>("System.AssignedTo")?.DisplayName,
                 Activity = workItem.GetFieldValue<string>("Microsoft.VSTS.Common.Activity"),
+                Description = workItem.GetFieldValue<string>("System.Description"),
+                ReproSteps = workItem.GetFieldValue<string>("Microsoft.VSTS.TCM.ReproSteps"),
+                SystemInfo = workItem.GetFieldValue<string>("Microsoft.VSTS.TCM.SystemInfo"),
+                AcceptanceCriteria = workItem.GetFieldValue<string>("Microsoft.VSTS.Common.AcceptanceCriteria"),
                 Childs = workItem.GetRelationIds(LinkType.Child),
                 Parents = workItem.GetRelationIds(LinkType.Parent),
                 Related = workItem.GetRelationIds(LinkType.Related)

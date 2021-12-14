@@ -55,6 +55,26 @@
         public string Activity { get; internal set; }
 
         /// <summary>
+        /// La description du WorkItem
+        /// </summary>
+        public string Description { get; internal set; }
+
+        /// <summary>
+        /// Les étapes de reproduction du WorkItem
+        /// </summary>
+        public string ReproSteps { get; internal set; }
+
+        /// <summary>
+        /// Les informations systèmes du WorkItem
+        /// </summary>
+        public string SystemInfo { get; internal set; }
+
+        /// <summary>
+        /// Les critères d'acceptation du WorkItem
+        /// </summary>
+        public string AcceptanceCriteria { get; internal set; }
+
+        /// <summary>
         /// Liste des WorkItems enfants du WorkItem
         /// </summary>
         public int[] Childs { get; internal set; }

@@ -87,7 +87,11 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 { "/fields/System.State", workItemFields.State },
                 { "/fields/System.WorkItemType", workItemFields.WorkItemType },
                 { "/fields/System.AssignedTo", workItemFields.AssignedToDisplayName },
-                { "/fields/Microsoft.VSTS.Common.Activity", workItemFields.Activity }
+                { "/fields/Microsoft.VSTS.Common.Activity", workItemFields.Activity },
+                { "/fields/System.Description", workItemFields.Description },
+                { "/fields/Microsoft.VSTS.TCM.ReproSteps", workItemFields.ReproSteps },
+                { "/fields/Microsoft.VSTS.TCM.SystemInfo", workItemFields.SystemInfo },
+                { "/fields/Microsoft.VSTS.Common.AcceptanceCriteria", workItemFields.AcceptanceCriteria }
             };
             return fields.Where(f => f.Value != null)
                          .Aggregate(new JsonPatchDocument(), (document, field) => {

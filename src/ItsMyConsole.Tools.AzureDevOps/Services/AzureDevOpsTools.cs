@@ -86,7 +86,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 { "/fields/System.Title", workItemFields.Title },
                 { "/fields/System.State", workItemFields.State },
                 { "/fields/System.WorkItemType", workItemFields.WorkItemType },
-                { "/fields/System.AssignedTo", workItemFields.AssignedTo },
+                { "/fields/System.AssignedTo", workItemFields.AssignedToDisplayName },
                 { "/fields/Microsoft.VSTS.Common.Activity", workItemFields.Activity }
             };
             return fields.Where(f => f.Value != null)

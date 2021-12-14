@@ -45,9 +45,9 @@
         public string WorkItemType { get; internal set; }
 
         /// <summary>
-        /// La personne assignée au WorkItem
+        /// Le nom de la personne assignée au WorkItem
         /// </summary>
-        public string AssignedTo { get; internal set; }
+        public string AssignedToDisplayName { get; internal set; }
 
         /// <summary>
         /// L'activité du WorkItem

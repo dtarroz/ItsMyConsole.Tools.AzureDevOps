@@ -36,9 +36,9 @@
         public string WorkItemType { get; set; }
 
         /// <summary>
-        /// Assigner à une personne
+        /// Le nom de la personne à assigner
         /// </summary>
-        public string AssignedTo { get; set; }
+        public string AssignedToDisplayName { get; set; }
 
         /// <summary>
         /// Activité

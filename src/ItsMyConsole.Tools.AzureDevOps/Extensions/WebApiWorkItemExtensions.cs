@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.Services.WebApi;
+using System;
 using System.Linq;
 
 namespace ItsMyConsole.Tools.AzureDevOps
@@ -9,23 +10,23 @@ namespace ItsMyConsole.Tools.AzureDevOps
             return new WorkItem {
                 Id = workItem.Id ?? 0,
                 Url = workItem.Url,
-                AreaPath = workItem.GetFieldValue("System.AreaPath"),
-                TeamProject = workItem.GetFieldValue("System.TeamProject"),
-                IterationPath = workItem.GetFieldValue("System.IterationPath"),
-                Title = workItem.GetFieldValue("System.Title"),
-                State = workItem.GetFieldValue("System.State"),
-                WorkItemType = workItem.GetFieldValue("System.WorkItemType"),
-                AssignedTo = workItem.GetFieldValue("System.AssignedTo"),
-                Activity = workItem.GetFieldValue("Microsoft.VSTS.Common.Activity"),
+                AreaPath = workItem.GetFieldValue<string>("System.AreaPath"),
+                TeamProject = workItem.GetFieldValue<string>("System.TeamProject"),
+                IterationPath = workItem.GetFieldValue<string>("System.IterationPath"),
+                Title = workItem.GetFieldValue<string>("System.Title"),
+                State = workItem.GetFieldValue<string>("System.State"),
+                WorkItemType = workItem.GetFieldValue<string>("System.WorkItemType"),
+                AssignedToDisplayName = workItem.GetFieldValue<IdentityRef>("System.AssignedTo")?.DisplayName,
+                Activity = workItem.GetFieldValue<string>("Microsoft.VSTS.Common.Activity"),
                 Childs = workItem.GetRelationIds(LinkType.Child),
                 Parents = workItem.GetRelationIds(LinkType.Parent),
                 Related = workItem.GetRelationIds(LinkType.Related)
             };
         }
 
-        private static string GetFieldValue(this Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.WorkItem workItem,
+        private static T GetFieldValue<T>(this Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.WorkItem workItem,
                                             string key) {
-            return workItem.Fields.ContainsKey(key) ? workItem.Fields[key].ToString() : null;
+            return workItem.Fields.ContainsKey(key) ? (T)workItem.Fields[key] : default;
         }
 
         private static int[] GetRelationIds(this Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.WorkItem workItem,

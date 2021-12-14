@@ -88,5 +88,10 @@
         /// Liste des WorkItems associés du WorkItem
         /// </summary>
         public int[] Related { get; internal set; }
+
+        /// <summary>
+        /// Indicateur si des ensembles de modifications sont liés au Workitem
+        /// </summary>
+        public bool IsFixedInChangeset { get; internal set; }
     }
 }

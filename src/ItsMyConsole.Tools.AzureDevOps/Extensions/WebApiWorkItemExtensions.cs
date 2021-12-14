@@ -24,12 +24,15 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 AcceptanceCriteria = workItem.GetFieldValue<string>("Microsoft.VSTS.Common.AcceptanceCriteria"),
                 Childs = workItem.GetRelationIds(LinkType.Child),
                 Parents = workItem.GetRelationIds(LinkType.Parent),
-                Related = workItem.GetRelationIds(LinkType.Related)
+                Related = workItem.GetRelationIds(LinkType.Related),
+                IsFixedInChangeset =
+                    workItem.Relations?.Any(r => r.Attributes.ContainsKey("name")
+                                                 && r.Attributes["name"].ToString() == "Fixed in Changeset") ?? false
             };
         }
 
         private static T GetFieldValue<T>(this Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.WorkItem workItem,
-                                            string key) {
+                                          string key) {
             return workItem.Fields.ContainsKey(key) ? (T)workItem.Fields[key] : default;
         }
 

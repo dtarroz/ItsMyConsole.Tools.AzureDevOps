@@ -39,10 +39,11 @@ namespace ItsMyConsole.Tools.AzureDevOps
 
         private static int[] GetRelationIds(this Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.WorkItem workItem,
                                             LinkType linkType) {
-            return workItem.Relations?.Where(r => r.Rel == linkType.GetName())
-                           .Select(r => r.Url.Substring(r.Url.LastIndexOf('/') + 1))
-                           .Select(wi => Convert.ToInt32(wi))
-                           .ToArray();
+            int[] ids = workItem.Relations?.Where(r => r.Rel == linkType.GetName())
+                                .Select(r => r.Url.Substring(r.Url.LastIndexOf('/') + 1))
+                                .Select(wi => Convert.ToInt32(wi))
+                                .ToArray();
+            return ids.Length == 0 ? null : ids;
         }
     }
 }

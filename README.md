@@ -13,6 +13,7 @@ Outil Azure Dev Ops (Création/Modification WorkItem) pour le Framework [```ItsM
 - [Création d'un Workitem](#création-dun-workitem)
 - [Modification d'un Workitem](#modification-dun-workitem)
 - [Récupération des informations d'un Workitem](#récupération-des-informations-dun-workitem)
+- [Suppression d'un WorkItem](#suppression-dun-workitem)
 - [Ajout d'une relation entre Workitems](#ajout-dune-relation-entre-workitems)
 - [Récupération des itérations courantes d'un projet](#récupération-des-itérations-courantes-dun-projet)
 
@@ -24,6 +25,7 @@ L'outil ```ItsMyConsole.Tools.AzureDevOps``` met à disposition :
  - La création de WorkItem
  - La modification de WorkItem
  - La récupération des informations d'un WorkItem
+ - La suppression d'un WorkItem
  - L'ajout de relations entre les WorkItems
  - Les itérations courantes disponibles pour un projet
 
@@ -161,14 +163,14 @@ ccli.AddCommand("<PATERN>", async tools =>
 
 | Nom du champ | Description |
 | :----------- | :---------- |
-| AreaPath | La zone |
-| TeamProject |  *(obligatoire)* Le projet |
-| IterationPath | L'itération |
-| Title | Le titre |
-| State | L'état |
-| WorkItemType | *(obligatoire)* Le type |
-| AssignedTo | Assigner à une personne |
-| Activity | Activité |
+| AreaPath | La zone du WorkItem |
+| TeamProject |  *(obligatoire)* Le projet du WorkItem |
+| IterationPath | L'itération du WorkItem |
+| Title | Le titre du WorkItem |
+| State | L'état du WorkItem |
+| WorkItemType | *(obligatoire)* Le type du WorkItem |
+| AssignedToDisplayName | Le nom de la personne à assigner au WorkItem |
+| Activity | Activité du WorkItem |
 
 ## Modification d'un Workitem
 
@@ -191,14 +193,14 @@ ccli.AddCommand("<PATERN>", async tools =>
 
 | Nom du champ | Description |
 | :----------- | :---------- |
-| AreaPath | *(facultatif)* La zone |
-| TeamProject | *(facultatif)* Le projet |
-| IterationPath | *(facultatif)* L'itération |
-| Title | *(facultatif)* Le titre |
-| State | *(facultatif)* L'état |
-| WorkItemType | *(facultatif)* Le type |
-| AssignedTo | *(facultatif)* Assigner à une personne |
-| Activity | *(facultatif)* Activité |
+| AreaPath | *(facultatif)* La zone du WorkItem |
+| TeamProject | *(facultatif)* Le projet du WorkItem |
+| IterationPath | *(facultatif)* L'itération du WorkItem |
+| Title | *(facultatif)* Le titre du WorkItem |
+| State | *(facultatif)* L'état du WorkItem |
+| WorkItemType | *(facultatif)* Le type du WorkItem |
+| AssignedToDisplayName | *(facultatif)* Le nom de la personne à assigner au WorkItem |
+| Activity | *(facultatif)* Activité du WorkItem |
 
 ## Récupération des informations d'un Workitem
 
@@ -217,27 +219,35 @@ ccli.AddCommand("<PATERN>", async tools =>
 
 | Nom de la propriété | Description |
 | :------------------ | :---------- |
-| Id | L'identifiant |
-| AreaPath | La zone |
-| TeamProject | Le projet |
-| IterationPath | L'itération |
-| Title | Le titre |
-| State | L'état |
-| WorkItemType | Le type |
-| AssignedTo | Assigner à une personne |
-| Activity | Activité |
+| Id | L'identifiant du WorkItem |
+| AreaPath | La zone du WorkItem |
+| TeamProject | Le projet du WorkItem |
+| IterationPath | L'itération du WorkItem |
+| Title | Le titre du WorkItem |
+| State | L'état du WorkItem |
+| WorkItemType | Le type du WorkItem |
+| AssignedToDisplayName | Le nom de la personne assignée au WorkItem |
+| Activity | L'activité du WorkItem |
+| Description | La description du WorkItem |
+| ReproSteps | Les étapes de reproduction du WorkItem |
+| SystemInfo | Les informations systèmes du WorkItem |
+| AcceptanceCriteria | Les critères d'acceptation du WorkItem |
 | Childs | La liste des identifiants des WorkItems enfants |
 | Parents | La liste des identifiants des WorkItems parents |
 | Related | La liste des identifiants des WorkItems associés |
+| Tags | La liste des balises du WorkItem |
+
+## Suppression d'un WorkItem
+*coming soon*
 
 ## Ajout d'une relation entre Workitems
 
-Vous pouvez ajouter des relations entre WorkItems en utilisant ```AddWorkItemRelationsAsync```.
+Vous pouvez ajouter des relations entre WorkItems en utilisant ```AddWorkItemRelationAsync``` pour un seule relation et ```AddWorkItemRelationsAsync``` pour en ajouter plusieurs.
 
 | Propriété | Description |
 | :-------- | :---------- |
 | workItemId | L'identifiant du WorkItem qui va recevoir la relation |
-| workItemToAdd | Le WorkItem à ajouter |
+| workItemToAdd | Le ou les WorkItems à ajouter |
 | linkType | Le type de lien entre le WorkItem est celui que l'on veut ajouter |
 
 Vous avez aussi une surchage de la méthode pour ajouter plusieurs WorkItems en même temps.

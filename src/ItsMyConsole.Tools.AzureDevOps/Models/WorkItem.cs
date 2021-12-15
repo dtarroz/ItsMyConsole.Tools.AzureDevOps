@@ -93,5 +93,10 @@
         /// Indicateur si des ensembles de modifications sont liés au Workitem
         /// </summary>
         public bool IsFixedInChangeset { get; internal set; }
+
+        /// <summary>
+        /// Liste des balises du WorkItem
+        /// </summary>
+        public string[] Tags { get; internal set; }
     }
 }

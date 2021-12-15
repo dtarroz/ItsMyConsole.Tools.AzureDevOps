@@ -27,7 +27,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 Related = workItem.GetRelationIds(LinkType.Related),
                 IsFixedInChangeset =
                     workItem.Relations?.Any(r => r.Attributes.ContainsKey("name")
-                                                 && r.Attributes["name"].ToString() == "Fixed in Changeset") ?? false
+                                                 && r.Attributes["name"].ToString() == "Fixed in Changeset") ?? false,
+                Tags = workItem.GetFieldValue<string>("System.Tags")?.Split(';').Select(t => t.Trim()).ToArray()
             };
         }
 

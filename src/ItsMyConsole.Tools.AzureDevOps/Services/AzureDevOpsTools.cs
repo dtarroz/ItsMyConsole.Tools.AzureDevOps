@@ -125,7 +125,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// <param name="workItemId">L'identifiant du WorkItem qui va recevoir la relation</param>
         /// <param name="workItemToAdd">Le WorkItem à ajouter</param>
         /// <param name="linkType">Le type de lien entre le WorkItem est celui que l'on veut ajouter</param>
-        public async Task AddWorkItemRelationsAsync(int workItemId, WorkItem workItemToAdd, LinkType linkType) {
+        public async Task AddWorkItemRelationAsync(int workItemId, WorkItem workItemToAdd, LinkType linkType) {
             if (workItemToAdd == null)
                 throw new ArgumentNullException(nameof(workItemToAdd));
             await AddWorkItemRelationsAsync(workItemId, new List<WorkItem> { workItemToAdd }, linkType);
@@ -161,8 +161,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// Supprime un WorkItem
         /// </summary>
         /// <param name="workItemId">L'identifiant du WorkItem</param>
-        public async Task DeleteWorkItemAsync(int workItemId)
-        {
+        public async Task DeleteWorkItemAsync(int workItemId) {
             using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient())
                 await workItemTrackingHttpClient.DeleteWorkItemAsync(workItemId);
         }

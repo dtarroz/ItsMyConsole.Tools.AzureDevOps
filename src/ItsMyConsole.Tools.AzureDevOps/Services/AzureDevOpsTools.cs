@@ -156,5 +156,15 @@ namespace ItsMyConsole.Tools.AzureDevOps
                     await workItemTrackingHttpClient.UpdateWorkItemAsync(jsonPatchDocument, workItemId);
             }
         }
+
+        /// <summary>
+        /// Supprime un WorkItem
+        /// </summary>
+        /// <param name="workItemId">L'identifiant du WorkItem</param>
+        public async Task DeleteWorkItemAsync(int workItemId)
+        {
+            using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient())
+                await workItemTrackingHttpClient.DeleteWorkItemAsync(workItemId);
+        }
     }
 }

@@ -16,7 +16,7 @@ Outil Azure Dev Ops (Création/Modification WorkItem) pour le Framework [```ItsM
 - [Suppression d'un WorkItem](#suppression-dun-workitem)
 - [Ajout d'une relation entre WorkItems](#ajout-dune-relation-entre-workitems)
 - [Récupération des itérations courantes d'un projet](#récupération-des-itérations-courantes-dun-projet)
-
+  
 ## Pourquoi faire ?
 
 Vous allez pouvoir étendre le Framework pour application Console .Net [```ItsMyConsole```](https://github.com/dtarroz/ItsMyConsole) avec un outil de manipulation des WorkItems d'Azure Dev Ops.
@@ -36,7 +36,7 @@ L'outil ```ItsMyConsole.Tools.AzureDevOps``` met à disposition :
 3. Ajouter ```ItsMyConsole.Tools.AzureDevOps``` au projet depuis le gestionnaire de package NuGet
 4. Aller sur le site web de votre serveur Azure Dev Ops
 5. Cliquer sur l'icône de votre profil, puis **"Sécurité"**
-6. [Créer un nouveau jeton d'accès personnel](https://docs.microsoft.com/fr-fr/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page#create-a-pat) et **faite une sauvegarde de la valeur**
+6. Créer un nouveau jeton d'accès personnel, [exemple de procédure ici](https://docs.microsoft.com/fr-fr/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page#create-a-pat), et **faite une sauvegarde de la valeur**
 5. Dans le projet, modifier la méthode **"Main"** dans le fichier **"Program.cs"** par le code suivant :
 ```cs
 using ItsMyConsole;
@@ -106,7 +106,7 @@ Vous pouvez ajouter une configuration d'un serveur Azure Dev Ops en utilisant ``
 | :-------- | :---------- |
 | Name | Nom unique du serveur Azure Dev Ops qui sert de désignation lors de son utilisation |
 | Url | L'URL du serveur Azure Dev Ops |
-| PersonalAccessToken | Le token d'accès personnel au serveur Azure Dev Ops. Vous devez le créer [depuis le site web d'Azure Dev Ops.](https://docs.microsoft.com/fr-fr/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page#create-a-pat) |
+| PersonalAccessToken | Le token d'accès personnel au serveur Azure Dev Ops. Vous devez le créer depuis votre site web d'Azure Dev Ops. [Exemple de procédure ici](https://docs.microsoft.com/fr-fr/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page#create-a-pat) |
 
 ```cs
 ConsoleCommandLineInterpreter ccli = new ConsoleCommandLineInterpreter();
@@ -161,6 +161,8 @@ ccli.AddCommand("<PATERN>", async tools =>
 });
 ```
 
+Vous pouvez modifier les champs suivants :
+
 | Nom du champ | Description |
 | :----------- | :---------- |
 | AreaPath | La zone du WorkItem |
@@ -175,6 +177,8 @@ ccli.AddCommand("<PATERN>", async tools =>
 | ReproSteps | Les étapes de reproduction du WorkItem |
 | SystemInfo | Les informations systèmes du WorkItem |
 | AcceptanceCriteria | Les critères d'acceptation du WorkItem |
+
+Vous avez en retour un objet de type [```WorkItem```](#récupération-des-informations-dun-workitem).
 
 ## Modification d'un WorkItem
 
@@ -194,6 +198,8 @@ ccli.AddCommand("<PATERN>", async tools =>
     });
 });
 ```
+
+Vous pouvez modifier les champs suivants :
 
 | Nom du champ | Description |
 | :----------- | :---------- |
@@ -224,6 +230,8 @@ ccli.AddCommand("<PATERN>", async tools =>
     WorkItem workItem = await tools.AzureDevOps("<NAME>").GetWorkItemAsync(1234);
 });
 ```
+
+Vous avez en retour un objet de type ```WorkItem```.
 
 | Nom de la propriété | Description |
 | :------------------ | :---------- |
@@ -270,8 +278,6 @@ Vous pouvez ajouter des relations entre WorkItems en utilisant ```AddWorkItemRel
 | workItemToAdd | Le ou les WorkItems à ajouter |
 | linkType | Le type de lien entre le WorkItem est celui que l'on veut ajouter |
 
-Vous avez aussi une surcharge de la méthode pour ajouter plusieurs WorkItems en même temps.
-
 ```cs
 ccli.AddCommand("<PATERN>", async tools => 
 {
@@ -295,6 +301,8 @@ ccli.AddCommand("<PATERN>", async tools =>
     List<TeamIteration> teamsIterations = await tools.AzureDevOps("<NAME>").GetCurrentTeamIterationsAsync("<PROJECT>");
 });
 ```
+
+Vous avez en retour une liste d'objet de type ```TeamIteration```.
 
 | Nom de la propriété | Description |
 | :------------------ | :---------- |

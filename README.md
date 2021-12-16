@@ -10,11 +10,11 @@ Outil Azure Dev Ops (Création/Modification WorkItem) pour le Framework [```ItsM
 - [Getting Started](#getting-started)
 - [Ajout d'une configuration serveur Azure Dev Ops](#ajout-dune-configuration-serveur-azure-dev-ops)
 - [Comment se servir de l'outil ?](#comment-se-servir-de-loutil-)
-- [Création d'un Workitem](#création-dun-workitem)
-- [Modification d'un Workitem](#modification-dun-workitem)
-- [Récupération des informations d'un Workitem](#récupération-des-informations-dun-workitem)
+- [Création d'un WorkItem](#création-dun-workitem)
+- [Modification d'un WorkItem](#modification-dun-workitem)
+- [Récupération des informations d'un WorkItem](#récupération-des-informations-dun-workitem)
 - [Suppression d'un WorkItem](#suppression-dun-workitem)
-- [Ajout d'une relation entre Workitems](#ajout-dune-relation-entre-workitems)
+- [Ajout d'une relation entre WorkItems](#ajout-dune-relation-entre-workitems)
 - [Récupération des itérations courantes d'un projet](#récupération-des-itérations-courantes-dun-projet)
 
 ## Pourquoi faire ?
@@ -94,9 +94,9 @@ On ajoute la configuration du serveur Azure Dev Ops avec ```AddAzureDevOpsServer
 
 Puis avec ```AddCommand```, on a ajouté un pattern d’interprétation des lignes de commande ```^wi [0-9]*$``` *(commence par **"wi"** et suivi d'un nombre)*.
 
-Lors de l'exécution de la Console, si on saisie une commande qui commence par **"wi"** avec un nombre à la suite, il lancera l'implémentation de l'action associée. Dans cet exemple, il récupère l'identifiant du WorkItem en utilisant ```tools.CommandArgs``` depuis les outils disponibles *(tableau des arguments de la ligne de commande)* pour lui permet de récupérer les informations du WorkItem associé avec ```tools.AzureDevOps("TEST").GetWorkItemAsync``` *(ici "TEST" c'est le nom donné à la configuration du serveur)*. Avec les informations récupérées, il affiche son titre dans la Console.
+Lors de l'exécution de la Console, si on saisit une commande qui commence par **"wi"** avec un nombre à la suite, il lancera l'implémentation de l'action associée. Dans cet exemple, il récupère l'identifiant du WorkItem en utilisant ```tools.CommandArgs``` depuis les outils disponibles *(tableau des arguments de la ligne de commande)* pour lui permet de récupérer les informations du WorkItem associé avec ```tools.AzureDevOps("TEST").GetWorkItemAsync``` *(ici "TEST" c'est le nom donné à la configuration du serveur)*. Avec les informations récupérées, il affiche son titre dans la Console.
 
-Maintenant que l'on a configuré la Console et l'implémention de l'action associée au pattern ```^wi [0-9]*$```, l'utilisation de ```RunAsync``` lance la mise en attente d'une saisie de commande par l'utilisateur.
+Maintenant que l'on a configuré la Console et l'implémentation de l'action associée au pattern ```^wi [0-9]*$```, l'utilisation de ```RunAsync``` lance la mise en attente d'une saisie de commande par l'utilisateur.
 
 ## Ajout d'une configuration serveur Azure Dev Ops
 
@@ -141,9 +141,9 @@ ccli.AddCommand("<PATERN>", async tools =>
 });
 ```
 
-Vous devez ajouter ```using ItsMyConsole.Tools.AzureDevOps;``` pour avoir accés a l'outil Azure Dev Ops depuis ```tools``` de ```AddCommand```.
+Vous devez ajouter ```using ItsMyConsole.Tools.AzureDevOps;``` pour avoir accès a l'outil Azure Dev Ops depuis ```tools``` de ```AddCommand```.
 
-## Création d'un Workitem
+## Création d'un WorkItem
 
 Vous pouvez créer des WorkItems en utilisant ```CreateWorkItemAsync```.
 
@@ -171,8 +171,12 @@ ccli.AddCommand("<PATERN>", async tools =>
 | WorkItemType | *(obligatoire)* Le type du WorkItem |
 | AssignedToDisplayName | Le nom de la personne à assigner au WorkItem |
 | Activity | Activité du WorkItem |
+| Description | La description du WorkItem |
+| ReproSteps | Les étapes de reproduction du WorkItem |
+| SystemInfo | Les informations systèmes du WorkItem |
+| AcceptanceCriteria | Les critères d'acceptation du WorkItem |
 
-## Modification d'un Workitem
+## Modification d'un WorkItem
 
 Vous pouvez modifier un WorkItem en utilisant ```UpdateWorkItemAsync```.
 
@@ -201,8 +205,12 @@ ccli.AddCommand("<PATERN>", async tools =>
 | WorkItemType | *(facultatif)* Le type du WorkItem |
 | AssignedToDisplayName | *(facultatif)* Le nom de la personne à assigner au WorkItem |
 | Activity | *(facultatif)* Activité du WorkItem |
+| Description | *(facultatif)* La description du WorkItem |
+| ReproSteps | *(facultatif)* Les étapes de reproduction du WorkItem |
+| SystemInfo | *(facultatif)* Les informations systèmes du WorkItem |
+| AcceptanceCriteria | *(facultatif)* Les critères d'acceptation du WorkItem |
 
-## Récupération des informations d'un Workitem
+## Récupération des informations d'un WorkItem
 
 Vous pouvez récupérer les informations d'un WorkItem en utilisant ```GetWorkItemAsync```.
 
@@ -238,11 +246,23 @@ ccli.AddCommand("<PATERN>", async tools =>
 | Tags | La liste des balises du WorkItem |
 
 ## Suppression d'un WorkItem
-*coming soon*
 
-## Ajout d'une relation entre Workitems
+Vous pouvez supprimer un WorkItem en utilisant ```DeleteWorkItemAsync```.
 
-Vous pouvez ajouter des relations entre WorkItems en utilisant ```AddWorkItemRelationAsync``` pour un seule relation et ```AddWorkItemRelationsAsync``` pour en ajouter plusieurs.
+| Propriété | Description |
+| :-------- | :---------- |
+| workItemId | L'identifiant du WorkItem |
+
+```cs
+ccli.AddCommand("<PATERN>", async tools => 
+{
+    await tools.AzureDevOps("<NAME>").DeleteWorkItemAsync(1234);
+});
+```
+
+## Ajout d'une relation entre WorkItems
+
+Vous pouvez ajouter des relations entre WorkItems en utilisant ```AddWorkItemRelationAsync``` pour une seule relation et ```AddWorkItemRelationsAsync``` pour en ajouter plusieurs.
 
 | Propriété | Description |
 | :-------- | :---------- |
@@ -250,7 +270,7 @@ Vous pouvez ajouter des relations entre WorkItems en utilisant ```AddWorkItemRel
 | workItemToAdd | Le ou les WorkItems à ajouter |
 | linkType | Le type de lien entre le WorkItem est celui que l'on veut ajouter |
 
-Vous avez aussi une surchage de la méthode pour ajouter plusieurs WorkItems en même temps.
+Vous avez aussi une surcharge de la méthode pour ajouter plusieurs WorkItems en même temps.
 
 ```cs
 ccli.AddCommand("<PATERN>", async tools => 
@@ -261,4 +281,24 @@ ccli.AddCommand("<PATERN>", async tools =>
 ```
 
 ## Récupération des itérations courantes d'un projet
-*coming soon*
+
+Vous pouvez récupérer les itérations courantes d'un projet en utilisant ```GetCurrentTeamIterationsAsync```.
+
+| Propriété | Description |
+| :-------- | :---------- |
+| project | Le nom du projet |
+| team | *(facultatif)* Le nom de l'équipe |
+
+```cs
+ccli.AddCommand("<PATERN>", async tools => 
+{
+    List<TeamIteration> teamsIterations = await tools.AzureDevOps("<NAME>").GetCurrentTeamIterationsAsync("<PROJECT>");
+});
+```
+
+| Nom de la propriété | Description |
+| :------------------ | :---------- |
+| Name | Le nom de l'itération |
+| Path | Le chemin relatif de l'itération |
+| StartDate | Date de début de l'itération |
+| FinishDate | Date de fin de l'itération |

@@ -2,13 +2,13 @@
 
 # ItsMyConsole.Tools.AzureDevOps
 
-Outil Azure Dev Ops (Création/Modification WorkItem) pour le Framework [```ItsMyConsole```](https://github.com/dtarroz/ItsMyConsole)
+Outil Azure DevOps (Création/Modification WorkItem) pour le Framework [```ItsMyConsole```](https://github.com/dtarroz/ItsMyConsole)
 
 ## Sommaire
 
 - [Pourquoi faire ?](#pourquoi-faire-)
 - [Getting Started](#getting-started)
-- [Ajout d'une configuration serveur Azure Dev Ops](#ajout-dune-configuration-serveur-azure-dev-ops)
+- [Ajout d'une configuration serveur Azure DevOps](#ajout-dune-configuration-serveur-azure-devops)
 - [Comment se servir de l'outil ?](#comment-se-servir-de-loutil-)
 - [Création d'un WorkItem](#création-dun-workitem)
 - [Modification d'un WorkItem](#modification-dun-workitem)
@@ -19,7 +19,7 @@ Outil Azure Dev Ops (Création/Modification WorkItem) pour le Framework [```ItsM
   
 ## Pourquoi faire ?
 
-Vous allez pouvoir étendre le Framework pour application Console .Net [```ItsMyConsole```](https://github.com/dtarroz/ItsMyConsole) avec un outil de manipulation des WorkItems d'Azure Dev Ops.
+Vous allez pouvoir étendre le Framework pour application Console .Net [```ItsMyConsole```](https://github.com/dtarroz/ItsMyConsole) avec un outil de manipulation des WorkItems d'Azure DevOps.
 
 L'outil ```ItsMyConsole.Tools.AzureDevOps``` met à disposition :
  - La création de WorkItem
@@ -34,7 +34,7 @@ L'outil ```ItsMyConsole.Tools.AzureDevOps``` met à disposition :
 1. Créer un projet **"Application Console .Net"** avec le nom *"MyExampleConsole"*
 2. Ajouter [```ItsMyConsole```](https://github.com/dtarroz/ItsMyConsole) au projet depuis le gestionnaire de package NuGet
 3. Ajouter ```ItsMyConsole.Tools.AzureDevOps``` au projet depuis le gestionnaire de package NuGet
-4. Aller sur le site web de votre serveur Azure Dev Ops
+4. Aller sur le site web de votre serveur Azure DevOps
 5. Cliquer sur l'icône de votre profil, puis **"Sécurité"**
 6. Créer un nouveau jeton d'accès personnel, [exemple de procédure ici](https://docs.microsoft.com/fr-fr/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page#create-a-pat), et **faite une sauvegarde de la valeur**
 5. Dans le projet, modifier la méthode **"Main"** dans le fichier **"Program.cs"** par le code suivant :
@@ -57,11 +57,11 @@ namespace MyExampleConsole
             {
                 options.Prompt = ">> ";
                 options.LineBreakBetweenCommands = true;
-                options.HeaderText = "###################\n#  Azure Dev Ops  #\n###################\n";
+                options.HeaderText = "##################\n#  Azure DevOps  #\n##################\n";
                 options.TrimCommand = true;
             });
 
-            // Azure Dev Ops configuration
+            // Azure DevOps configuration
             ccli.AddAzureDevOpsServer(new AzureDevOpsServer 
             {
                 Name = "TEST",
@@ -90,7 +90,7 @@ Voici le résultat attendu lors de l'utilisation de la Console :
 
 Dans cet exemple de code on a configuré avec ```Configure```, le prompt d’attente des commandes ```options.Prompt```, la présence d'un saut de ligne entre les saisies ```options.LineBreakBetweenCommands``` et l’en-tête affichée au lancement ```options.HeaderText```. 
 
-On ajoute la configuration du serveur Azure Dev Ops avec ```AddAzureDevOpsServer``` et on lui renseigne un nom ```Name``` qui permet de différentier si on configure plusieurs serveurs, l'url d'Azure Dev Ops ```Url``` et le jeton d'accès personnel ```PersonalAccessToken```.
+On ajoute la configuration du serveur Azure DevOps avec ```AddAzureDevOpsServer``` et on lui renseigne un nom ```Name``` qui permet de différentier si on configure plusieurs serveurs, l'url d'Azure DevOps ```Url``` et le jeton d'accès personnel ```PersonalAccessToken```.
 
 Puis avec ```AddCommand```, on a ajouté un pattern d’interprétation des lignes de commande ```^wi [0-9]*$``` *(commence par **"wi"** et suivi d'un nombre)*.
 
@@ -98,20 +98,20 @@ Lors de l'exécution de la Console, si on saisit une commande qui commence par *
 
 Maintenant que l'on a configuré la Console et l'implémentation de l'action associée au pattern ```^wi [0-9]*$```, l'utilisation de ```RunAsync``` lance la mise en attente d'une saisie de commande par l'utilisateur.
 
-## Ajout d'une configuration serveur Azure Dev Ops
+## Ajout d'une configuration serveur Azure DevOps
 
-Vous pouvez ajouter une configuration d'un serveur Azure Dev Ops en utilisant ```AddAzureDevOpsServer```.
+Vous pouvez ajouter une configuration d'un serveur Azure DevOps en utilisant ```AddAzureDevOpsServer```.
 
 | Propriété | Description |
 | :-------- | :---------- |
-| Name | Nom unique du serveur Azure Dev Ops qui sert de désignation lors de son utilisation |
-| Url | L'URL du serveur Azure Dev Ops |
-| PersonalAccessToken | Le token d'accès personnel au serveur Azure Dev Ops. Vous devez le créer depuis votre site web d'Azure Dev Ops. [Exemple de procédure ici](https://docs.microsoft.com/fr-fr/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page#create-a-pat) |
+| Name | Nom unique du serveur Azure DevOps qui sert de désignation lors de son utilisation |
+| Url | L'URL du serveur Azure DevOps |
+| PersonalAccessToken | Le token d'accès personnel au serveur Azure DevOps. Vous devez le créer depuis votre site web d'Azure DevOps. [Exemple de procédure ici](https://docs.microsoft.com/fr-fr/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page#create-a-pat) |
 
 ```cs
 ConsoleCommandLineInterpreter ccli = new ConsoleCommandLineInterpreter();
 
-// Azure Dev Ops configuration
+// Azure DevOps configuration
 ccli.AddAzureDevOpsServer(new AzureDevOpsServer 
 {
     Name = "TEST",
@@ -120,18 +120,18 @@ ccli.AddAzureDevOpsServer(new AzureDevOpsServer
 });
 ```
 
-Si vous avez plusieurs serveurs Azure Dev Ops, le nom ```Name``` permet de cibler celui que vous voulez lors de la manipulation des WorkItems.
+Si vous avez plusieurs serveurs Azure DevOps, le nom ```Name``` permet de cibler celui que vous voulez lors de la manipulation des WorkItems.
 
 ## Comment se servir de l'outil ?
 
-Tout d'abord, vous devez ajouter une configuration serveur Azure Dev Ops avec ```AddAzureDevOpsServer```et définir un nom ```Name```.
-Vous pouvez ensuite accéder à l'outil Azure Dev Ops lorsque vous ajoutez une interprétation de commande avec ```AddCommand```.  
+Tout d'abord, vous devez ajouter une configuration serveur Azure DevOps avec ```AddAzureDevOpsServer```et définir un nom ```Name```.
+Vous pouvez ensuite accéder à l'outil Azure DevOps lorsque vous ajoutez une interprétation de commande avec ```AddCommand```.  
 Le nom défini lors de la configuration permet de cibler le serveur lors de l'utilisation de l'outil.
 
 ```cs
 ConsoleCommandLineInterpreter ccli = new ConsoleCommandLineInterpreter();
 
-// Azure Dev Ops configuration
+// Azure DevOps configuration
 ccli.AddAzureDevOpsServer(new AzureDevOpsServer {/*  */});
 
 // Add command
@@ -141,7 +141,7 @@ ccli.AddCommand("<PATERN>", async tools =>
 });
 ```
 
-Vous devez ajouter ```using ItsMyConsole.Tools.AzureDevOps;``` pour avoir accès a l'outil Azure Dev Ops depuis ```tools``` de ```AddCommand```.
+Vous devez ajouter ```using ItsMyConsole.Tools.AzureDevOps;``` pour avoir accès a l'outil Azure DevOps depuis ```tools``` de ```AddCommand```.
 
 ## Création d'un WorkItem
 

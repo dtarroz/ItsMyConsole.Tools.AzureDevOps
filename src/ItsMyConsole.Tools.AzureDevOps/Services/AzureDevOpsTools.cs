@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace ItsMyConsole.Tools.AzureDevOps
 {
     /// <summary>
-    /// Outils pour Azure Dev Ops
+    /// Outils pour Azure DevOps
     /// </summary>
     public class AzureDevOpsTools
     {

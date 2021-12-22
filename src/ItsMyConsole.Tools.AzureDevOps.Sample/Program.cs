@@ -11,7 +11,7 @@ namespace ItsMyConsole.Tools.AzureDevOps.Sample
             ccli.Configure(options => {
                 options.Prompt = ">> ";
                 options.LineBreakBetweenCommands = true;
-                options.HeaderText = "###################\n#  Azure Dev Ops  #\n###################\n";
+                options.HeaderText = "##################\n#  Azure DevOps  #\n##################\n";
                 options.TrimCommand = true;
             });
 

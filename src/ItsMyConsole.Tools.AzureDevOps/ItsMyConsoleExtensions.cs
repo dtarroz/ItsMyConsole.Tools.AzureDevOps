@@ -5,17 +5,17 @@ using System.Linq;
 namespace ItsMyConsole.Tools.AzureDevOps
 {
     /// <summary>
-    /// Extension de ItsMyConsole pour inclure les outils Azure Dev Ops
+    /// Extension de ItsMyConsole pour inclure les outils Azure DevOps
     /// </summary>
     public static class ItsMyConsoleExtensions
     {
         private static readonly List<AzureDevOpsServer> AzureDevOpsServers = new List<AzureDevOpsServer>();
 
         /// <summary>
-        /// Configuration d'un serveur Azure Dev Ops pour son utilisation pendant l'exécution d'une ligne de commande
+        /// Configuration d'un serveur Azure DevOps pour son utilisation pendant l'exécution d'une ligne de commande
         /// </summary>
-        /// <param name="ccli">La console qui configure Azure Dev Ops</param>
-        /// <param name="azureDevOpsServer">Les informations d'un serveur Azure Dev Ops</param>
+        /// <param name="ccli">La console qui configure Azure DevOps</param>
+        /// <param name="azureDevOpsServer">Les informations d'un serveur Azure DevOps</param>
         public static void AddAzureDevOpsServer(this ConsoleCommandLineInterpreter ccli, AzureDevOpsServer azureDevOpsServer) {
             if (AzureDevOpsServers.Any(a => a.Name == azureDevOpsServer.Name))
                 throw new ArgumentException("Nom déjà présent", nameof(azureDevOpsServer.Name));
@@ -27,10 +27,10 @@ namespace ItsMyConsole.Tools.AzureDevOps
         }
 
         /// <summary>
-        /// L'accès aux serveurs Azure Dev Ops configurés
+        /// L'accès aux serveurs Azure DevOps configurés
         /// </summary>
-        /// <param name="commandTools">Les outils de commandes pour accéder aux serveurs Azure Dev Ops</param>
-        /// <param name="name">Nom du serveur Azure Dev Ops configuré</param>
+        /// <param name="commandTools">Les outils de commandes pour accéder aux serveurs Azure DevOps</param>
+        /// <param name="name">Nom du serveur Azure DevOps configuré</param>
         public static AzureDevOpsTools AzureDevOps(this CommandTools commandTools, string name = null) {
             AzureDevOpsServer azureDevOpsServer = GetAzureDevOpsServer(name);
             return new AzureDevOpsTools(azureDevOpsServer);
@@ -39,7 +39,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
         private static AzureDevOpsServer GetAzureDevOpsServer(string name) {
             AzureDevOpsServer server = AzureDevOpsServers.FirstOrDefault(a => a.Name == name);
             if (server == null)
-                throw new Exception($"Le serveur Azure Dev Ops '{name}' n'a pas été trouvé");
+                throw new Exception($"Le serveur Azure DevOps '{name}' n'a pas été trouvé");
             return server;
         }
     }

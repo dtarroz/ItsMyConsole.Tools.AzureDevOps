@@ -8,8 +8,8 @@ Outil Azure DevOps (Création/Modification WorkItem) pour le Framework [```ItsMy
 
 - [Pourquoi faire ?](#pourquoi-faire-)
 - [Getting Started](#getting-started)
-- [Ajout d'une configuration serveur Azure DevOps](#ajout-dune-configuration-serveur-azure-devops)
 - [Comment se servir de l'outil ?](#comment-se-servir-de-loutil-)
+- [Ajout d'une configuration serveur Azure DevOps](#ajout-dune-configuration-serveur-azure-devops)
 - [Création d'un WorkItem](#création-dun-workitem)
 - [Modification d'un WorkItem](#modification-dun-workitem)
 - [Récupération des informations d'un WorkItem](#récupération-des-informations-dun-workitem)
@@ -98,6 +98,27 @@ Lors de l'exécution de la Console, si on saisit une commande qui commence par *
 
 Maintenant que l'on a configuré la Console et l'implémentation de l'action associée au pattern ```^wi [0-9]*$```, l'utilisation de ```RunAsync``` lance la mise en attente d'une saisie de commande par l'utilisateur.
 
+## Comment se servir de l'outil ?
+
+Tout d'abord, vous devez ajouter une configuration serveur Azure DevOps avec ```AddAzureDevOpsServer```et définir un nom ```Name```.
+Vous pouvez ensuite accéder à l'outil Azure DevOps lorsque vous ajoutez une interprétation de commande avec ```AddCommand```.  
+Le nom défini lors de la configuration permet de cibler le serveur lors de l'utilisation de l'outil.
+
+```cs
+ConsoleCommandLineInterpreter ccli = new ConsoleCommandLineInterpreter();
+
+// Azure DevOps configuration
+ccli.AddAzureDevOpsServer(new AzureDevOpsServer {/*  */});
+
+// Add command
+ccli.AddCommand("<PATERN>", async tools => 
+{
+    WorkItem example = await tools.AzureDevOps("<NAME>").GetWorkItemAsync(1234);
+});
+```
+
+Vous devez ajouter ```using ItsMyConsole.Tools.AzureDevOps;``` pour avoir accès a l'outil Azure DevOps depuis ```tools``` de ```AddCommand```.
+
 ## Ajout d'une configuration serveur Azure DevOps
 
 Vous pouvez ajouter une configuration d'un serveur Azure DevOps en utilisant ```AddAzureDevOpsServer```.
@@ -121,27 +142,6 @@ ccli.AddAzureDevOpsServer(new AzureDevOpsServer
 ```
 
 Si vous avez plusieurs serveurs Azure DevOps, le nom ```Name``` permet de cibler celui que vous voulez lors de la manipulation des WorkItems.
-
-## Comment se servir de l'outil ?
-
-Tout d'abord, vous devez ajouter une configuration serveur Azure DevOps avec ```AddAzureDevOpsServer```et définir un nom ```Name```.
-Vous pouvez ensuite accéder à l'outil Azure DevOps lorsque vous ajoutez une interprétation de commande avec ```AddCommand```.  
-Le nom défini lors de la configuration permet de cibler le serveur lors de l'utilisation de l'outil.
-
-```cs
-ConsoleCommandLineInterpreter ccli = new ConsoleCommandLineInterpreter();
-
-// Azure DevOps configuration
-ccli.AddAzureDevOpsServer(new AzureDevOpsServer {/*  */});
-
-// Add command
-ccli.AddCommand("<PATERN>", async tools => 
-{
-    WorkItem example = await tools.AzureDevOps("<NAME>").GetWorkItemAsync(1234);
-});
-```
-
-Vous devez ajouter ```using ItsMyConsole.Tools.AzureDevOps;``` pour avoir accès a l'outil Azure DevOps depuis ```tools``` de ```AddCommand```.
 
 ## Création d'un WorkItem
 

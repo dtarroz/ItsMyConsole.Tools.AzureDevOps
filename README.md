@@ -53,8 +53,7 @@ namespace MyExampleConsole
             ConsoleCommandLineInterpreter ccli = new ConsoleCommandLineInterpreter();
 
             // Console configuration
-            ccli.Configure(options => 
-            {
+            ccli.Configure(options => {
                 options.Prompt = ">> ";
                 options.LineBreakBetweenCommands = true;
                 options.HeaderText = "##################\n#  Azure DevOps  #\n##################\n";
@@ -62,8 +61,7 @@ namespace MyExampleConsole
             });
 
             // Azure DevOps configuration
-            ccli.AddAzureDevOpsServer(new AzureDevOpsServer 
-            {
+            ccli.AddAzureDevOpsServer(new AzureDevOpsServer {
                 Name = "TEST",
                 Url = "https://<SERVEUR>",
                 PersonalAccessToken = "<TOKEN>"
@@ -71,8 +69,7 @@ namespace MyExampleConsole
 
             // Display the title of the workitem
             // Example : wi 1234
-            ccli.AddCommand("^wi [0-9]*$", async tools => 
-            {
+            ccli.AddCommand("^wi [0-9]*$", async tools => {
                 int workItemId = Convert.ToInt32(tools.CommandArgs[1]);
                 WorkItem workItem = await tools.AzureDevOps("TEST").GetWorkItemAsync(workItemId);
                 Console.WriteLine($"WI {workItemId} - {workItem.Title}");
@@ -133,8 +130,7 @@ Vous pouvez ajouter une configuration d'un serveur Azure DevOps en utilisant ```
 ConsoleCommandLineInterpreter ccli = new ConsoleCommandLineInterpreter();
 
 // Azure DevOps configuration
-ccli.AddAzureDevOpsServer(new AzureDevOpsServer 
-{
+ccli.AddAzureDevOpsServer(new AzureDevOpsServer {
     Name = "TEST",
     Url = "https://<SERVEUR>",
     PersonalAccessToken = "<TOKEN>"
@@ -154,10 +150,10 @@ Vous pouvez créer des WorkItems en utilisant ```CreateWorkItemAsync```.
 ```cs
 ccli.AddCommand("<PATERN>", async tools => 
 {
-    WorkItem newWorkItem = await tools.AzureDevOps("<NAME>").CreateWorkItemAsync(new WorkItemFields
-    {
-        // Insert yours fields here
-    });
+    WorkItem newWorkItem = await tools.AzureDevOps("<NAME>")
+                                      .CreateWorkItemAsync(new WorkItemFields {
+                                          // Insert yours fields here
+                                      });
 });
 ```
 
@@ -192,7 +188,7 @@ Vous pouvez modifier un WorkItem en utilisant ```UpdateWorkItemAsync```.
 ```cs
 ccli.AddCommand("<PATERN>", async tools => 
 {
-    await tools.AzureDevOps("<NAME>").UpdateWorkItemAsync(1234, new WorkItemFields
+    await tools.AzureDevOps("<NAME>").UpdateWorkItemAsync(1234, new WorkItemFields 
     {
         // Insert yours fields here
     });
@@ -282,7 +278,7 @@ Vous pouvez ajouter des relations entre WorkItems en utilisant ```AddWorkItemRel
 ccli.AddCommand("<PATERN>", async tools => 
 {
     WorkItem workItemToAdd = await tools.AzureDevOps("<NAME>").GetWorkItemAsync(5678);
-    await tools.AzureDevOps("<NAME>").AddWorkItemRelationsAsync(1234, workItemToAdd, LinkType.Child);
+    await tools.AzureDevOps("<NAME>").AddWorkItemRelationAsync(1234, workItemToAdd, LinkType.Child);
 });
 ```
 

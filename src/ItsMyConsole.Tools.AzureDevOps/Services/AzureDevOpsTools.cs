@@ -28,6 +28,14 @@ namespace ItsMyConsole.Tools.AzureDevOps
         }
 
         /// <summary>
+        /// Récupération du nom configuré du serveur Azure DevOps
+        /// </summary>
+        /// <returns></returns>
+        public string GetAzureDevOpsServerName() {
+            return _azureDevOpsServer.Name;
+        }
+
+        /// <summary>
         /// Récupération des informations sur un WorkItem par son identifiant
         /// </summary>
         /// <param name="workItemId">L'identifiant du WorkItem</param>

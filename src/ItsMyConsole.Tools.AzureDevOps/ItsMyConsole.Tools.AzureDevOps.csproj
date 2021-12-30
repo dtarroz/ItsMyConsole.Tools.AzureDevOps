@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <None Include="..\..\docs\logo.png" Pack="true" PackagePath="" />
+    <None Remove="ItsMyConsole.Tools.AzureDevOps.csproj.DotSettings" />
   </ItemGroup>
 
 </Project>

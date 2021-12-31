@@ -17,6 +17,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// <param name="ccli">La console qui configure Azure DevOps</param>
         /// <param name="azureDevOpsServer">Les informations d'un serveur Azure DevOps</param>
         public static void AddAzureDevOpsServer(this ConsoleCommandLineInterpreter ccli, AzureDevOpsServer azureDevOpsServer) {
+            if (azureDevOpsServer == null)
+                throw new ArgumentNullException(nameof(azureDevOpsServer));
             if (AzureDevOpsServers.Any(a => a.Name == azureDevOpsServer.Name))
                 throw new ArgumentException("Nom déjà présent", nameof(azureDevOpsServer.Name));
             if (string.IsNullOrWhiteSpace(azureDevOpsServer.Url))

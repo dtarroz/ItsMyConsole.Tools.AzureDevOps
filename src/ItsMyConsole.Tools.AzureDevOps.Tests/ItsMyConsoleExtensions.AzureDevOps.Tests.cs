@@ -8,18 +8,23 @@ public class ItsMyConsoleExtensions_AzureDevOps_Tests
 {
     [Fact]
     public void AzureDevOps_Name_Null() {
+        CheckAzureDevOpsServerName(null);
+    }
+
+    private static void CheckAzureDevOpsServerName(string name) {
         ConsoleCommandLineInterpreter ccli = new ConsoleCommandLineInterpreter();
         CommandTools commandTools = CreateNewCommandTools();
         AzureDevOpsServer azureDevOpsServer = new AzureDevOpsServer {
+            Name = name,
             Url = "<Empty>",
             PersonalAccessToken = "<Empty>"
         };
 
         ccli.AddAzureDevOpsServer(azureDevOpsServer);
 
-        AzureDevOpsTools azureDevOpsTools = commandTools.AzureDevOps();
+        AzureDevOpsTools azureDevOpsTools = commandTools.AzureDevOps(name);
         Assert.NotNull(azureDevOpsTools);
-        Assert.Null(azureDevOpsTools.GetAzureDevOpsServerName());
+        Assert.Equal(name, azureDevOpsTools.GetAzureDevOpsServerName());
     }
 
     private static CommandTools CreateNewCommandTools() {
@@ -30,36 +35,12 @@ public class ItsMyConsoleExtensions_AzureDevOps_Tests
 
     [Fact]
     public void AzureDevOps_Name_Empty() {
-        ConsoleCommandLineInterpreter ccli = new ConsoleCommandLineInterpreter();
-        CommandTools commandTools = CreateNewCommandTools();
-        AzureDevOpsServer azureDevOpsServer = new AzureDevOpsServer {
-            Name = "",
-            Url = "<Empty>",
-            PersonalAccessToken = "<Empty>"
-        };
-
-        ccli.AddAzureDevOpsServer(azureDevOpsServer);
-
-        AzureDevOpsTools azureDevOpsTools = commandTools.AzureDevOps("");
-        Assert.NotNull(azureDevOpsTools);
-        Assert.Equal("", azureDevOpsTools.GetAzureDevOpsServerName());
+        CheckAzureDevOpsServerName("");
     }
 
     [Fact]
     public void AzureDevOps_Name() {
-        ConsoleCommandLineInterpreter ccli = new ConsoleCommandLineInterpreter();
-        CommandTools commandTools = CreateNewCommandTools();
-        AzureDevOpsServer azureDevOpsServer = new AzureDevOpsServer {
-            Name = "<NAME>",
-            Url = "<Empty>",
-            PersonalAccessToken = "<Empty>"
-        };
-
-        ccli.AddAzureDevOpsServer(azureDevOpsServer);
-
-        AzureDevOpsTools azureDevOpsTools = commandTools.AzureDevOps("<NAME>");
-        Assert.NotNull(azureDevOpsTools);
-        Assert.Equal("<NAME>", azureDevOpsTools.GetAzureDevOpsServerName());
+        CheckAzureDevOpsServerName("<NAME>");
     }
 
     [Fact]

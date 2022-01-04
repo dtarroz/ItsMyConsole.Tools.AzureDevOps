@@ -76,7 +76,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
             if (workItemFields == null)
                 throw new ArgumentNullException(nameof(workItemFields));
             if (string.IsNullOrEmpty(workItemFields.TeamProject))
-                throw new ArgumentException("L'équipe est obligatoire", nameof(workItemFields.TeamProject));
+                throw new ArgumentException("Le projet est obligatoire", nameof(workItemFields.TeamProject));
             if (string.IsNullOrEmpty(workItemFields.WorkItemType))
                 throw new ArgumentException("Le type est obligatoire", nameof(workItemFields.WorkItemType));
             using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient()) {

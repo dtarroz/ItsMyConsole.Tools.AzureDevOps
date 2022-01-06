@@ -1,4 +1,6 @@
-﻿namespace ItsMyConsole.Tools.AzureDevOps.Tests;
+﻿using System;
+
+namespace ItsMyConsole.Tools.AzureDevOps.Tests;
 
 public static class ConfigForTests
 {
@@ -10,31 +12,82 @@ public static class ConfigForTests
         };
     }
 
-    public static string[] GetAreaPaths() {
-        return new[] { "<AreaPath_1>", "<AreaPath_2>" };
+    public static WorkItemFields GetWorkItemFieldsNew() {
+        return new WorkItemFields {
+            AreaPath = AreaPathNew,
+            TeamProject = TeamProject,
+            IterationPath = IterationPathNew,
+            Title = "<TITLE>",
+            State = StateNew,
+            WorkItemType = WorkItemTypeNew,
+            AssignedToDisplayName = AssignedToDisplayName,
+            Activity = ActivityNew,
+            Description = "<DESCRIPTION>",
+            ReproSteps = "<REPRO_STEPS>",
+            SystemInfo = "<SYSTEM_INFO>",
+            AcceptanceCriteria = "<ACCEPTANCE_CRITERIA>"
+        };
     }
 
-    public static string GetTeamProject() {
-        return "<TeamProject>";
-    }
+    public const string AreaPathNew = "<AREA_PATH_NEW>";
+    public const string AreaPathUpdate = "<AREA_PATH_UPDATE>";
 
-    public static string[] GetIterationPathCurrents() {
-        return new[] { "<IterationPath_1>", "<IterationPath_2>" };
-    }
+    public const string TeamProject = "<TEAM_PROJECT>";
 
-    public static string[] GetStates() {
-        return new[] { "New", "Active" };
-    }
+    public const string IterationPathNew = "<ITERATION_PATH_NEW>";
+    public const string IterationPathUpdate = "<ITERATION_PATH_UPDATE>";
 
-    public static string[] GetWorkItemTypes() {
-        return new[] { "Feature", "Bug" };
-    }
+    public const string StateNew = "New";
+    public const string StateUpdate = "Active";
 
-    public static string GetAssignedToDisplayName() {
-        return "<AssignedToDisplayName>";
-    }
+    public const string WorkItemTypeNew = "Feature";
+    public const string WorkItemTypeUpdate = "Bug";
 
-    public static string[] GetActivities() {
-        return new[] { "Development", "Design" };
-    }
+    public const string AssignedToDisplayName = "<ASSIGNED_TO_DISPLAY_NAME>";
+
+    public const string ActivityNew = "Development";
+    public const string ActivityUpdate = "Design";
+
+    public static readonly TeamIteration[] IterationPathCurrentDefaultTeam = {
+        new() {
+            Name = "<NAME>",
+            Path = "<PATH>",
+            StartDate = new DateTime(2022, 1, 1),
+            FinishDate = new DateTime(2022, 12, 31)
+        },
+        new() {
+            Name = "<NAME>",
+            Path = "<PATH>",
+            StartDate = new DateTime(2022, 1, 1),
+            FinishDate = new DateTime(2022, 12, 31)
+        }
+    };
+
+    public const string Team1 = "<TEAM_1>";
+
+    public static readonly TeamIteration[] IterationPathCurrentTeam1 = {
+        new() {
+            Name = "<NAME>",
+            Path = "<PATH>",
+            StartDate = new DateTime(2022, 1, 1),
+            FinishDate = new DateTime(2022, 12, 31)
+        },
+        new() {
+            Name = "<NAME>",
+            Path = "<PATH>",
+            StartDate = new DateTime(2022, 1, 1),
+            FinishDate = new DateTime(2022, 12, 31)
+        }
+    };
+
+    public const string Team2 = "<TEAM_2>";
+
+    public static readonly TeamIteration[] IterationPathCurrentTeam2 = {
+        new() {
+            Name = "<NAME>",
+            Path = "<PATH>",
+            StartDate = new DateTime(2022, 1, 1),
+            FinishDate = new DateTime(2022, 12, 31)
+        }
+    };
 }

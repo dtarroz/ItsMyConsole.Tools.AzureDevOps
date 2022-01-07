@@ -43,7 +43,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
                                 .Select(r => r.Url.Substring(r.Url.LastIndexOf('/') + 1))
                                 .Select(wi => Convert.ToInt32(wi))
                                 .ToArray();
-            return ids.Length == 0 ? null : ids;
+            return ids == null || ids.Length == 0 ? null : ids;
         }
     }
 }

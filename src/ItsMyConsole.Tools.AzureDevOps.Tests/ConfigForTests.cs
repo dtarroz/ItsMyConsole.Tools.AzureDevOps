@@ -17,26 +17,29 @@ public static class ConfigForTests
             AreaPath = AreaPathNew,
             TeamProject = TeamProject,
             IterationPath = IterationPathNew,
-            Title = "<TITLE>",
+            Title = "TITLE",
             State = StateNew,
             WorkItemType = WorkItemTypeNew,
             AssignedToDisplayName = AssignedToDisplayName,
             Activity = ActivityNew,
-            Description = "<DESCRIPTION>",
-            ReproSteps = "<REPRO_STEPS>",
-            SystemInfo = "<SYSTEM_INFO>",
-            AcceptanceCriteria = "<ACCEPTANCE_CRITERIA>"
+            Description = "DESCRIPTION",
+            ReproSteps = "REPRO_STEPS",
+            SystemInfo = "SYSTEM_INFO",
+            AcceptanceCriteria = "ACCEPTANCE_CRITERIA"
         };
     }
 
+    public const string AreaPathDefault = "<AREA_PATH_DEFAULT>";
     public const string AreaPathNew = "<AREA_PATH_NEW>";
     public const string AreaPathUpdate = "<AREA_PATH_UPDATE>";
 
     public const string TeamProject = "<TEAM_PROJECT>";
 
+    public const string IterationPathDefault = "<ITERATION_PATH_DEFAULT>";
     public const string IterationPathNew = "<ITERATION_PATH_NEW>";
     public const string IterationPathUpdate = "<ITERATION_PATH_UPDATE>";
 
+    public const string StateDefault = "New";
     public const string StateNew = "New";
     public const string StateUpdate = "Active";
 

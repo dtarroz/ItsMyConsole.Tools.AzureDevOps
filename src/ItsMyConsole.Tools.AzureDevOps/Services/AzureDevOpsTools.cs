@@ -75,15 +75,32 @@ namespace ItsMyConsole.Tools.AzureDevOps
         public async Task<WorkItem> CreateWorkItemAsync(WorkItemFields workItemFields) {
             if (workItemFields == null)
                 throw new ArgumentNullException(nameof(workItemFields));
+            ThrowIfNotValidForCreate(workItemFields);
+            try {
+                using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient()) {
+                    JsonPatchDocument document = CreateJsonPatchDocument(Operation.Add, workItemFields);
+                    return (await workItemTrackingHttpClient.CreateWorkItemAsync(document, workItemFields.TeamProject,
+                                                                                 workItemFields.WorkItemType)).ToModel();
+                }
+            }
+            catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private static void ThrowIfNotValidForCreate(WorkItemFields workItemFields) {
+            if (workItemFields.AreaPath == "")
+                throw new ArgumentException("La zone ne doit pas être vide", nameof(workItemFields.AreaPath));
             if (string.IsNullOrEmpty(workItemFields.TeamProject))
                 throw new ArgumentException("Le projet est obligatoire", nameof(workItemFields.TeamProject));
+            if (workItemFields.IterationPath == "")
+                throw new ArgumentException("L'itération ne doit pas être vide", nameof(workItemFields.IterationPath));
+            if (string.IsNullOrEmpty(workItemFields.Title))
+                throw new ArgumentException("Le titre est obligatoire", nameof(workItemFields.Title));
+            if (workItemFields.State == "")
+                throw new ArgumentException("L'état ne doit pas être vide", nameof(workItemFields.State));
             if (string.IsNullOrEmpty(workItemFields.WorkItemType))
                 throw new ArgumentException("Le type est obligatoire", nameof(workItemFields.WorkItemType));
-            using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient()) {
-                JsonPatchDocument document = CreateJsonPatchDocument(Operation.Add, workItemFields);
-                return (await workItemTrackingHttpClient.CreateWorkItemAsync(document, workItemFields.TeamProject,
-                                                                             workItemFields.WorkItemType)).ToModel();
-            }
         }
 
         private static JsonPatchDocument CreateJsonPatchDocument(Operation operation, WorkItemFields workItemFields) {

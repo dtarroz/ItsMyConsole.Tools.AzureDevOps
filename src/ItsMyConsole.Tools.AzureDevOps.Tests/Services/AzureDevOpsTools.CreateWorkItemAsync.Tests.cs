@@ -64,7 +64,7 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
         WorkItemFields workItemFields = new WorkItemFields {
             TeamProject = ConfigForTests.TeamProject,
             Title = "TITLE",
-            WorkItemType = ConfigForTests.WorkItemTypeNew,
+            WorkItemType = ConfigForTests.WorkItemTypeNew
         };
 
         WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemFields);

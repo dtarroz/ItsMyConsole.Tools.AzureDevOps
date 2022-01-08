@@ -76,12 +76,18 @@ namespace ItsMyConsole.Tools.AzureDevOps
             if (workItemFields == null)
                 throw new ArgumentNullException(nameof(workItemFields));
             ThrowIfNotValidForCreate(workItemFields);
-            try {
+            return await TryCatchExceptionAsync(async () => {
                 using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient()) {
                     JsonPatchDocument document = CreateJsonPatchDocument(Operation.Add, workItemFields);
                     return (await workItemTrackingHttpClient.CreateWorkItemAsync(document, workItemFields.TeamProject,
                                                                                  workItemFields.WorkItemType)).ToModel();
                 }
+            });
+        }
+
+        private static async Task<T> TryCatchExceptionAsync<T>(Func<Task<T>> callback) {
+            try {
+                return await callback();
             }
             catch (Exception ex) {
                 throw new Exception(ex.Message);

@@ -85,15 +85,6 @@ namespace ItsMyConsole.Tools.AzureDevOps
             });
         }
 
-        private static async Task<T> TryCatchExceptionAsync<T>(Func<Task<T>> callback) {
-            try {
-                return await callback();
-            }
-            catch (Exception ex) {
-                throw new Exception(ex.Message);
-            }
-        }
-
         private static void ThrowIfNotValidForCreate(WorkItemFields workItemFields) {
             if (workItemFields.AreaPath == "")
                 throw new ArgumentException("La zone ne doit pas être vide", nameof(workItemFields.AreaPath));
@@ -107,6 +98,15 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 throw new ArgumentException("L'état ne doit pas être vide", nameof(workItemFields.State));
             if (string.IsNullOrEmpty(workItemFields.WorkItemType))
                 throw new ArgumentException("Le type est obligatoire", nameof(workItemFields.WorkItemType));
+        }
+
+        private static async Task<T> TryCatchExceptionAsync<T>(Func<Task<T>> callback) {
+            try {
+                return await callback();
+            }
+            catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
         }
 
         private static JsonPatchDocument CreateJsonPatchDocument(Operation operation, WorkItemFields workItemFields) {

@@ -206,7 +206,7 @@ Vous pouvez modifier les champs suivants :
 | State | *(facultatif)* L'état du WorkItem |
 | WorkItemType | *(facultatif)* Le type du WorkItem |
 | AssignedToDisplayName | *(facultatif)* Le nom de la personne à assigner au WorkItem |
-| Activity | *(facultatif)* Activité du WorkItem |
+| Activity | *(facultatif)* L'activité du WorkItem |
 | Description | *(facultatif)* La description du WorkItem |
 | ReproSteps | *(facultatif)* Les étapes de reproduction du WorkItem |
 | SystemInfo | *(facultatif)* Les informations systèmes du WorkItem |
@@ -289,7 +289,7 @@ Vous pouvez récupérer les itérations courantes d'un projet en utilisant ```Ge
 | Propriété | Description |
 | :-------- | :---------- |
 | project | Le nom du projet |
-| team | *(facultatif)* Le nom de l'équipe |
+| team | *(facultatif)* Le nom de l'équipe. La valeur null pour désigner l'équipe par défaut |
 
 ```cs
 ccli.AddCommand("<PATERN>", async tools => 

@@ -50,6 +50,10 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
         WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemFields);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
+        CheckWorkItemCreated(workItemFields, workItem);
+    }
+
+    private static void CheckWorkItemCreated(WorkItemFields workItemFields, WorkItem workItem) {
         WorkItemAssert.CheckNew(workItem);
         WorkItemAssert.Equal(workItemFields, workItem);
     }
@@ -69,8 +73,7 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
         workItemFields.AreaPath = ConfigForTests.AreaPathDefault;
         workItemFields.IterationPath = ConfigForTests.IterationPathDefault;
         workItemFields.State = ConfigForTests.StateDefault;
-        WorkItemAssert.CheckNew(workItem);
-        WorkItemAssert.Equal(workItemFields, workItem);
+        CheckWorkItemCreated(workItemFields, workItem);
     }
 
     [Fact]
@@ -83,8 +86,7 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         workItemFields.AreaPath = ConfigForTests.AreaPathDefault;
-        WorkItemAssert.CheckNew(workItem);
-        WorkItemAssert.Equal(workItemFields, workItem);
+        CheckWorkItemCreated(workItemFields, workItem);
     }
 
     [Fact]
@@ -142,8 +144,7 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         workItemFields.IterationPath = ConfigForTests.IterationPathDefault;
-        WorkItemAssert.CheckNew(workItem);
-        WorkItemAssert.Equal(workItemFields, workItem);
+        CheckWorkItemCreated(workItemFields, workItem);
     }
 
     [Fact]
@@ -192,8 +193,7 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         workItemFields.State = ConfigForTests.StateDefault;
-        WorkItemAssert.CheckNew(workItem);
-        WorkItemAssert.Equal(workItemFields, workItem);
+        CheckWorkItemCreated(workItemFields, workItem);
     }
 
     [Fact]
@@ -250,8 +250,7 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
         WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemFields);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
-        WorkItemAssert.CheckNew(workItem);
-        WorkItemAssert.Equal(workItemFields, workItem);
+        CheckWorkItemCreated(workItemFields, workItem);
     }
 
     [Fact]
@@ -264,8 +263,7 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         workItemFields.AssignedToDisplayName = null;
-        WorkItemAssert.CheckNew(workItem);
-        WorkItemAssert.Equal(workItemFields, workItem);
+        CheckWorkItemCreated(workItemFields, workItem);
     }
 
     [Fact]
@@ -286,8 +284,7 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
         WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemFields);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
-        WorkItemAssert.CheckNew(workItem);
-        WorkItemAssert.Equal(workItemFields, workItem);
+        CheckWorkItemCreated(workItemFields, workItem);
     }
 
     [Fact]
@@ -300,8 +297,7 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         workItemFields.Activity = null;
-        WorkItemAssert.CheckNew(workItem);
-        WorkItemAssert.Equal(workItemFields, workItem);
+        CheckWorkItemCreated(workItemFields, workItem);
     }
 
     [Fact]
@@ -322,8 +318,7 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
         WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemFields);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
-        WorkItemAssert.CheckNew(workItem);
-        WorkItemAssert.Equal(workItemFields, workItem);
+        CheckWorkItemCreated(workItemFields, workItem);
     }
 
     [Fact]
@@ -336,8 +331,7 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         workItemFields.Description = null;
-        WorkItemAssert.CheckNew(workItem);
-        WorkItemAssert.Equal(workItemFields, workItem);
+        CheckWorkItemCreated(workItemFields, workItem);
     }
 
     [Fact]
@@ -349,8 +343,7 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
         WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemFields);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
-        WorkItemAssert.CheckNew(workItem);
-        WorkItemAssert.Equal(workItemFields, workItem);
+        CheckWorkItemCreated(workItemFields, workItem);
     }
 
     [Fact]
@@ -363,8 +356,7 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         workItemFields.ReproSteps = null;
-        WorkItemAssert.CheckNew(workItem);
-        WorkItemAssert.Equal(workItemFields, workItem);
+        CheckWorkItemCreated(workItemFields, workItem);
     }
 
     [Fact]
@@ -376,8 +368,7 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
         WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemFields);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
-        WorkItemAssert.CheckNew(workItem);
-        WorkItemAssert.Equal(workItemFields, workItem);
+        CheckWorkItemCreated(workItemFields, workItem);
     }
 
     [Fact]
@@ -390,8 +381,7 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         workItemFields.SystemInfo = null;
-        WorkItemAssert.CheckNew(workItem);
-        WorkItemAssert.Equal(workItemFields, workItem);
+        CheckWorkItemCreated(workItemFields, workItem);
     }
 
     [Fact]
@@ -403,8 +393,7 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
         WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemFields);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
-        WorkItemAssert.CheckNew(workItem);
-        WorkItemAssert.Equal(workItemFields, workItem);
+        CheckWorkItemCreated(workItemFields, workItem);
     }
 
     [Fact]
@@ -417,7 +406,6 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         workItemFields.AcceptanceCriteria = null;
-        WorkItemAssert.CheckNew(workItem);
-        WorkItemAssert.Equal(workItemFields, workItem);
+        CheckWorkItemCreated(workItemFields, workItem);
     }
 }

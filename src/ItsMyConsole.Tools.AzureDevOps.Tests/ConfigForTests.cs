@@ -29,6 +29,8 @@ public static class ConfigForTests
         };
     }
 
+    public const string ServerUrl = "<SERVER_URL>";
+
     public const string AreaPathDefault = "<AREA_PATH_DEFAULT>";
     public const string AreaPathNew = "<AREA_PATH_NEW>";
     public const string AreaPathUpdate = "<AREA_PATH_UPDATE>";

@@ -6,6 +6,7 @@ public static class WorkItemAssert
 {
     public static void CheckNew(WorkItem workItem) {
         Assert.NotNull(workItem);
+        Assert.Matches($"^{ConfigForTests.ServerUrl}.*/_apis/wit/workItems/{workItem.Id}$", workItem.Url);
         Assert.True(workItem.Id > 0);
         Assert.Null(workItem.Childs);
         Assert.Null(workItem.Parents);

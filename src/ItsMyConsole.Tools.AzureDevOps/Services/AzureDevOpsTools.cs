@@ -143,11 +143,27 @@ namespace ItsMyConsole.Tools.AzureDevOps
         public async Task UpdateWorkItemAsync(int workItemId, WorkItemFields workItemFields) {
             if (workItemFields == null)
                 throw new ArgumentNullException(nameof(workItemFields));
+            ThrowIfNotValidForUpdate(workItemFields);
             using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient()) {
                 JsonPatchDocument jsonPatchDocument = CreateJsonPatchDocument(Operation.Replace, workItemFields);
                 if (jsonPatchDocument.Count > 0)
                     await workItemTrackingHttpClient.UpdateWorkItemAsync(jsonPatchDocument, workItemId);
             }
+        }
+
+        private static void ThrowIfNotValidForUpdate(WorkItemFields workItemFields) {
+            if (workItemFields.AreaPath == "")
+                throw new ArgumentException("La zone ne doit pas être vide", nameof(workItemFields.AreaPath));
+            if (workItemFields.TeamProject == "")
+                throw new ArgumentException("Le projet ne doit pas être vide", nameof(workItemFields.TeamProject));
+            if (workItemFields.IterationPath == "")
+                throw new ArgumentException("L'itération ne doit pas être vide", nameof(workItemFields.IterationPath));
+            if (workItemFields.Title == "")
+                throw new ArgumentException("Le titre ne doit pas être vide", nameof(workItemFields.Title));
+            if (workItemFields.State == "")
+                throw new ArgumentException("L'état ne doit pas être vide", nameof(workItemFields.State));
+            if (workItemFields.WorkItemType == "")
+                throw new ArgumentException("Le type ne doit pas être vide", nameof(workItemFields.WorkItemType));
         }
 
         /// <summary>

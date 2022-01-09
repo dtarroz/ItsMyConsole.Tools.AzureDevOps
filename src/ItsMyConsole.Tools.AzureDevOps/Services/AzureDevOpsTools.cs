@@ -109,6 +109,15 @@ namespace ItsMyConsole.Tools.AzureDevOps
             }
         }
 
+        private static async Task TryCatchExceptionAsync(Func<Task> callback) {
+            try {
+                await callback();
+            }
+            catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+        }
+
         private static JsonPatchDocument CreateJsonPatchDocument(Operation operation, WorkItemFields workItemFields) {
             Dictionary<string, string> fields = new Dictionary<string, string> {
                 { "/fields/System.AreaPath", workItemFields.AreaPath },
@@ -144,11 +153,13 @@ namespace ItsMyConsole.Tools.AzureDevOps
             if (workItemFields == null)
                 throw new ArgumentNullException(nameof(workItemFields));
             ThrowIfNotValidForUpdate(workItemFields);
-            using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient()) {
-                JsonPatchDocument jsonPatchDocument = CreateJsonPatchDocument(Operation.Replace, workItemFields);
-                if (jsonPatchDocument.Count > 0)
-                    await workItemTrackingHttpClient.UpdateWorkItemAsync(jsonPatchDocument, workItemId);
-            }
+            await TryCatchExceptionAsync(async () => {
+                using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient()) {
+                    JsonPatchDocument jsonPatchDocument = CreateJsonPatchDocument(Operation.Replace, workItemFields);
+                    if (jsonPatchDocument.Count > 0)
+                        await workItemTrackingHttpClient.UpdateWorkItemAsync(jsonPatchDocument, workItemId);
+                }
+            });
         }
 
         private static void ThrowIfNotValidForUpdate(WorkItemFields workItemFields) {

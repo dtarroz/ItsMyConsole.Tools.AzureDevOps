@@ -4,7 +4,7 @@ namespace ItsMyConsole.Tools.AzureDevOps.Tests.Asserts;
 
 public static class WorkItemAssert
 {
-    public static void CheckNew(WorkItem workItem) {
+    public static void CheckNew(WorkItemFields workItemFields, WorkItem workItem) {
         Assert.NotNull(workItem);
         Assert.Matches($"^{ConfigForTests.ServerUrl}.*/_apis/wit/workItems/{workItem.Id}$", workItem.Url);
         Assert.True(workItem.Id > 0);
@@ -13,9 +13,12 @@ public static class WorkItemAssert
         Assert.Null(workItem.Related);
         Assert.False(workItem.IsFixedInChangeset);
         Assert.Null(workItem.Tags);
+        EqualNew(workItemFields, workItem);
     }
 
-    public static void Equal(WorkItemFields workItemFields, WorkItem workItem) {
+    private static void EqualNew(WorkItemFields workItemFields, WorkItem workItem) {
+        Assert.NotNull(workItemFields);
+        Assert.NotNull(workItem);
         Assert.Equal(NullToDefault(workItemFields.AreaPath, ConfigForTests.AreaPathDefault), workItem.AreaPath);
         Assert.Equal(workItemFields.TeamProject, workItem.TeamProject);
         Assert.Equal(NullToDefault(workItemFields.IterationPath, ConfigForTests.IterationPathDefault), workItem.IterationPath);

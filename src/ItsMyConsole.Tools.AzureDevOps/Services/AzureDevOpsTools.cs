@@ -152,6 +152,9 @@ namespace ItsMyConsole.Tools.AzureDevOps
         public async Task UpdateWorkItemAsync(int workItemId, WorkItemFields workItemFields) {
             if (workItemFields == null)
                 throw new ArgumentNullException(nameof(workItemFields));
+            if (workItemId <= 0)
+                throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif",
+                                            nameof(workItemId));
             ThrowIfNotValidForUpdate(workItemFields);
             await TryCatchExceptionAsync(async () => {
                 using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient()) {

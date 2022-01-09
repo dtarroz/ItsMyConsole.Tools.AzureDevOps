@@ -29,6 +29,23 @@ public static class ConfigForTests
         };
     }
 
+    public static WorkItemFields GetWorkItemFieldsUpdate() {
+        return new WorkItemFields {
+            AreaPath = AreaPathUpdate,
+            TeamProject = TeamProject,
+            IterationPath = IterationPathUpdate,
+            Title = "TITLE_UPDATE",
+            State = StateUpdate,
+            WorkItemType = WorkItemTypeUpdate,
+            AssignedToDisplayName = null,
+            Activity = ActivityUpdate,
+            Description = "DESCRIPTION_UPDATE",
+            ReproSteps = "REPRO_STEPS_UPDATE",
+            SystemInfo = "SYSTEM_INFO_UPDATE",
+            AcceptanceCriteria = "ACCEPTANCE_CRITERIA_UPDATE"
+        };
+    }
+
     public const string ServerUrl = "<SERVER_URL>";
 
     public const string AreaPathDefault = "<AREA_PATH_DEFAULT>";

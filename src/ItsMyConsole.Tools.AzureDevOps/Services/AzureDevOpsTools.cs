@@ -223,6 +223,9 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// </summary>
         /// <param name="workItemId">L'identifiant du WorkItem</param>
         public async Task DeleteWorkItemAsync(int workItemId) {
+            if (workItemId <= 0)
+                throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif",
+                                            nameof(workItemId));
             using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient())
                 await workItemTrackingHttpClient.DeleteWorkItemAsync(workItemId);
         }

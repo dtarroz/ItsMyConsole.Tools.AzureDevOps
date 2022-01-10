@@ -226,8 +226,10 @@ namespace ItsMyConsole.Tools.AzureDevOps
             if (workItemId <= 0)
                 throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif",
                                             nameof(workItemId));
-            using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient())
-                await workItemTrackingHttpClient.DeleteWorkItemAsync(workItemId);
+            await TryCatchExceptionAsync(async () => {
+                using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient())
+                    await workItemTrackingHttpClient.DeleteWorkItemAsync(workItemId);
+            });
         }
     }
 }

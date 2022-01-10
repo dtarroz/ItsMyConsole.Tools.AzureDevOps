@@ -40,9 +40,11 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// </summary>
         /// <param name="workItemId">L'identifiant du WorkItem</param>
         public async Task<WorkItem> GetWorkItemAsync(int workItemId) {
-            using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient())
-                return (await workItemTrackingHttpClient.GetWorkItemAsync(workItemId, expand: WorkItemExpand.Relations))
-                    .ToModel();
+            return await TryCatchExceptionAsync(async () => {
+                using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient())
+                    return (await workItemTrackingHttpClient.GetWorkItemAsync(workItemId, expand: WorkItemExpand.Relations))
+                        .ToModel();
+            });
         }
 
         private WorkItemTrackingHttpClient GetWorkItemTrackingHttpClient() {

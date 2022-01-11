@@ -58,6 +58,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// <param name="project">Le nom du projet</param>
         /// <param name="team">Le nom de l'équipe</param>
         public async Task<List<TeamIteration>> GetCurrentTeamIterationsAsync(string project, string team = null) {
+            if (string.IsNullOrEmpty(project))
+                throw new ArgumentException("La projet est obligatoire", nameof(project));
             using (WorkHttpClient workHttpClient = GetWorkHttpClient())
                 return (await workHttpClient.GetTeamIterationsAsync(new TeamContext(project, team), "Current"))
                        .Select(t => t.ToModel())

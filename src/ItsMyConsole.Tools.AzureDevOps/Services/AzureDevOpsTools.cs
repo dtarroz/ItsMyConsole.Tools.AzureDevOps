@@ -60,10 +60,12 @@ namespace ItsMyConsole.Tools.AzureDevOps
         public async Task<List<TeamIteration>> GetCurrentTeamIterationsAsync(string project, string team = null) {
             if (string.IsNullOrEmpty(project))
                 throw new ArgumentException("La projet est obligatoire", nameof(project));
-            using (WorkHttpClient workHttpClient = GetWorkHttpClient())
-                return (await workHttpClient.GetTeamIterationsAsync(new TeamContext(project, team), "Current"))
-                       .Select(t => t.ToModel())
-                       .ToList();
+            return await TryCatchExceptionAsync(async () => {
+                using (WorkHttpClient workHttpClient = GetWorkHttpClient())
+                    return (await workHttpClient.GetTeamIterationsAsync(new TeamContext(project, team), "Current"))
+                           .Select(t => t.ToModel())
+                           .ToList();
+            });
         }
 
         private WorkHttpClient GetWorkHttpClient() {

@@ -289,7 +289,7 @@ Vous pouvez récupérer les itérations courantes d'un projet en utilisant ```Ge
 | Propriété | Description |
 | :-------- | :---------- |
 | project | Le nom du projet |
-| team | *(facultatif)* Le nom de l'équipe. La valeur null pour désigner l'équipe par défaut |
+| team | *(facultatif)* Le nom de l'équipe |
 
 ```cs
 ccli.AddCommand("<PATERN>", async tools => 

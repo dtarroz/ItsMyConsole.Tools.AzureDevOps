@@ -56,7 +56,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// Récupération des itérations courantes d'un projet
         /// </summary>
         /// <param name="project">Le nom du projet</param>
-        /// <param name="team">Le nom de l'équipe. La valeur null pour désigner l'équipe par défaut</param>
+        /// <param name="team">Le nom de l'équipe</param>
         public async Task<List<TeamIteration>> GetCurrentTeamIterationsAsync(string project, string team = null) {
             using (WorkHttpClient workHttpClient = GetWorkHttpClient())
                 return (await workHttpClient.GetTeamIterationsAsync(new TeamContext(project, team), "Current"))

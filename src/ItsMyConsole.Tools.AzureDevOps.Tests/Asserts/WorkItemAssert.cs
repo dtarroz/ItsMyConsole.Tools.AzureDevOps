@@ -1,4 +1,6 @@
-﻿using Xunit;
+﻿using System;
+using System.Collections.Generic;
+using Xunit;
 
 namespace ItsMyConsole.Tools.AzureDevOps.Tests.Asserts;
 
@@ -84,5 +86,30 @@ public static class WorkItemAssert
         Assert.Equal(workItemFields.ReproSteps, workItem.ReproSteps);
         Assert.Equal(workItemFields.SystemInfo, workItem.SystemInfo);
         Assert.Equal(workItemFields.AcceptanceCriteria, workItem.AcceptanceCriteria);
+    }
+
+    public static void CheckRelations(WorkItem workItem, Dictionary<LinkType, List<int>> relations) {
+        Assert.NotNull(workItem);
+        if (relations == null || relations.Count == 0) {
+            Assert.Null(workItem.Childs);
+            Assert.Null(workItem.Parents);
+            Assert.Null(workItem.Related);
+        }
+        else {
+            foreach ((LinkType linkType, List<int> workItemIds) in relations) {
+                switch (linkType) {
+                    case LinkType.Child:
+                        Assert.Equal(workItemIds, workItem.Childs);
+                        break;
+                    case LinkType.Parent:
+                        Assert.Equal(workItemIds, workItem.Parents);
+                        break;
+                    case LinkType.Related:
+                        Assert.Equal(workItemIds, workItem.Related);
+                        break;
+                    default: throw new NotImplementedException();
+                }
+            }
+        }
     }
 }

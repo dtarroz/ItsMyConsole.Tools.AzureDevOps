@@ -207,21 +207,23 @@ namespace ItsMyConsole.Tools.AzureDevOps
         public async Task AddWorkItemRelationsAsync(int workItemId, List<WorkItem> workItemsToAdd, LinkType linkType) {
             if (workItemsToAdd == null)
                 throw new ArgumentNullException(nameof(workItemsToAdd));
-            using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient()) {
-                JsonPatchDocument jsonPatchDocument = workItemsToAdd.Aggregate(new JsonPatchDocument(), (document, field) => {
-                    document.Add(new JsonPatchOperation {
-                                     Operation = Operation.Add,
-                                     Path = "/relations/-",
-                                     Value = new {
-                                         rel = linkType.GetName(),
-                                         url = field.Url
-                                     }
-                                 });
-                    return document;
-                });
-                if (jsonPatchDocument.Count > 0)
-                    await workItemTrackingHttpClient.UpdateWorkItemAsync(jsonPatchDocument, workItemId);
-            }
+            await TryCatchExceptionAsync(async () => {
+                using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient()) {
+                    JsonPatchDocument jsonPatchDocument = workItemsToAdd.Aggregate(new JsonPatchDocument(), (document, field) => {
+                        document.Add(new JsonPatchOperation {
+                                         Operation = Operation.Add,
+                                         Path = "/relations/-",
+                                         Value = new {
+                                             rel = linkType.GetName(),
+                                             url = field.Url
+                                         }
+                                     });
+                        return document;
+                    });
+                    if (jsonPatchDocument.Count > 0)
+                        await workItemTrackingHttpClient.UpdateWorkItemAsync(jsonPatchDocument, workItemId);
+                }
+            });
         }
 
         /// <summary>

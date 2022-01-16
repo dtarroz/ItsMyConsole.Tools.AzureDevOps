@@ -131,18 +131,18 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         await azureDevOpsTools.DeleteWorkItemAsync(workItemToAdd2.Id);
     }
 
+    private static async Task<WorkItem> AddWorkItemRelationAsync(AzureDevOpsTools azureDevOpsTools, int workItemId,
+                                                                 WorkItem workItemToAdd, LinkType linkType) {
+        await azureDevOpsTools.AddWorkItemRelationAsync(workItemId, workItemToAdd, linkType);
+        return await azureDevOpsTools.GetWorkItemAsync(workItemId);
+    }
+
     private static void AddAndCheckRelations(ref Dictionary<LinkType, List<int>> relations, WorkItem workItem, LinkType linkType,
                                              int workItemToAddId) {
         if (!relations.ContainsKey(linkType))
             relations.Add(linkType, new List<int>());
         relations[linkType].Add(workItemToAddId);
         WorkItemAssert.CheckRelations(relations, workItem);
-    }
-
-    private static async Task<WorkItem> AddWorkItemRelationAsync(AzureDevOpsTools azureDevOpsTools, int workItemId,
-                                                                 WorkItem workItemToAdd, LinkType linkType) {
-        await azureDevOpsTools.AddWorkItemRelationAsync(workItemId, workItemToAdd, linkType);
-        return await azureDevOpsTools.GetWorkItemAsync(workItemId);
     }
 
     [Fact]

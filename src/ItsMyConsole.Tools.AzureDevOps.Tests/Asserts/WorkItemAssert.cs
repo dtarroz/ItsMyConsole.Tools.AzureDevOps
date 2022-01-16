@@ -10,9 +10,7 @@ public static class WorkItemAssert
         Assert.NotNull(workItem);
         Assert.Matches($"^{ConfigForTests.ServerUrl}.*/_apis/wit/workItems/{workItem.Id}$", workItem.Url);
         Assert.True(workItem.Id > 0);
-        Assert.Null(workItem.Childs);
-        Assert.Null(workItem.Parents);
-        Assert.Null(workItem.Related);
+        CheckRelations(null, workItem);
         Assert.False(workItem.IsFixedInChangeset);
         Assert.Null(workItem.Tags);
         EqualNew(workItemFields, workItem);
@@ -49,9 +47,7 @@ public static class WorkItemAssert
         Assert.NotNull(workItemUpdate);
         Assert.Equal(workItem.Url, workItemUpdate.Url);
         Assert.Equal(workItem.Id, workItemUpdate.Id);
-        Assert.Null(workItemUpdate.Childs);
-        Assert.Null(workItemUpdate.Parents);
-        Assert.Null(workItemUpdate.Related);
+        CheckRelations(null, workItem);
         Assert.False(workItemUpdate.IsFixedInChangeset);
         Assert.Null(workItemUpdate.Tags);
         WorkItemFields workItemFieldsUpdate = new WorkItemFields {
@@ -88,7 +84,7 @@ public static class WorkItemAssert
         Assert.Equal(workItemFields.AcceptanceCriteria, workItem.AcceptanceCriteria);
     }
 
-    public static void CheckRelations(WorkItem workItem, Dictionary<LinkType, List<int>> relations) {
+    public static void CheckRelations(Dictionary<LinkType, List<int>> relations, WorkItem workItem) {
         Assert.NotNull(workItem);
         if (relations == null || relations.Count == 0) {
             Assert.Null(workItem.Childs);

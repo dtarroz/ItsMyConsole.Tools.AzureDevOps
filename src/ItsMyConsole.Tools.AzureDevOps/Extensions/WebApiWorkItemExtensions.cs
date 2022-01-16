@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.Services.WebApi;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ItsMyConsole.Tools.AzureDevOps
@@ -39,11 +40,12 @@ namespace ItsMyConsole.Tools.AzureDevOps
 
         private static int[] GetRelationIds(this Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.WorkItem workItem,
                                             LinkType linkType) {
-            int[] ids = workItem.Relations?.Where(r => r.Rel == linkType.GetName())
-                                .Select(r => r.Url.Substring(r.Url.LastIndexOf('/') + 1))
-                                .Select(wi => Convert.ToInt32(wi))
-                                .ToArray();
-            return ids == null || ids.Length == 0 ? null : ids;
+            List<int> ids = workItem.Relations?.Where(r => r.Rel == linkType.GetName())
+                                    .Select(r => r.Url.Substring(r.Url.LastIndexOf('/') + 1))
+                                    .Select(wi => Convert.ToInt32(wi))
+                                    .ToList();
+            ids?.Sort();
+            return ids == null || ids.Count == 0 ? null : ids.ToArray();
         }
     }
 }

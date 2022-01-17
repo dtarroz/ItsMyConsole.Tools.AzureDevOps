@@ -40,6 +40,9 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// </summary>
         /// <param name="workItemId">L'identifiant du WorkItem</param>
         public async Task<WorkItem> GetWorkItemAsync(int workItemId) {
+            if (workItemId <= 0)
+                throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif",
+                                            nameof(workItemId));
             return await TryCatchExceptionAsync(async () => {
                 using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient())
                     return (await workItemTrackingHttpClient.GetWorkItemAsync(workItemId, expand: WorkItemExpand.Relations))

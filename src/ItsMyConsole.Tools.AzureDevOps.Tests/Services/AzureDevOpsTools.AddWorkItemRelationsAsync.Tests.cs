@@ -121,12 +121,12 @@ public class AzureDevOpsTools_AddWorkItemRelationsAsync_Tests
         WorkItem workItemToAdd = await azureDevOpsTools.CreateWorkItemAsync(workItemFields);
         WorkItem workItemDelete = await azureDevOpsTools.CreateWorkItemAsync(workItemFields);
         await azureDevOpsTools.DeleteWorkItemAsync(workItemDelete.Id);
+        List<WorkItem> workItemsToAdd = new List<WorkItem> { workItemDelete };
+        if (linkType != LinkType.Parent)
+            workItemsToAdd.Add(workItemToAdd);
 
         await Assert.ThrowsAsync<Exception>(async () => {
-            await azureDevOpsTools.AddWorkItemRelationsAsync(workItem.Id, new List<WorkItem> {
-                                                                 workItemToAdd,
-                                                                 workItemDelete
-                                                             }, linkType);
+            await azureDevOpsTools.AddWorkItemRelationsAsync(workItem.Id, workItemsToAdd, linkType);
         });
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);

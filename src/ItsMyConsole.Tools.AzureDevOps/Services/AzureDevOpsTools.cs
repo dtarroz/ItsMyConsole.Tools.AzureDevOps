@@ -217,6 +217,10 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 throw new ArgumentNullException(nameof(workItemsToAdd));
             if (linkType == LinkType.Parent && workItemsToAdd.Count > 1)
                 throw new ArgumentException("Un WorkItem possède un seul parent", nameof(workItemsToAdd));
+            if (workItemsToAdd.Any(w => w == null))
+                throw new ArgumentException("Un WorkItem à ajouter est à null", nameof(workItemsToAdd));
+            if (workItemsToAdd.Any(w => w.Id == workItemId))
+                throw new ArgumentException("Impossible d'ajouter une relation sur lui même", nameof(workItemsToAdd));
             await TryCatchExceptionAsync(async () => {
                 using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient()) {
                     JsonPatchDocument jsonPatchDocument = workItemsToAdd.Aggregate(new JsonPatchDocument(), (document, field) => {

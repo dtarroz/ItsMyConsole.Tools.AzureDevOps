@@ -210,8 +210,13 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// <param name="workItemsToAdd">Les WorkItems à ajouter</param>
         /// <param name="linkType">Le type de lien entre le WorkItem est ceux que l'on veut ajouter</param>
         public async Task AddWorkItemRelationsAsync(int workItemId, List<WorkItem> workItemsToAdd, LinkType linkType) {
+            if (workItemId <= 0)
+                throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif",
+                                            nameof(workItemId));
             if (workItemsToAdd == null)
                 throw new ArgumentNullException(nameof(workItemsToAdd));
+            if (linkType == LinkType.Parent && workItemsToAdd.Count > 1)
+                throw new ArgumentException("Un WorkItem possède un seul parent", nameof(workItemsToAdd));
             await TryCatchExceptionAsync(async () => {
                 using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient()) {
                     JsonPatchDocument jsonPatchDocument = workItemsToAdd.Aggregate(new JsonPatchDocument(), (document, field) => {

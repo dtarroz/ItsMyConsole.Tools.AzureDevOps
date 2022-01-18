@@ -67,8 +67,14 @@ public class AzureDevOpsTools_AddWorkItemRelationsAsync_Tests
         await Assert.ThrowsAsync<Exception>(async () => {
             await azureDevOpsTools.AddWorkItemRelationsAsync(999999, new List<WorkItem> { workItem }, linkType);
         });
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+    }
+
+    private static async Task CheckWorkItemNotModifiedAsync(AzureDevOpsTools azureDevOpsTools, WorkItem workItem) {
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItemAssert.Equal(workItem, workItemGet);
     }
 
     [Theory]
@@ -95,6 +101,7 @@ public class AzureDevOpsTools_AddWorkItemRelationsAsync_Tests
                                                                  null
                                                              }, linkType);
         });
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItemToAdd.Id);
@@ -128,6 +135,7 @@ public class AzureDevOpsTools_AddWorkItemRelationsAsync_Tests
         await Assert.ThrowsAsync<Exception>(async () => {
             await azureDevOpsTools.AddWorkItemRelationsAsync(workItem.Id, workItemsToAdd, linkType);
         });
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItemToAdd.Id);
@@ -147,6 +155,7 @@ public class AzureDevOpsTools_AddWorkItemRelationsAsync_Tests
                                                                  workItemToAdd
                                                              }, linkType);
         });
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItemToAdd.Id);
@@ -200,6 +209,7 @@ public class AzureDevOpsTools_AddWorkItemRelationsAsync_Tests
                                                                  workItemToAdd2
                                                              }, LinkType.Parent);
         });
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItemToAdd.Id);
@@ -222,6 +232,7 @@ public class AzureDevOpsTools_AddWorkItemRelationsAsync_Tests
         await Assert.ThrowsAsync<Exception>(async () => {
             await azureDevOpsTools.AddWorkItemRelationsAsync(workItem.Id, new List<WorkItem> { workItemToAdd2 }, LinkType.Parent);
         });
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItemToAdd.Id);
@@ -291,6 +302,7 @@ public class AzureDevOpsTools_AddWorkItemRelationsAsync_Tests
         await Assert.ThrowsAsync<Exception>(async () => {
             await azureDevOpsTools.AddWorkItemRelationsAsync(workItem.Id, new List<WorkItem> { workItemToAdd }, LinkType.Parent);
         });
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItemToAdd.Id);

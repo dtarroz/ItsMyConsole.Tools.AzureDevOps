@@ -67,8 +67,14 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         await Assert.ThrowsAsync<Exception>(async () => {
             await azureDevOpsTools.AddWorkItemRelationAsync(999999, workItem, linkType);
         });
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+    }
+
+    private static async Task CheckWorkItemNotModifiedAsync(AzureDevOpsTools azureDevOpsTools, WorkItem workItem) {
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItemAssert.Equal(workItem, workItemGet);
     }
 
     [Theory]
@@ -93,6 +99,7 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         await Assert.ThrowsAsync<Exception>(async () => {
             await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItemToAdd, linkType);
         });
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
     }
@@ -107,6 +114,7 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         await Assert.ThrowsAsync<ArgumentException>(async () => {
             await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItem, linkType);
         });
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
     }
@@ -160,6 +168,7 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         await Assert.ThrowsAsync<Exception>(async () => {
             await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItemToAdd2, LinkType.Parent);
         });
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItemToAdd.Id);
@@ -225,6 +234,7 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         await Assert.ThrowsAsync<Exception>(async () => {
             await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItemToAdd, LinkType.Parent);
         });
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItemToAdd.Id);

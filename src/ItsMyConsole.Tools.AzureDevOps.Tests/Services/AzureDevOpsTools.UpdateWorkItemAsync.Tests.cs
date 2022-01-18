@@ -125,8 +125,14 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields.AreaPath = "";
 
         await Assert.ThrowsAsync<ArgumentException>(() => azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields));
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+    }
+
+    private static async Task CheckWorkItemNotModifiedAsync(AzureDevOpsTools azureDevOpsTools, WorkItem workItem) {
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItemAssert.Equal(workItem, workItemGet);
     }
 
     [Fact]
@@ -138,6 +144,7 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields.AreaPath = "NotExists";
 
         await Assert.ThrowsAsync<Exception>(() => azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields));
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
     }
@@ -181,6 +188,7 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields.TeamProject = "";
 
         await Assert.ThrowsAsync<ArgumentException>(() => azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields));
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
     }
@@ -194,6 +202,7 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields.TeamProject = "NotExists";
 
         await Assert.ThrowsAsync<Exception>(() => azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields));
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
     }
@@ -237,6 +246,7 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields.IterationPath = "";
 
         await Assert.ThrowsAsync<ArgumentException>(() => azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields));
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
     }
@@ -250,6 +260,7 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields.IterationPath = "NotExists";
 
         await Assert.ThrowsAsync<Exception>(() => azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields));
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
     }
@@ -293,6 +304,7 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields.Title = "";
 
         await Assert.ThrowsAsync<ArgumentException>(() => azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields));
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
     }
@@ -336,6 +348,7 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields.State = "";
 
         await Assert.ThrowsAsync<ArgumentException>(() => azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields));
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
     }
@@ -349,6 +362,7 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields.State = "NotExists";
 
         await Assert.ThrowsAsync<Exception>(() => azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields));
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
     }
@@ -392,6 +406,7 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields.WorkItemType = "";
 
         await Assert.ThrowsAsync<ArgumentException>(() => azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields));
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
     }
@@ -405,6 +420,7 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields.WorkItemType = "NotExists";
 
         await Assert.ThrowsAsync<Exception>(() => azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields));
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
     }
@@ -463,6 +479,7 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields.AssignedToDisplayName = "NotExists";
 
         await Assert.ThrowsAsync<Exception>(() => azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields));
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
     }
@@ -521,6 +538,7 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields.Activity = "NotExists";
 
         await Assert.ThrowsAsync<Exception>(() => azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields));
+        await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
     }

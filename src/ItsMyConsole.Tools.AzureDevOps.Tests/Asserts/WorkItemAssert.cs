@@ -108,4 +108,28 @@ public static class WorkItemAssert
             }
         }
     }
+
+    public static void Equal(WorkItem expected, WorkItem actual) {
+        Assert.NotNull(expected);
+        Assert.NotNull(actual);
+        Assert.Equal(expected.Url, actual.Url);
+        Assert.Equal(expected.Id, actual.Id);
+        Assert.Equal(expected.AreaPath, actual.AreaPath);
+        Assert.Equal(expected.TeamProject, actual.TeamProject);
+        Assert.Equal(expected.IterationPath, actual.IterationPath);
+        Assert.Equal(expected.Title, actual.Title);
+        Assert.Equal(expected.State, actual.State);
+        Assert.Equal(expected.WorkItemType, actual.WorkItemType);
+        Assert.Equal(expected.AssignedToDisplayName, actual.AssignedToDisplayName);
+        Assert.Equal(expected.Activity, actual.Activity);
+        Assert.Equal(expected.Description, actual.Description);
+        Assert.Equal(expected.ReproSteps, actual.ReproSteps);
+        Assert.Equal(expected.SystemInfo, actual.SystemInfo);
+        Assert.Equal(expected.AcceptanceCriteria, actual.AcceptanceCriteria);
+        Assert.Equal(expected.Childs, actual.Childs);
+        Assert.Equal(expected.Parents, actual.Parents);
+        Assert.Equal(expected.Related, actual.Related);
+        Assert.Equal(expected.IsFixedInChangeset, actual.IsFixedInChangeset);
+        Assert.Equal(expected.Tags, actual.Tags);
+    }
 }

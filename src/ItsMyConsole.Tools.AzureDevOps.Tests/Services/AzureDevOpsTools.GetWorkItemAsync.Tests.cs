@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using ItsMyConsole.Tools.AzureDevOps.Tests.Asserts;
 using Xunit;
 
 namespace ItsMyConsole.Tools.AzureDevOps.Tests.Services;
@@ -53,5 +54,17 @@ public class AzureDevOpsTools_GetWorkItemAsync_Tests
         await Assert.ThrowsAsync<Exception>(async () => {
             await azureDevOpsTools.GetWorkItemAsync(999999);
         });
+    }
+
+    [Fact]
+    public async Task GetWorkItemAsync_Create() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemFields workItemFields = ConfigForTests.GetWorkItemFieldsNew();
+        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemFields);
+
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItemAssert.Equal(workItem, workItemGet);
+
+        await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
     }
 }

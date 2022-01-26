@@ -16,6 +16,7 @@ Outil Azure DevOps (Création/Modification WorkItem) pour le Framework [```ItsMy
 - [Suppression d'un WorkItem](#suppression-dun-workitem)
 - [Ajout d'une relation entre WorkItems](#ajout-dune-relation-entre-workitems)
 - [Récupération des itérations courantes d'un projet](#récupération-des-itérations-courantes-dun-projet)
+- [Récupération du nom de la configuration Azure DevOps](#récupération-du-nom-de-la-configuration-azure-devops)
   
 ## Pourquoi faire ?
 
@@ -306,3 +307,14 @@ Vous avez en retour une liste d'objet de type ```TeamIteration```.
 | Path | Le chemin relatif de l'itération |
 | StartDate | Date de début de l'itération |
 | FinishDate | Date de fin de l'itération |
+
+## Récupération du nom de la configuration Azure DevOps
+
+Vous pouvez récupérer le nom de la configuration Azure DevOps en utilisant ```GetAzureDevOpsServerName```.
+
+```cs
+ccli.AddCommand("<PATTERN>", async tools => 
+{
+    string serverName = tools.AzureDevOps("<NAME>").GetAzureDevOpsServerName();
+});
+```

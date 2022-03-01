@@ -56,18 +56,18 @@ namespace ItsMyConsole.Tools.AzureDevOps
         }
 
         /// <summary>
-        /// Récupération des itérations courantes d'un projet
+        /// Récupération de l'itération courante d'un projet
         /// </summary>
         /// <param name="project">Le nom du projet</param>
         /// <param name="team">Le nom de l'équipe</param>
-        public async Task<List<TeamIteration>> GetCurrentTeamIterationsAsync(string project, string team = null) {
+        public async Task<TeamIteration> GetCurrentTeamIterationAsync(string project, string team = null) {
             if (string.IsNullOrEmpty(project))
                 throw new ArgumentException("La projet est obligatoire", nameof(project));
             return await TryCatchExceptionAsync(async () => {
                 using (WorkHttpClient workHttpClient = GetWorkHttpClient())
                     return (await workHttpClient.GetTeamIterationsAsync(new TeamContext(project, team), "Current"))
                            .Select(t => t.ToModel())
-                           .ToList();
+                           .First();
             });
         }
 

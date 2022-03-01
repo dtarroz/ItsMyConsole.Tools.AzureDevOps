@@ -70,45 +70,37 @@ public static class ConfigForTests
     public const string ActivityNew = "Development";
     public const string ActivityUpdate = "Design";
 
-    public static readonly TeamIteration[] IterationPathCurrentDefaultTeam = {
-        new() {
-            Name = "<NAME>",
-            Path = "<PATH>",
-            StartDate = new DateTime(2022, 1, 1),
-            FinishDate = new DateTime(2022, 12, 31)
-        }
+    public static readonly TeamIteration IterationPathCurrentDefaultTeam = new() {
+        Name = "<NAME>",
+        Path = "<PATH>",
+        StartDate = new DateTime(2022, 1, 1),
+        FinishDate = new DateTime(2022, 12, 31)
     };
 
     public const string Team1 = "<TEAM_1>";
 
-    public static readonly TeamIteration[] IterationPathCurrentTeam1 = {
-        new() {
-            Name = "<NAME>",
-            Path = "<PATH>",
-            StartDate = new DateTime(2022, 1, 1),
-            FinishDate = new DateTime(2022, 12, 31)
-        }
+    public static readonly TeamIteration IterationPathCurrentTeam1 = new() {
+        Name = "<NAME>",
+        Path = "<PATH>",
+        StartDate = new DateTime(2022, 1, 1),
+        FinishDate = new DateTime(2022, 12, 31)
     };
 
     public const string Team2 = "<TEAM_2>";
 
-    public static readonly TeamIteration[] IterationPathCurrentTeam2 = {
-        new() {
-            Name = "<NAME>",
-            Path = "<PATH>",
-            StartDate = new DateTime(2022, 1, 1),
-            FinishDate = new DateTime(2022, 12, 31)
-        }
+    public static readonly TeamIteration IterationPathCurrentTeam2 = new() {
+        Name = "<NAME>",
+        Path = "<PATH>",
+        StartDate = new DateTime(2022, 1, 1),
+        FinishDate = new DateTime(2022, 12, 31)
     };
 
     public const string Team3 = "<TEAM_3>";
 
-    public static readonly TeamIteration[] IterationPathCurrentTeam3 = {
-        new() {
-            Name = "<NAME>",
-            Path = "<PATH>",
-            StartDate = new DateTime(2022, 1, 1),
-            FinishDate = new DateTime(2022, 12, 31)
-        }
+    public static readonly TeamIteration IterationPathCurrentTeam3 = new() {
+        Name = "<NAME>",
+        Path = "<PATH>",
+        StartDate = new DateTime(2022, 1, 1),
+        FinishDate = new DateTime(2022, 12, 31)
     };
 }

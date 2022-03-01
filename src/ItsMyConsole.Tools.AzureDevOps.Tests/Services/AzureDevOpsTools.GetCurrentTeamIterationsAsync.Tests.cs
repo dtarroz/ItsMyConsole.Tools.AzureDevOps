@@ -23,28 +23,45 @@ public class AzureDevOpsTools_GetCurrentTeamIterationsAsync_Tests
         azureDevOpsServer.PersonalAccessToken = "NotExists";
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(azureDevOpsServer);
 
-        await Assert.ThrowsAsync<Exception>(() => azureDevOpsTools.GetCurrentTeamIterationsAsync(ConfigForTests.TeamProject));
+        Exception exception = await Assert.ThrowsAsync<Exception>(async () => {
+            await azureDevOpsTools.GetCurrentTeamIterationsAsync(ConfigForTests.TeamProject);
+        });
+
+        Assert.Equal($"Vous n'avez pas accès au serveur Azure DevOps '{azureDevOpsServer.Name}'", exception.Message);
     }
 
     [Fact]
     public async Task GetCurrentTeamIterationsAsync_Project_Null() {
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
 
-        await Assert.ThrowsAsync<ArgumentException>(() => azureDevOpsTools.GetCurrentTeamIterationsAsync(null));
+        Exception exception = await Assert.ThrowsAsync<ArgumentException>(async () => {
+            await azureDevOpsTools.GetCurrentTeamIterationsAsync(null);
+        });
+
+        Assert.Equal("Le projet est obligatoire (Parameter 'project')", exception.Message);
     }
 
     [Fact]
     public async Task GetCurrentTeamIterationsAsync_Project_Empty() {
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
 
-        await Assert.ThrowsAsync<ArgumentException>(() => azureDevOpsTools.GetCurrentTeamIterationsAsync(""));
+        Exception exception = await Assert.ThrowsAsync<ArgumentException>(async () => {
+            await azureDevOpsTools.GetCurrentTeamIterationsAsync("");
+        });
+
+        Assert.Equal("Le projet est obligatoire (Parameter 'project')", exception.Message);
     }
 
     [Fact]
     public async Task GetCurrentTeamIterationsAsync_Project_NotExists() {
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
 
-        await Assert.ThrowsAsync<Exception>(() => azureDevOpsTools.GetCurrentTeamIterationsAsync("NotExists"));
+        Exception exception = await Assert.ThrowsAsync<Exception>(async () => {
+            await azureDevOpsTools.GetCurrentTeamIterationsAsync("NotExists");
+        });
+
+        Assert.StartsWith("TF200016: ", exception.Message);
+        Assert.Contains(": NotExists.", exception.Message);
     }
 
     [Fact]
@@ -60,9 +77,11 @@ public class AzureDevOpsTools_GetCurrentTeamIterationsAsync_Tests
     public async Task GetCurrentTeamIterationsAsync_Team_NotExists() {
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
 
-        await Assert.ThrowsAsync<Exception>(async () => {
+        Exception exception = await Assert.ThrowsAsync<Exception>(async () => {
             await azureDevOpsTools.GetCurrentTeamIterationsAsync(ConfigForTests.TeamProject, "NotExists");
         });
+
+        Assert.Contains(" 'NotExists' ", exception.Message);
     }
 
     [Fact]

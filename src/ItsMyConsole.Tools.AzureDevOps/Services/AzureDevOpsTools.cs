@@ -1,6 +1,4 @@
-﻿using Microsoft.TeamFoundation.Core.WebApi.Types;
-using Microsoft.TeamFoundation.Work.WebApi;
-using Microsoft.TeamFoundation.WorkItemTracking.WebApi;
+﻿using Microsoft.TeamFoundation.WorkItemTracking.WebApi;
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
 using Microsoft.VisualStudio.Services.Common;
 using Microsoft.VisualStudio.Services.WebApi.Patch;
@@ -8,7 +6,10 @@ using Microsoft.VisualStudio.Services.WebApi.Patch.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace ItsMyConsole.Tools.AzureDevOps
 {
@@ -18,6 +19,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
     public class AzureDevOpsTools
     {
         private readonly AzureDevOpsServer _azureDevOpsServer;
+        private static readonly List<string> IsAzureDevOpsOptionsLoaded = new List<string>();
+        private static readonly HttpClient HttpClient = new HttpClient();
 
         static AzureDevOpsTools() {
             Environment.SetEnvironmentVariable("VSS_ALLOW_UNSAFE_BASICAUTH", "true");
@@ -62,18 +65,54 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// <param name="team">Le nom de l'équipe</param>
         public async Task<TeamIteration> GetCurrentTeamIterationAsync(string project, string team = null) {
             if (string.IsNullOrEmpty(project))
-                throw new ArgumentException("La projet est obligatoire", nameof(project));
-            return await TryCatchExceptionAsync(async () => {
-                using (WorkHttpClient workHttpClient = GetWorkHttpClient())
-                    return (await workHttpClient.GetTeamIterationsAsync(new TeamContext(project, team), "Current"))
-                           .Select(t => t.ToModel())
-                           .First();
-            });
+                throw new ArgumentException("Le projet est obligatoire", nameof(project));
+            await LoadAzureDevOpsOptionsAsync();
+            const string endUrl = "_apis/work/teamsettings/iterations?$timeframe=current";
+            string url = CombineUrl(_azureDevOpsServer.Url, project, team, endUrl);
+            string content = await GetContentFromRequestAsync(HttpMethod.Get, url);
+            TeamSettingsIterationApi teamSettingsIterationApi = JsonConvert.DeserializeObject<TeamSettingsIterationApi>(content);
+            return teamSettingsIterationApi.ToSingleModel();
         }
 
-        private WorkHttpClient GetWorkHttpClient() {
-            VssBasicCredential credentials = new VssBasicCredential("", _azureDevOpsServer.PersonalAccessToken);
-            return new WorkHttpClient(new Uri(_azureDevOpsServer.Url), credentials);
+        private async Task LoadAzureDevOpsOptionsAsync() {
+            if (!IsAzureDevOpsOptionsLoaded.Contains(_azureDevOpsServer.Name)) {
+                // use "OPTIONS _apis" for check authorization
+                // future : check version and template route
+                string url = CombineUrl(_azureDevOpsServer.Url, "_apis");
+                await GetContentFromRequestAsync(HttpMethod.Options, url);
+                IsAzureDevOpsOptionsLoaded.Add(_azureDevOpsServer.Name);
+            }
+        }
+
+        private static string CombineUrl(params string[] urlPaths) {
+            return urlPaths.Where(u => !string.IsNullOrEmpty(u))
+                           .Aggregate((url, urlPath) => url.TrimEnd('/') + "/" + urlPath.TrimStart('/'));
+        }
+
+        private async Task<string> GetContentFromRequestAsync(HttpMethod method, string url) {
+            using (HttpRequestMessage request = new HttpRequestMessage(method, url)) {
+                request.Headers.Add("Authorization", $"Basic {GetAuthorizationBase64()}");
+                using (HttpResponseMessage response = await HttpClient.SendAsync(request)) {
+                    if (response.IsSuccessStatusCode)
+                        return await response.Content.ReadAsStringAsync();
+                    if (response.StatusCode == HttpStatusCode.Unauthorized) {
+                        string serverName = GetAzureDevOpsServerName();
+                        throw new Exception($"Vous n'avez pas les accès au serveur Azure DevOps '{serverName}'");
+                    }
+                    if (response.StatusCode == HttpStatusCode.NotFound) {
+                        string content = await response.Content.ReadAsStringAsync();
+                        ExceptionApi exceptionApi = JsonConvert.DeserializeObject<ExceptionApi>(content);
+                        throw new Exception(exceptionApi.Message);
+                    }
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        private string GetAuthorizationBase64() {
+            string authorization = $":{_azureDevOpsServer.PersonalAccessToken}";
+            byte[] authorizationBytes = System.Text.Encoding.UTF8.GetBytes(authorization);
+            return Convert.ToBase64String(authorizationBytes);
         }
 
         /// <summary>

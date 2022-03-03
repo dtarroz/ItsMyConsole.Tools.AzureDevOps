@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using ItsMyConsole.Tools.AzureDevOps.Tests.Asserts;
 using Xunit;
@@ -10,15 +11,19 @@ public class AzureDevOpsTools_GetCurrentTeamIterationAsync_Tests
     [Fact]
     public async Task GetCurrentTeamIterationAsync_Server_Url_Fail() {
         AzureDevOpsServer azureDevOpsServer = ConfigForTests.GetAzureDevOpsServer();
+        azureDevOpsServer.Name = "Url_Fail";
         azureDevOpsServer.Url = "https://noexists.com/";
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(azureDevOpsServer);
 
-        await Assert.ThrowsAsync<Exception>(() => azureDevOpsTools.GetCurrentTeamIterationAsync(ConfigForTests.TeamProject));
+        await Assert.ThrowsAsync<HttpRequestException>(async () => {
+            await azureDevOpsTools.GetCurrentTeamIterationAsync(ConfigForTests.TeamProject);
+        });
     }
 
     [Fact]
     public async Task GetCurrentTeamIterationAsync_Server_PersonalAccessToken_Fail() {
         AzureDevOpsServer azureDevOpsServer = ConfigForTests.GetAzureDevOpsServer();
+        azureDevOpsServer.Name = "PersonalAccessToken_Fail";
         azureDevOpsServer.PersonalAccessToken = "NotExists";
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(azureDevOpsServer);
 
@@ -26,7 +31,7 @@ public class AzureDevOpsTools_GetCurrentTeamIterationAsync_Tests
             await azureDevOpsTools.GetCurrentTeamIterationAsync(ConfigForTests.TeamProject);
         });
 
-        Assert.Equal($"Vous n'avez pas accès au serveur Azure DevOps '{azureDevOpsServer.Name}'", exception.Message);
+        Assert.Equal($"Vous n'avez pas les accès au serveur Azure DevOps '{azureDevOpsServer.Name}'", exception.Message);
     }
 
     [Fact]

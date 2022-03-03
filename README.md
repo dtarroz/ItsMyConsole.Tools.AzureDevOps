@@ -16,6 +16,7 @@ Outil Azure DevOps (Création/Modification WorkItem) pour le Framework [```ItsMy
 - [Suppression d'un WorkItem](#suppression-dun-workitem)
 - [Ajout d'une relation entre WorkItems](#ajout-dune-relation-entre-workitems)
 - [Récupération des itérations courantes d'un projet](#récupération-des-itérations-courantes-dun-projet)
+- [Récupération du nom de la configuration Azure DevOps](#récupération-du-nom-de-la-configuration-azure-devops)
   
 ## Pourquoi faire ?
 
@@ -108,7 +109,7 @@ ConsoleCommandLineInterpreter ccli = new ConsoleCommandLineInterpreter();
 ccli.AddAzureDevOpsServer(new AzureDevOpsServer {/*  */});
 
 // Add command
-ccli.AddCommand("<PATERN>", async tools => 
+ccli.AddCommand("<PATTERN>", async tools => 
 {
     WorkItem example = await tools.AzureDevOps("<NAME>").GetWorkItemAsync(1234);
 });
@@ -148,7 +149,7 @@ Vous pouvez créer des WorkItems en utilisant ```CreateWorkItemAsync```.
 | workItemFields | La liste des champs à renseigner lors de la création du WorkItem |
 
 ```cs
-ccli.AddCommand("<PATERN>", async tools => 
+ccli.AddCommand("<PATTERN>", async tools => 
 {
     WorkItem newWorkItem = await tools.AzureDevOps("<NAME>")
                                       .CreateWorkItemAsync(new WorkItemFields {
@@ -186,7 +187,7 @@ Vous pouvez modifier un WorkItem en utilisant ```UpdateWorkItemAsync```.
 | workItemFields | La liste des champs à mettre à jour sur le WorkItem. Tous les champs sont facultatifs, vous pouvez mettre à jour seulement ceux que vous voulez. |
 
 ```cs
-ccli.AddCommand("<PATERN>", async tools => 
+ccli.AddCommand("<PATTERN>", async tools => 
 {
     await tools.AzureDevOps("<NAME>").UpdateWorkItemAsync(1234, new WorkItemFields 
     {
@@ -221,7 +222,7 @@ Vous pouvez récupérer les informations d'un WorkItem en utilisant ```GetWorkIt
 | workItemId | L'identifiant du WorkItem |
 
 ```cs
-ccli.AddCommand("<PATERN>", async tools => 
+ccli.AddCommand("<PATTERN>", async tools => 
 {
     WorkItem workItem = await tools.AzureDevOps("<NAME>").GetWorkItemAsync(1234);
 });
@@ -258,7 +259,7 @@ Vous pouvez supprimer un WorkItem en utilisant ```DeleteWorkItemAsync```.
 | workItemId | L'identifiant du WorkItem |
 
 ```cs
-ccli.AddCommand("<PATERN>", async tools => 
+ccli.AddCommand("<PATTERN>", async tools => 
 {
     await tools.AzureDevOps("<NAME>").DeleteWorkItemAsync(1234);
 });
@@ -275,7 +276,7 @@ Vous pouvez ajouter des relations entre WorkItems en utilisant ```AddWorkItemRel
 | linkType | Le type de lien entre le WorkItem est celui que l'on veut ajouter |
 
 ```cs
-ccli.AddCommand("<PATERN>", async tools => 
+ccli.AddCommand("<PATTERN>", async tools => 
 {
     WorkItem workItemToAdd = await tools.AzureDevOps("<NAME>").GetWorkItemAsync(5678);
     await tools.AzureDevOps("<NAME>").AddWorkItemRelationAsync(1234, workItemToAdd, LinkType.Child);
@@ -292,7 +293,7 @@ Vous pouvez récupérer les itérations courantes d'un projet en utilisant ```Ge
 | team | *(facultatif)* Le nom de l'équipe |
 
 ```cs
-ccli.AddCommand("<PATERN>", async tools => 
+ccli.AddCommand("<PATTERN>", async tools => 
 {
     List<TeamIteration> teamsIterations = await tools.AzureDevOps("<NAME>").GetCurrentTeamIterationsAsync("<PROJECT>");
 });
@@ -306,3 +307,14 @@ Vous avez en retour une liste d'objet de type ```TeamIteration```.
 | Path | Le chemin relatif de l'itération |
 | StartDate | Date de début de l'itération |
 | FinishDate | Date de fin de l'itération |
+
+## Récupération du nom de la configuration Azure DevOps
+
+Vous pouvez récupérer le nom de la configuration Azure DevOps en utilisant ```GetAzureDevOpsServerName```.
+
+```cs
+ccli.AddCommand("<PATTERN>", async tools => 
+{
+    string serverName = tools.AzureDevOps("<NAME>").GetAzureDevOpsServerName();
+});
+```

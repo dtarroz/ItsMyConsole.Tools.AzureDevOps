@@ -15,7 +15,7 @@ Outil Azure DevOps (Création/Modification WorkItem) pour le Framework [```ItsMy
 - [Récupération des informations d'un WorkItem](#récupération-des-informations-dun-workitem)
 - [Suppression d'un WorkItem](#suppression-dun-workitem)
 - [Ajout d'une relation entre WorkItems](#ajout-dune-relation-entre-workitems)
-- [Récupération des itérations courantes d'un projet](#récupération-des-itérations-courantes-dun-projet)
+- [Récupération de l'itération courante d'un projet](#récupération-de-litération-courante-dun-projet)
 - [Récupération du nom de la configuration Azure DevOps](#récupération-du-nom-de-la-configuration-azure-devops)
   
 ## Pourquoi faire ?
@@ -28,7 +28,7 @@ L'outil ```ItsMyConsole.Tools.AzureDevOps``` met à disposition :
  - La récupération des informations d'un WorkItem
  - La suppression d'un WorkItem
  - L'ajout de relations entre les WorkItems
- - Les itérations courantes disponibles pour un projet
+ - L'itération courante pour un projet
 
 ## Getting Started
 
@@ -283,9 +283,9 @@ ccli.AddCommand("<PATTERN>", async tools =>
 });
 ```
 
-## Récupération des itérations courantes d'un projet
+## Récupération de l'itération courante d'un projet
 
-Vous pouvez récupérer les itérations courantes d'un projet en utilisant ```GetCurrentTeamIterationsAsync```.
+Vous pouvez récupérer l'itération courante d'un projet en utilisant ```GetCurrentTeamIterationAsync```.
 
 | Propriété | Description |
 | :-------- | :---------- |
@@ -295,11 +295,11 @@ Vous pouvez récupérer les itérations courantes d'un projet en utilisant ```Ge
 ```cs
 ccli.AddCommand("<PATTERN>", async tools => 
 {
-    List<TeamIteration> teamsIterations = await tools.AzureDevOps("<NAME>").GetCurrentTeamIterationsAsync("<PROJECT>");
+    TeamIteration teamsIteration = await tools.AzureDevOps("<NAME>").GetCurrentTeamIterationAsync("<PROJECT>");
 });
 ```
 
-Vous avez en retour une liste d'objet de type ```TeamIteration```.
+Vous avez en retour un objet de type ```TeamIteration```.
 
 | Nom de la propriété | Description |
 | :------------------ | :---------- |

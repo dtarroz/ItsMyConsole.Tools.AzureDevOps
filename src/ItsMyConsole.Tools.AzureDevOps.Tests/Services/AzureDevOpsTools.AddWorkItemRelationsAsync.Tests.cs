@@ -13,6 +13,7 @@ public class AzureDevOpsTools_AddWorkItemRelationsAsync_Tests
     [ClassData(typeof(LinkTypeData))]
     public async Task AddWorkItemRelationsAsync_Server_Url_Fail(LinkType linkType) {
         AzureDevOpsServer azureDevOpsServer = ConfigForTests.GetAzureDevOpsServer();
+        azureDevOpsServer.Name = "Url_Fail";
         azureDevOpsServer.Url = "https://noexists.com/";
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(azureDevOpsServer);
         WorkItem workItem = new WorkItem { Url = "https://noexists.com/" };
@@ -26,6 +27,7 @@ public class AzureDevOpsTools_AddWorkItemRelationsAsync_Tests
     [ClassData(typeof(LinkTypeData))]
     public async Task AddWorkItemRelationsAsync_Server_PersonalAccessToken_Fail(LinkType linkType) {
         AzureDevOpsServer azureDevOpsServer = ConfigForTests.GetAzureDevOpsServer();
+        azureDevOpsServer.Name = "PersonalAccessToken_Fail";
         azureDevOpsServer.PersonalAccessToken = "NotExists";
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(azureDevOpsServer);
         WorkItem workItem = new WorkItem { Url = "https://noexists.com/" };

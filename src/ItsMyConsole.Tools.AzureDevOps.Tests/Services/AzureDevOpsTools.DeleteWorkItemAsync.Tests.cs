@@ -9,6 +9,7 @@ public class AzureDevOpsTools_DeleteWorkItemAsync_Tests
     [Fact]
     public async Task DeleteWorkItemAsync_Server_Url_Fail() {
         AzureDevOpsServer azureDevOpsServer = ConfigForTests.GetAzureDevOpsServer();
+        azureDevOpsServer.Name = "Url_Fail";
         azureDevOpsServer.Url = "https://noexists.com/";
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(azureDevOpsServer);
 
@@ -18,6 +19,7 @@ public class AzureDevOpsTools_DeleteWorkItemAsync_Tests
     [Fact]
     public async Task DeleteWorkItemAsync_Server_PersonalAccessToken_Fail() {
         AzureDevOpsServer azureDevOpsServer = ConfigForTests.GetAzureDevOpsServer();
+        azureDevOpsServer.Name = "PersonalAccessToken_Fail";
         azureDevOpsServer.PersonalAccessToken = "NotExists";
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(azureDevOpsServer);
 

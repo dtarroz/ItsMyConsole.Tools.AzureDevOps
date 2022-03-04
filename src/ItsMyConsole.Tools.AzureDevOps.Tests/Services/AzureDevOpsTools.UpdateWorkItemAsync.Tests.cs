@@ -10,6 +10,7 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
     [Fact]
     public async Task UpdateWorkItemAsync_Server_Url_Fail() {
         AzureDevOpsServer azureDevOpsServer = ConfigForTests.GetAzureDevOpsServer();
+        azureDevOpsServer.Name = "Url_Fail";
         azureDevOpsServer.Url = "https://noexists.com/";
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(azureDevOpsServer);
         WorkItemFields workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
@@ -20,6 +21,7 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
     [Fact]
     public async Task UpdateWorkItemAsync_Server_PersonalAccessToken_Fail() {
         AzureDevOpsServer azureDevOpsServer = ConfigForTests.GetAzureDevOpsServer();
+        azureDevOpsServer.Name = "PersonalAccessToken_Fail";
         azureDevOpsServer.PersonalAccessToken = "NotExists";
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(azureDevOpsServer);
         WorkItemFields workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();

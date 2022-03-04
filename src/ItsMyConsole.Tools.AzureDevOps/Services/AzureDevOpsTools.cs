@@ -1,5 +1,4 @@
 ﻿using Microsoft.TeamFoundation.WorkItemTracking.WebApi;
-using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
 using Microsoft.VisualStudio.Services.Common;
 using Microsoft.VisualStudio.Services.WebApi.Patch;
 using Microsoft.VisualStudio.Services.WebApi.Patch.Json;
@@ -10,6 +9,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ItsMyConsole.Tools.AzureDevOps
 {
@@ -46,11 +46,20 @@ namespace ItsMyConsole.Tools.AzureDevOps
             if (workItemId <= 0)
                 throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif",
                                             nameof(workItemId));
-            return await TryCatchExceptionAsync(async () => {
-                using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient())
-                    return (await workItemTrackingHttpClient.GetWorkItemAsync(workItemId, expand: WorkItemExpand.Relations))
-                        .ToModel();
-            });
+            await LoadAzureDevOpsOptionsAsync();
+            string url = CombineUrl(_azureDevOpsServer.Url, "_apis/wit/workitems", workItemId.ToString(), "?$expand=relations");
+            string content = await GetContentFromRequestAsync(HttpMethod.Get, url);
+            WorkItemApi workItemApi = ConvertToWorkItemApi(content);
+            return workItemApi.ToModel();
+        }
+
+        private static WorkItemApi ConvertToWorkItemApi(string json) {
+            WorkItemApi workItemApi = JsonConvert.DeserializeObject<WorkItemApi>(json);
+            if (workItemApi.Fields.ContainsKey("System.AssignedTo")) {
+                JObject assignedTo = workItemApi.Fields["System.AssignedTo"] as JObject;
+                workItemApi.Fields["System.AssignedTo"] = assignedTo?.ToObject<WorkItemApiFieldsAssignedTo>();
+            }
+            return workItemApi;
         }
 
         private WorkItemTrackingHttpClient GetWorkItemTrackingHttpClient() {
@@ -86,7 +95,9 @@ namespace ItsMyConsole.Tools.AzureDevOps
 
         private static string CombineUrl(params string[] urlPaths) {
             return urlPaths.Where(u => !string.IsNullOrEmpty(u))
-                           .Aggregate((url, urlPath) => url.TrimEnd('/') + "/" + urlPath.TrimStart('/'));
+                           .Aggregate((url, urlPath) => {
+                               return url.TrimEnd('/') + (urlPath.StartsWith("?") ? "" : "/") + urlPath.TrimStart('/');
+                           });
         }
 
         private async Task<string> GetContentFromRequestAsync(HttpMethod method, string url) {

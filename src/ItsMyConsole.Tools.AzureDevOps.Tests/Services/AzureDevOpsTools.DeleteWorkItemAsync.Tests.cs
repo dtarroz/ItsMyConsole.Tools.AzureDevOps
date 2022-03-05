@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -13,7 +14,7 @@ public class AzureDevOpsTools_DeleteWorkItemAsync_Tests
         azureDevOpsServer.Url = "https://noexists.com/";
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(azureDevOpsServer);
 
-        await Assert.ThrowsAsync<Exception>(() => azureDevOpsTools.DeleteWorkItemAsync(1));
+        await Assert.ThrowsAsync<HttpRequestException>(() => azureDevOpsTools.DeleteWorkItemAsync(1));
     }
 
     [Fact]
@@ -23,28 +24,39 @@ public class AzureDevOpsTools_DeleteWorkItemAsync_Tests
         azureDevOpsServer.PersonalAccessToken = "NotExists";
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(azureDevOpsServer);
 
-        await Assert.ThrowsAsync<Exception>(() => azureDevOpsTools.DeleteWorkItemAsync(1));
+        Exception exception = await Assert.ThrowsAsync<Exception>(() => azureDevOpsTools.DeleteWorkItemAsync(1));
+
+        Assert.Equal($"Vous n'avez pas les accès au serveur Azure DevOps '{azureDevOpsServer.Name}'", exception.Message);
     }
 
     [Fact]
     public async Task DeleteWorkItemAsync_Id_Negative() {
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
 
-        await Assert.ThrowsAsync<ArgumentException>(() => azureDevOpsTools.DeleteWorkItemAsync(-1));
+        Exception exception = await Assert.ThrowsAsync<ArgumentException>(() => azureDevOpsTools.DeleteWorkItemAsync(-1));
+
+        Assert.Equal("L'identifiant du WorkItem doit être un nombre strictement positif (Parameter 'workItemId')",
+                     exception.Message);
     }
 
     [Fact]
     public async Task DeleteWorkItemAsync_Id_Zero() {
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
 
-        await Assert.ThrowsAsync<ArgumentException>(() => azureDevOpsTools.DeleteWorkItemAsync(0));
+        Exception exception = await Assert.ThrowsAsync<ArgumentException>(() => azureDevOpsTools.DeleteWorkItemAsync(0));
+
+        Assert.Equal("L'identifiant du WorkItem doit être un nombre strictement positif (Parameter 'workItemId')",
+                     exception.Message);
     }
 
     [Fact]
     public async Task DeleteWorkItemAsync_Id_NotExists() {
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
 
-        await Assert.ThrowsAsync<Exception>(() => azureDevOpsTools.DeleteWorkItemAsync(999999));
+        Exception exception = await Assert.ThrowsAsync<Exception>(() => azureDevOpsTools.DeleteWorkItemAsync(999999));
+
+        Assert.StartsWith("TF401232: ", exception.Message);
+        Assert.Contains(" 999999 ", exception.Message);
     }
 
     [Fact]
@@ -55,6 +67,9 @@ public class AzureDevOpsTools_DeleteWorkItemAsync_Tests
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
-        await Assert.ThrowsAsync<Exception>(() => azureDevOpsTools.GetWorkItemAsync(workItem.Id));
+        Exception exception = await Assert.ThrowsAsync<Exception>(() => azureDevOpsTools.GetWorkItemAsync(workItem.Id));
+
+        Assert.StartsWith("TF401232: ", exception.Message);
+        Assert.Contains($" {workItem.Id} ", exception.Message);
     }
 }

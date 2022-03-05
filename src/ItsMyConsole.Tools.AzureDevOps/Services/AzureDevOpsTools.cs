@@ -301,10 +301,9 @@ namespace ItsMyConsole.Tools.AzureDevOps
             if (workItemId <= 0)
                 throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif",
                                             nameof(workItemId));
-            await TryCatchExceptionAsync(async () => {
-                using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient())
-                    await workItemTrackingHttpClient.DeleteWorkItemAsync(workItemId);
-            });
+            await LoadAzureDevOpsOptionsAsync();
+            string url = CombineUrl(_azureDevOpsServer.Url, "_apis/wit/workitems", workItemId.ToString(), "?api-version=6.0");
+            await GetContentFromRequestAsync(HttpMethod.Delete, url);
         }
     }
 }

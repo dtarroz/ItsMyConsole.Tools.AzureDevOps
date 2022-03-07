@@ -175,32 +175,6 @@ namespace ItsMyConsole.Tools.AzureDevOps
             }
         }
 
-        private static JsonPatchDocument CreateJsonPatchDocument(Operation operation, WorkItemFields workItemFields) {
-            Dictionary<string, string> fields = new Dictionary<string, string> {
-                { "/fields/System.AreaPath", workItemFields.AreaPath },
-                { "/fields/System.TeamProject", workItemFields.TeamProject },
-                { "/fields/System.IterationPath", workItemFields.IterationPath },
-                { "/fields/System.Title", workItemFields.Title },
-                { "/fields/System.State", workItemFields.State },
-                { "/fields/System.WorkItemType", workItemFields.WorkItemType },
-                { "/fields/System.AssignedTo", workItemFields.AssignedToDisplayName },
-                { "/fields/Microsoft.VSTS.Common.Activity", workItemFields.Activity },
-                { "/fields/System.Description", workItemFields.Description },
-                { "/fields/Microsoft.VSTS.TCM.ReproSteps", workItemFields.ReproSteps },
-                { "/fields/Microsoft.VSTS.TCM.SystemInfo", workItemFields.SystemInfo },
-                { "/fields/Microsoft.VSTS.Common.AcceptanceCriteria", workItemFields.AcceptanceCriteria }
-            };
-            return fields.Where(f => f.Value != null)
-                         .Aggregate(new JsonPatchDocument(), (document, field) => {
-                             document.Add(new JsonPatchOperation {
-                                              Operation = operation,
-                                              Path = field.Key,
-                                              Value = field.Value
-                                          });
-                             return document;
-                         });
-        }
-
         private static List<JsonPatchApi> ConvertToListJsonPatch(string operation, WorkItemFields workItemFields) {
             Dictionary<string, string> fields = new Dictionary<string, string> {
                 { "/fields/System.AreaPath", workItemFields.AreaPath },
@@ -239,13 +213,13 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif",
                                             nameof(workItemId));
             ThrowIfNotValidForUpdate(workItemFields);
-            await TryCatchExceptionAsync(async () => {
-                using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient()) {
-                    JsonPatchDocument jsonPatchDocument = CreateJsonPatchDocument(Operation.Replace, workItemFields);
-                    if (jsonPatchDocument.Count > 0)
-                        await workItemTrackingHttpClient.UpdateWorkItemAsync(jsonPatchDocument, workItemId);
-                }
-            });
+            await LoadAzureDevOpsOptionsAsync();
+            string pathUrl = $"_apis/wit/workitems/{workItemId}";
+            const string apiVersion = "?api-version=6.0";
+            string url = CombineUrl(_azureDevOpsServer.Url, workItemFields.TeamProject, pathUrl, apiVersion);
+            List<JsonPatchApi> listJsonPatchApi = ConvertToListJsonPatch("replace", workItemFields);
+            if (listJsonPatchApi.Count > 0)
+                await GetContentFromRequestAsync(new HttpMethod("PATCH"), url, listJsonPatchApi);
         }
 
         private static void ThrowIfNotValidForUpdate(WorkItemFields workItemFields) {

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -100,9 +101,13 @@ namespace ItsMyConsole.Tools.AzureDevOps
                            });
         }
 
-        private async Task<string> GetContentFromRequestAsync(HttpMethod method, string url) {
+        private async Task<string> GetContentFromRequestAsync(HttpMethod method, string url, object body = null) {
             using (HttpRequestMessage request = new HttpRequestMessage(method, url)) {
                 request.Headers.Add("Authorization", $"Basic {GetAuthorizationBase64()}");
+                if (body != null) {
+                    const string mediaType = "application/json-patch+json";
+                    request.Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, mediaType);
+                }
                 using (HttpResponseMessage response = await HttpClient.SendAsync(request)) {
                     if (response.IsSuccessStatusCode)
                         return await response.Content.ReadAsStringAsync();
@@ -110,7 +115,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
                         string serverName = GetAzureDevOpsServerName();
                         throw new Exception($"Vous n'avez pas les accès au serveur Azure DevOps '{serverName}'");
                     }
-                    if (response.StatusCode == HttpStatusCode.NotFound) {
+                    if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest) {
                         string content = await response.Content.ReadAsStringAsync();
                         ExceptionApi exceptionApi = JsonConvert.DeserializeObject<ExceptionApi>(content);
                         throw new Exception(exceptionApi.Message);
@@ -122,7 +127,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
 
         private string GetAuthorizationBase64() {
             string authorization = $":{_azureDevOpsServer.PersonalAccessToken}";
-            byte[] authorizationBytes = System.Text.Encoding.UTF8.GetBytes(authorization);
+            byte[] authorizationBytes = Encoding.UTF8.GetBytes(authorization);
             return Convert.ToBase64String(authorizationBytes);
         }
 
@@ -135,13 +140,15 @@ namespace ItsMyConsole.Tools.AzureDevOps
             if (workItemFields == null)
                 throw new ArgumentNullException(nameof(workItemFields));
             ThrowIfNotValidForCreate(workItemFields);
-            return await TryCatchExceptionAsync(async () => {
-                using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient()) {
-                    JsonPatchDocument document = CreateJsonPatchDocument(Operation.Add, workItemFields);
-                    return (await workItemTrackingHttpClient.CreateWorkItemAsync(document, workItemFields.TeamProject,
-                                                                                 workItemFields.WorkItemType)).ToModel();
-                }
-            });
+            await LoadAzureDevOpsOptionsAsync();
+            const string pathUrl = "_apis/wit/workitems";
+            string type = "$" + workItemFields.WorkItemType;
+            const string apiVersion = "?api-version=6.0";
+            string url = CombineUrl(_azureDevOpsServer.Url, workItemFields.TeamProject, pathUrl, type, apiVersion);
+            List<JsonPatchApi> listJsonPatchApi = ConvertToListJsonPatch("add", workItemFields);
+            string content = await GetContentFromRequestAsync(HttpMethod.Post, url, listJsonPatchApi);
+            WorkItemApi workItemApi = ConvertToWorkItemApi(content);
+            return workItemApi.ToModel();
         }
 
         private static void ThrowIfNotValidForCreate(WorkItemFields workItemFields) {
@@ -157,15 +164,6 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 throw new ArgumentException("L'état ne doit pas être vide", nameof(workItemFields.State));
             if (string.IsNullOrEmpty(workItemFields.WorkItemType))
                 throw new ArgumentException("Le type est obligatoire", nameof(workItemFields.WorkItemType));
-        }
-
-        private static async Task<T> TryCatchExceptionAsync<T>(Func<Task<T>> callback) {
-            try {
-                return await callback();
-            }
-            catch (Exception ex) {
-                throw new Exception(ex.Message);
-            }
         }
 
         private static async Task TryCatchExceptionAsync(Func<Task> callback) {
@@ -200,6 +198,32 @@ namespace ItsMyConsole.Tools.AzureDevOps
                                               Value = field.Value
                                           });
                              return document;
+                         });
+        }
+
+        private static List<JsonPatchApi> ConvertToListJsonPatch(string operation, WorkItemFields workItemFields) {
+            Dictionary<string, string> fields = new Dictionary<string, string> {
+                { "/fields/System.AreaPath", workItemFields.AreaPath },
+                { "/fields/System.TeamProject", workItemFields.TeamProject },
+                { "/fields/System.IterationPath", workItemFields.IterationPath },
+                { "/fields/System.Title", workItemFields.Title },
+                { "/fields/System.State", workItemFields.State },
+                { "/fields/System.WorkItemType", workItemFields.WorkItemType },
+                { "/fields/System.AssignedTo", workItemFields.AssignedToDisplayName },
+                { "/fields/Microsoft.VSTS.Common.Activity", workItemFields.Activity },
+                { "/fields/System.Description", workItemFields.Description },
+                { "/fields/Microsoft.VSTS.TCM.ReproSteps", workItemFields.ReproSteps },
+                { "/fields/Microsoft.VSTS.TCM.SystemInfo", workItemFields.SystemInfo },
+                { "/fields/Microsoft.VSTS.Common.AcceptanceCriteria", workItemFields.AcceptanceCriteria }
+            };
+            return fields.Where(f => f.Value != null)
+                         .Aggregate(new List<JsonPatchApi>(), (list, field) => {
+                             list.Add(new JsonPatchApi {
+                                          op = operation,
+                                          path = field.Key,
+                                          value = field.Value
+                                      });
+                             return list;
                          });
         }
 

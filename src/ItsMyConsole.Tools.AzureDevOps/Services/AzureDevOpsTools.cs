@@ -206,7 +206,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// </summary>
         /// <param name="workItemId">L'identifiant du WorkItem</param>
         /// <param name="workItemFields">Les champs du WorkItem à modifier</param>
-        public async Task UpdateWorkItemAsync(int workItemId, WorkItemFields workItemFields) {
+        /// <returns>Le WorkItem mise à jour</returns>
+        public async Task<WorkItem> UpdateWorkItemAsync(int workItemId, WorkItemFields workItemFields) {
             if (workItemFields == null)
                 throw new ArgumentNullException(nameof(workItemFields));
             if (workItemId <= 0)
@@ -218,8 +219,12 @@ namespace ItsMyConsole.Tools.AzureDevOps
             const string apiVersion = "?api-version=6.0";
             string url = CombineUrl(_azureDevOpsServer.Url, workItemFields.TeamProject, pathUrl, apiVersion);
             List<JsonPatchApi> listJsonPatchApi = ConvertToListJsonPatch("replace", workItemFields);
-            if (listJsonPatchApi.Count > 0)
-                await GetContentFromRequestAsync(new HttpMethod("PATCH"), url, listJsonPatchApi);
+            if (listJsonPatchApi.Count > 0) {
+                string content = await GetContentFromRequestAsync(new HttpMethod("PATCH"), url, listJsonPatchApi);
+                WorkItemApi workItemApi = ConvertToWorkItemApi(content);
+                return workItemApi.ToModel();
+            }
+            return await GetWorkItemAsync(workItemId);
         }
 
         private static void ThrowIfNotValidForUpdate(WorkItemFields workItemFields) {

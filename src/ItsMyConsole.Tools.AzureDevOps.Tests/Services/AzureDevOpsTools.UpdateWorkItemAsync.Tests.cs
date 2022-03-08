@@ -50,11 +50,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemFields);
         workItemFields = new WorkItemFields();
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -103,11 +104,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemFields);
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -118,11 +120,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.AreaPath = null;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -133,11 +136,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.AreaPath = workItem.AreaPath;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -189,11 +193,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.TeamProject = null;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -204,11 +209,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.TeamProject = workItem.TeamProject;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -254,11 +260,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.IterationPath = null;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -269,11 +276,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.IterationPath = workItem.IterationPath;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -320,11 +328,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.Title = null;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -335,11 +344,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.Title = workItem.Title;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -367,11 +377,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.IterationPath = null;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -382,11 +393,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.State = workItem.State;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -432,11 +444,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.WorkItemType = null;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -447,11 +460,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.WorkItemType = workItem.WorkItemType;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -497,11 +511,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.AssignedToDisplayName = null;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -512,11 +527,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.AssignedToDisplayName = workItem.AssignedToDisplayName;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -527,11 +543,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.AssignedToDisplayName = "";
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -560,11 +577,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.Activity = null;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -575,11 +593,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.Activity = workItem.Activity;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -590,11 +609,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.Activity = "";
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -623,11 +643,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.Description = null;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -638,11 +659,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.Description = workItem.Description;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -653,11 +675,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.Description = "";
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -668,11 +691,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.ReproSteps = null;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -683,11 +707,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.ReproSteps = workItem.ReproSteps;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -698,11 +723,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.ReproSteps = "";
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -713,11 +739,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.SystemInfo = null;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -728,11 +755,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.SystemInfo = workItem.SystemInfo;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -743,11 +771,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.SystemInfo = "";
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -758,11 +787,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.AcceptanceCriteria = null;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -773,11 +803,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.AcceptanceCriteria = workItem.AcceptanceCriteria;
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 
     [Fact]
@@ -788,10 +819,30 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
         workItemFields.AcceptanceCriteria = "";
 
-        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
-        WorkItem workItemUpdate = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
+    }
+
+    [Fact]
+    public async Task UpdateWorkItemAsync_AddRelation() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemFields workItemFields = ConfigForTests.GetWorkItemFieldsNew();
+        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemFields);
+        WorkItem workItemToAdd = await azureDevOpsTools.CreateWorkItemAsync(workItemFields);
+        await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItemToAdd, LinkType.Child);
+        workItem = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        workItemFields = ConfigForTests.GetWorkItemFieldsUpdate();
+
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItemToAdd.Id);
+
+        WorkItemAssert.CheckUpdate(workItem, workItemFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
 }

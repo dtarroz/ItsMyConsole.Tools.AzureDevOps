@@ -47,7 +47,9 @@ public static class WorkItemAssert
         Assert.NotNull(workItemUpdate);
         Assert.Equal(workItem.Url, workItemUpdate.Url);
         Assert.Equal(workItem.Id, workItemUpdate.Id);
-        CheckRelations(null, workItem);
+        Assert.Equal(workItem.Childs, workItemUpdate.Childs);
+        Assert.Equal(workItem.Parents, workItemUpdate.Parents);
+        Assert.Equal(workItem.Related, workItemUpdate.Related);
         Assert.False(workItemUpdate.IsFixedInChangeset);
         Assert.Null(workItemUpdate.Tags);
         WorkItemFields workItemFieldsUpdate = new WorkItemFields {

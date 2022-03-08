@@ -213,6 +213,8 @@ Vous pouvez modifier les champs suivants :
 | SystemInfo | *(facultatif)* Les informations systèmes du WorkItem |
 | AcceptanceCriteria | *(facultatif)* Les critères d'acceptation du WorkItem |
 
+Vous avez en retour un objet de type [```WorkItem```](#récupération-des-informations-dun-workitem).
+
 ## Récupération des informations d'un WorkItem
 
 Vous pouvez récupérer les informations d'un WorkItem en utilisant ```GetWorkItemAsync```.

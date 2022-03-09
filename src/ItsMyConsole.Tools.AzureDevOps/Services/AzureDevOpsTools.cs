@@ -106,10 +106,12 @@ namespace ItsMyConsole.Tools.AzureDevOps
                         string serverName = GetAzureDevOpsServerName();
                         throw new Exception($"Vous n'avez pas les accès au serveur Azure DevOps '{serverName}'");
                     }
-                    if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest) {
+                    if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest
+                                                                       || response.StatusCode
+                                                                       == HttpStatusCode.InternalServerError) {
                         string content = await response.Content.ReadAsStringAsync();
                         ExceptionApi exceptionApi = JsonConvert.DeserializeObject<ExceptionApi>(content);
-                        throw new Exception(exceptionApi.Message);
+                        throw new Exception(exceptionApi?.Message);
                     }
                     throw new Exception(response.ReasonPhrase);
                 }

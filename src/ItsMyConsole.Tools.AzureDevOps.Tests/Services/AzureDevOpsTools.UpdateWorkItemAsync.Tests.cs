@@ -249,7 +249,7 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
         Assert.StartsWith("VS402834: ", exception.Message);
-        Assert.Contains(": NotExists. ", exception.Message);
+        Assert.Contains(" NotExists ", exception.Message);
     }
 
     [Fact]

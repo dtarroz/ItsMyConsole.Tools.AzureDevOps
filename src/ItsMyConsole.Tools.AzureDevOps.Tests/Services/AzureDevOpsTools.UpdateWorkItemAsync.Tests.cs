@@ -248,7 +248,7 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
         await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
-        Assert.StartsWith("TF200016: ", exception.Message);
+        Assert.StartsWith("VS402834: ", exception.Message);
         Assert.Contains(": NotExists. ", exception.Message);
     }
 

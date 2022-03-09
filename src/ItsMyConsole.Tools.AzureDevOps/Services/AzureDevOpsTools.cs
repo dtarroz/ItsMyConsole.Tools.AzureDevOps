@@ -1,8 +1,4 @@
-﻿using Microsoft.TeamFoundation.WorkItemTracking.WebApi;
-using Microsoft.VisualStudio.Services.Common;
-using Microsoft.VisualStudio.Services.WebApi.Patch;
-using Microsoft.VisualStudio.Services.WebApi.Patch.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -61,11 +57,6 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 workItemApi.Fields["System.AssignedTo"] = assignedTo?.ToObject<WorkItemApiFieldsAssignedTo>();
             }
             return workItemApi;
-        }
-
-        private WorkItemTrackingHttpClient GetWorkItemTrackingHttpClient() {
-            VssBasicCredential credentials = new VssBasicCredential("", _azureDevOpsServer.PersonalAccessToken);
-            return new WorkItemTrackingHttpClient(new Uri(_azureDevOpsServer.Url), credentials);
         }
 
         /// <summary>
@@ -166,15 +157,6 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 throw new ArgumentException("Le type est obligatoire", nameof(workItemFields.WorkItemType));
         }
 
-        private static async Task TryCatchExceptionAsync(Func<Task> callback) {
-            try {
-                await callback();
-            }
-            catch (Exception ex) {
-                throw new Exception(ex.Message);
-            }
-        }
-
         private static List<JsonPatchApi> ConvertToListJsonPatch(string operation, WorkItemFields workItemFields) {
             Dictionary<string, string> fields = new Dictionary<string, string> {
                 { "/fields/System.AreaPath", workItemFields.AreaPath },
@@ -217,7 +199,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
             await LoadAzureDevOpsOptionsAsync();
             string pathUrl = $"_apis/wit/workitems/{workItemId}";
             const string apiVersion = "?api-version=6.0";
-            string url = CombineUrl(_azureDevOpsServer.Url, workItemFields.TeamProject, pathUrl, apiVersion);
+            string url = CombineUrl(_azureDevOpsServer.Url, pathUrl, apiVersion);
             List<JsonPatchApi> listJsonPatchApi = ConvertToListJsonPatch("replace", workItemFields);
             if (listJsonPatchApi.Count > 0) {
                 string content = await GetContentFromRequestAsync(new HttpMethod("PATCH"), url, listJsonPatchApi);
@@ -277,23 +259,23 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 throw new ArgumentException("Un WorkItem à ajouter est à null", nameof(workItemsToAdd));
             if (workItemsToAdd.Any(w => w.Id == workItemId))
                 throw new ArgumentException("Impossible d'ajouter une relation sur lui même", nameof(workItemsToAdd));
-            await TryCatchExceptionAsync(async () => {
-                using (WorkItemTrackingHttpClient workItemTrackingHttpClient = GetWorkItemTrackingHttpClient()) {
-                    JsonPatchDocument jsonPatchDocument = workItemsToAdd.Aggregate(new JsonPatchDocument(), (document, field) => {
-                        document.Add(new JsonPatchOperation {
-                                         Operation = Operation.Add,
-                                         Path = "/relations/-",
-                                         Value = new {
-                                             rel = linkType.GetName(),
-                                             url = field.Url
-                                         }
-                                     });
-                        return document;
-                    });
-                    if (jsonPatchDocument.Count > 0)
-                        await workItemTrackingHttpClient.UpdateWorkItemAsync(jsonPatchDocument, workItemId);
-                }
+            await LoadAzureDevOpsOptionsAsync();
+            string pathUrl = $"_apis/wit/workitems/{workItemId}";
+            const string apiVersion = "?api-version=6.0";
+            string url = CombineUrl(_azureDevOpsServer.Url, pathUrl, apiVersion);
+            List<JsonPatchApi> listJsonPatchApi = workItemsToAdd.Aggregate(new List<JsonPatchApi>(), (list, workItem) => {
+                list.Add(new JsonPatchApi {
+                             op = "add",
+                             path = "/relations/-",
+                             value = new {
+                                 rel = linkType.GetName(),
+                                 url = workItem.Url
+                             }
+                         });
+                return list;
             });
+            if (listJsonPatchApi.Count > 0)
+                await GetContentFromRequestAsync(new HttpMethod("PATCH"), url, listJsonPatchApi);
         }
 
         /// <summary>

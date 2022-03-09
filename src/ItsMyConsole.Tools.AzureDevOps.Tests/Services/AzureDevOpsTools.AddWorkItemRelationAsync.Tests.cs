@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using ItsMyConsole.Tools.AzureDevOps.Tests.Asserts;
 using ItsMyConsole.Tools.AzureDevOps.Tests.Data;
@@ -18,7 +19,7 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(azureDevOpsServer);
         WorkItem workItem = new WorkItem { Url = "https://noexists.com/" };
 
-        await Assert.ThrowsAsync<Exception>(async () => {
+        await Assert.ThrowsAsync<HttpRequestException>(async () => {
             await azureDevOpsTools.AddWorkItemRelationAsync(1, workItem, linkType);
         });
     }
@@ -32,9 +33,11 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(azureDevOpsServer);
         WorkItem workItem = new WorkItem { Url = "https://noexists.com/" };
 
-        await Assert.ThrowsAsync<Exception>(async () => {
+        Exception exception = await Assert.ThrowsAsync<Exception>(async () => {
             await azureDevOpsTools.AddWorkItemRelationAsync(1, workItem, linkType);
         });
+
+        Assert.Equal($"Vous n'avez pas les accès au serveur Azure DevOps '{azureDevOpsServer.Name}'", exception.Message);
     }
 
     [Theory]
@@ -43,9 +46,12 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
         WorkItem workItem = new WorkItem { Url = "https://noexists.com/" };
 
-        await Assert.ThrowsAsync<ArgumentException>(async () => {
+        Exception exception = await Assert.ThrowsAsync<ArgumentException>(async () => {
             await azureDevOpsTools.AddWorkItemRelationAsync(-1, workItem, linkType);
         });
+
+        Assert.Equal("L'identifiant du WorkItem doit être un nombre strictement positif (Parameter 'workItemId')",
+                     exception.Message);
     }
 
     [Theory]
@@ -54,9 +60,12 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
         WorkItem workItem = new WorkItem { Url = "https://noexists.com/" };
 
-        await Assert.ThrowsAsync<ArgumentException>(async () => {
+        Exception exception = await Assert.ThrowsAsync<ArgumentException>(async () => {
             await azureDevOpsTools.AddWorkItemRelationAsync(0, workItem, linkType);
         });
+
+        Assert.Equal("L'identifiant du WorkItem doit être un nombre strictement positif (Parameter 'workItemId')",
+                     exception.Message);
     }
 
     [Theory]
@@ -66,10 +75,13 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         WorkItemFields workItemFields = ConfigForTests.GetWorkItemFieldsNew();
         WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemFields);
 
-        await Assert.ThrowsAsync<Exception>(async () => {
+        Exception exception = await Assert.ThrowsAsync<Exception>(async () => {
             await azureDevOpsTools.AddWorkItemRelationAsync(999999, workItem, linkType);
         });
+
         await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
+        Assert.StartsWith("TF401232: ", exception.Message);
+        Assert.Contains(" 999999 ", exception.Message);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
     }
@@ -84,9 +96,11 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
     public async Task AddWorkItemRelationAsync_WorkItem_Null(LinkType linkType) {
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
 
-        await Assert.ThrowsAsync<ArgumentNullException>(async () => {
+        Exception exception = await Assert.ThrowsAsync<ArgumentNullException>(async () => {
             await azureDevOpsTools.AddWorkItemRelationAsync(1, null, linkType);
         });
+
+        Assert.Equal("Value cannot be null. (Parameter 'workItemToAdd')", exception.Message);
     }
 
     [Theory]
@@ -98,10 +112,13 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         WorkItem workItemToAdd = await azureDevOpsTools.CreateWorkItemAsync(workItemFields);
         await azureDevOpsTools.DeleteWorkItemAsync(workItemToAdd.Id);
 
-        await Assert.ThrowsAsync<Exception>(async () => {
+        Exception exception = await Assert.ThrowsAsync<Exception>(async () => {
             await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItemToAdd, linkType);
         });
+
         await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
+        Assert.StartsWith("TF401232: ", exception.Message);
+        Assert.Contains($" {workItemToAdd.Id} ", exception.Message);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
     }
@@ -113,10 +130,12 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         WorkItemFields workItemFields = ConfigForTests.GetWorkItemFieldsNew();
         WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemFields);
 
-        await Assert.ThrowsAsync<ArgumentException>(async () => {
+        Exception exception = await Assert.ThrowsAsync<ArgumentException>(async () => {
             await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItem, linkType);
         });
+
         await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
+        Assert.Equal("Impossible d'ajouter une relation sur lui même (Parameter 'workItemToAdd')", exception.Message);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
     }
@@ -167,10 +186,15 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         workItem = await AddWorkItemRelationAsync(azureDevOpsTools, workItem.Id, workItemToAdd, LinkType.Parent);
         AddAndCheckRelations(ref relations, workItem, LinkType.Parent, workItemToAdd.Id);
 
-        await Assert.ThrowsAsync<Exception>(async () => {
+        Exception exception = await Assert.ThrowsAsync<Exception>(async () => {
             await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItemToAdd2, LinkType.Parent);
         });
+
         await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
+        Assert.StartsWith("TF201036: ", exception.Message);
+        Assert.Contains(" Parent ", exception.Message);
+        Assert.Contains($" {workItem.Id} ", exception.Message);
+        Assert.Contains($" {workItemToAdd2.Id} ", exception.Message);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItemToAdd.Id);
@@ -233,10 +257,15 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         workItem = await AddWorkItemRelationAsync(azureDevOpsTools, workItem.Id, workItemToAdd, LinkType.Child);
         AddAndCheckRelations(ref relations, workItem, LinkType.Child, workItemToAdd.Id);
 
-        await Assert.ThrowsAsync<Exception>(async () => {
+        Exception exception = await Assert.ThrowsAsync<Exception>(async () => {
             await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItemToAdd, LinkType.Parent);
         });
+
         await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
+        Assert.StartsWith("TF201035: ", exception.Message);
+        Assert.Contains(" Parent ", exception.Message);
+        Assert.Contains($" {workItem.Id} ", exception.Message);
+        Assert.Contains($" {workItemToAdd.Id} ", exception.Message);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItemToAdd.Id);

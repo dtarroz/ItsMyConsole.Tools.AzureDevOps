@@ -177,9 +177,9 @@ namespace ItsMyConsole.Tools.AzureDevOps
             return fields.Where(f => f.Value != null)
                          .Aggregate(new List<JsonPatchApi>(), (list, field) => {
                              list.Add(new JsonPatchApi {
-                                          op = operation,
-                                          path = field.Key,
-                                          value = field.Value
+                                          Op = operation,
+                                          Path = field.Key,
+                                          Value = field.Value
                                       });
                              return list;
                          });
@@ -267,11 +267,11 @@ namespace ItsMyConsole.Tools.AzureDevOps
             string url = CombineUrl(_azureDevOpsServer.Url, pathUrl, apiVersion);
             List<JsonPatchApi> listJsonPatchApi = workItemsToAdd.Aggregate(new List<JsonPatchApi>(), (list, workItem) => {
                 list.Add(new JsonPatchApi {
-                             op = "add",
-                             path = "/relations/-",
-                             value = new {
-                                 rel = linkType.GetName(),
-                                 url = workItem.Url
+                             Op = "add",
+                             Path = "/relations/-",
+                             Value = new {
+                                 Rel = linkType.GetName(),
+                                 workItem.Url
                              }
                          });
                 return list;

@@ -88,7 +88,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
         private static string CombineUrl(params string[] urlPaths) {
             return urlPaths.Where(u => !string.IsNullOrEmpty(u))
                            .Aggregate((url, urlPath) => {
-                               return url.TrimEnd('/') + (urlPath.StartsWith("?") ? "" : "/") + urlPath.TrimStart('/');
+                               string separator = urlPath.StartsWith("?") ? "" : "/";
+                               return url.TrimEnd('/') + separator + urlPath.TrimStart('/');
                            });
         }
 

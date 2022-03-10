@@ -52,7 +52,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
 
         private static WorkItemApi ConvertToWorkItemApi(string json) {
             WorkItemApi workItemApi = JsonConvert.DeserializeObject<WorkItemApi>(json);
-            if (workItemApi.Fields.ContainsKey("System.AssignedTo")) {
+            if (workItemApi?.Fields.ContainsKey("System.AssignedTo") ?? false) {
                 JObject assignedTo = workItemApi.Fields["System.AssignedTo"] as JObject;
                 workItemApi.Fields["System.AssignedTo"] = assignedTo?.ToObject<WorkItemApiFieldsAssignedTo>();
             }
@@ -102,18 +102,20 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 using (HttpResponseMessage response = await HttpClient.SendAsync(request)) {
                     if (response.IsSuccessStatusCode)
                         return await response.Content.ReadAsStringAsync();
-                    if (response.StatusCode == HttpStatusCode.Unauthorized) {
-                        string serverName = GetAzureDevOpsServerName();
-                        throw new Exception($"Vous n'avez pas les accès au serveur Azure DevOps '{serverName}'");
+                    switch (response.StatusCode) {
+                        case HttpStatusCode.Unauthorized: {
+                            string serverName = GetAzureDevOpsServerName();
+                            throw new Exception($"Vous n'avez pas les accès au serveur Azure DevOps '{serverName}'");
+                        }
+                        case HttpStatusCode.NotFound:
+                        case HttpStatusCode.BadRequest:
+                        case HttpStatusCode.InternalServerError: {
+                            string content = await response.Content.ReadAsStringAsync();
+                            ExceptionApi exceptionApi = JsonConvert.DeserializeObject<ExceptionApi>(content);
+                            throw new Exception(exceptionApi?.Message);
+                        }
+                        default: throw new Exception(response.ReasonPhrase);
                     }
-                    if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest
-                                                                       || response.StatusCode
-                                                                       == HttpStatusCode.InternalServerError) {
-                        string content = await response.Content.ReadAsStringAsync();
-                        ExceptionApi exceptionApi = JsonConvert.DeserializeObject<ExceptionApi>(content);
-                        throw new Exception(exceptionApi?.Message);
-                    }
-                    throw new Exception(response.ReasonPhrase);
                 }
             }
         }

@@ -284,6 +284,7 @@ ccli.AddCommand("<PATTERN>", async tools =>
     await tools.AzureDevOps("<NAME>").AddWorkItemRelationAsync(1234, workItemToAdd, LinkType.Child);
 });
 ```
+Vous avez en retour un objet de type [```WorkItem```](#récupération-des-informations-dun-workitem).
 
 ## Récupération de l'itération courante d'un projet
 

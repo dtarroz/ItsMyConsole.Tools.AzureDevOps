@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -201,11 +202,15 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif",
                                             nameof(workItemId));
             ThrowIfNotValidForUpdate(workItemFields);
+            List<JsonPatchApi> listJsonPatchApi = ConvertToListJsonPatch("replace", workItemFields);
+            return await UpdateWorkItemAsync(workItemId, listJsonPatchApi);
+        }
+
+        private async Task<WorkItem> UpdateWorkItemAsync(int workItemId, ICollection listJsonPatchApi) {
             await LoadAzureDevOpsOptionsAsync();
             string pathUrl = $"_apis/wit/workitems/{workItemId}";
             const string apiVersion = "?api-version=6.0";
             string url = CombineUrl(_azureDevOpsServer.Url, pathUrl, apiVersion);
-            List<JsonPatchApi> listJsonPatchApi = ConvertToListJsonPatch("replace", workItemFields);
             if (listJsonPatchApi.Count > 0) {
                 string content = await GetContentFromRequestAsync(new HttpMethod("PATCH"), url, listJsonPatchApi);
                 WorkItemApi workItemApi = ConvertToWorkItemApi(content);
@@ -235,7 +240,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// <param name="workItemId">L'identifiant du WorkItem qui va recevoir la relation</param>
         /// <param name="workItemToAdd">Le WorkItem à ajouter</param>
         /// <param name="linkType">Le type de lien entre le WorkItem est celui que l'on veut ajouter</param>
-        public async Task AddWorkItemRelationAsync(int workItemId, WorkItem workItemToAdd, LinkType linkType) {
+        /// <returns>Le WorkItem mise à jour</returns>
+        public async Task<WorkItem> AddWorkItemRelationAsync(int workItemId, WorkItem workItemToAdd, LinkType linkType) {
             if (workItemId <= 0)
                 throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif",
                                             nameof(workItemId));
@@ -243,7 +249,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 throw new ArgumentNullException(nameof(workItemToAdd));
             if (workItemId == workItemToAdd.Id)
                 throw new ArgumentException("Impossible d'ajouter une relation sur lui même", nameof(workItemToAdd));
-            await AddWorkItemRelationsAsync(workItemId, new List<WorkItem> { workItemToAdd }, linkType);
+            return await AddWorkItemRelationsAsync(workItemId, new List<WorkItem> { workItemToAdd }, linkType);
         }
 
         /// <summary>
@@ -252,7 +258,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// <param name="workItemId">L'identifiant du WorkItem qui va recevoir la relation</param>
         /// <param name="workItemsToAdd">Les WorkItems à ajouter</param>
         /// <param name="linkType">Le type de lien entre le WorkItem est ceux que l'on veut ajouter</param>
-        public async Task AddWorkItemRelationsAsync(int workItemId, List<WorkItem> workItemsToAdd, LinkType linkType) {
+        /// <returns>Le WorkItem mise à jour</returns>
+        public async Task<WorkItem> AddWorkItemRelationsAsync(int workItemId, List<WorkItem> workItemsToAdd, LinkType linkType) {
             if (workItemId <= 0)
                 throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif",
                                             nameof(workItemId));
@@ -264,10 +271,6 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 throw new ArgumentException("Un WorkItem à ajouter est à null", nameof(workItemsToAdd));
             if (workItemsToAdd.Any(w => w.Id == workItemId))
                 throw new ArgumentException("Impossible d'ajouter une relation sur lui même", nameof(workItemsToAdd));
-            await LoadAzureDevOpsOptionsAsync();
-            string pathUrl = $"_apis/wit/workitems/{workItemId}";
-            const string apiVersion = "?api-version=6.0";
-            string url = CombineUrl(_azureDevOpsServer.Url, pathUrl, apiVersion);
             List<JsonPatchApi> listJsonPatchApi = workItemsToAdd.Aggregate(new List<JsonPatchApi>(), (list, workItem) => {
                 list.Add(new JsonPatchApi {
                              Op = "add",
@@ -279,8 +282,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
                          });
                 return list;
             });
-            if (listJsonPatchApi.Count > 0)
-                await GetContentFromRequestAsync(new HttpMethod("PATCH"), url, listJsonPatchApi);
+            return await UpdateWorkItemAsync(workItemId, listJsonPatchApi);
         }
 
         /// <summary>

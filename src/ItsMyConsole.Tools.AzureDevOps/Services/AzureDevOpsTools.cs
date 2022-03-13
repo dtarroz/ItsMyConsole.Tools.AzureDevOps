@@ -131,36 +131,36 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// <summary>
         /// Création d'un WorkItem
         /// </summary>
-        /// <param name="workItemFields">Les champs du WorkItem</param>
+        /// <param name="workItemCreateFields">Les champs du WorkItem</param>
         /// <returns>Le WorkItem crée</returns>
-        public async Task<WorkItem> CreateWorkItemAsync(WorkItemFields workItemFields) {
-            if (workItemFields == null)
-                throw new ArgumentNullException(nameof(workItemFields));
-            ThrowIfNotValidForCreate(workItemFields);
+        public async Task<WorkItem> CreateWorkItemAsync(WorkItemCreateFields workItemCreateFields) {
+            if (workItemCreateFields == null)
+                throw new ArgumentNullException(nameof(workItemCreateFields));
+            ThrowIfNotValidForCreate(workItemCreateFields);
             await LoadAzureDevOpsOptionsAsync();
             const string pathUrl = "_apis/wit/workitems";
-            string type = "$" + workItemFields.WorkItemType;
+            string type = "$" + workItemCreateFields.WorkItemType;
             const string apiVersion = "?api-version=6.0";
-            string url = CombineUrl(_azureDevOpsServer.Url, workItemFields.TeamProject, pathUrl, type, apiVersion);
-            List<JsonPatchApi> listJsonPatchApi = ConvertToListJsonPatch("add", workItemFields);
+            string url = CombineUrl(_azureDevOpsServer.Url, workItemCreateFields.TeamProject, pathUrl, type, apiVersion);
+            List<JsonPatchApi> listJsonPatchApi = ConvertToListJsonPatch("add", workItemCreateFields);
             string content = await GetContentFromRequestAsync(HttpMethod.Post, url, listJsonPatchApi);
             WorkItemApi workItemApi = ConvertToWorkItemApi(content);
             return workItemApi.ToModel();
         }
 
-        private static void ThrowIfNotValidForCreate(WorkItemFields workItemFields) {
-            if (workItemFields.AreaPath == "")
-                throw new ArgumentException("La zone ne doit pas être vide", nameof(workItemFields.AreaPath));
-            if (string.IsNullOrEmpty(workItemFields.TeamProject))
-                throw new ArgumentException("Le projet est obligatoire", nameof(workItemFields.TeamProject));
-            if (workItemFields.IterationPath == "")
-                throw new ArgumentException("L'itération ne doit pas être vide", nameof(workItemFields.IterationPath));
-            if (string.IsNullOrEmpty(workItemFields.Title))
-                throw new ArgumentException("Le titre est obligatoire", nameof(workItemFields.Title));
-            if (workItemFields.State == "")
-                throw new ArgumentException("L'état ne doit pas être vide", nameof(workItemFields.State));
-            if (string.IsNullOrEmpty(workItemFields.WorkItemType))
-                throw new ArgumentException("Le type est obligatoire", nameof(workItemFields.WorkItemType));
+        private static void ThrowIfNotValidForCreate(WorkItemCreateFields workItemCreateFields) {
+            if (workItemCreateFields.AreaPath == "")
+                throw new ArgumentException("La zone ne doit pas être vide", nameof(workItemCreateFields.AreaPath));
+            if (string.IsNullOrEmpty(workItemCreateFields.TeamProject))
+                throw new ArgumentException("Le projet est obligatoire", nameof(workItemCreateFields.TeamProject));
+            if (workItemCreateFields.IterationPath == "")
+                throw new ArgumentException("L'itération ne doit pas être vide", nameof(workItemCreateFields.IterationPath));
+            if (string.IsNullOrEmpty(workItemCreateFields.Title))
+                throw new ArgumentException("Le titre est obligatoire", nameof(workItemCreateFields.Title));
+            if (workItemCreateFields.State == "")
+                throw new ArgumentException("L'état ne doit pas être vide", nameof(workItemCreateFields.State));
+            if (string.IsNullOrEmpty(workItemCreateFields.WorkItemType))
+                throw new ArgumentException("Le type est obligatoire", nameof(workItemCreateFields.WorkItemType));
         }
 
         private static List<JsonPatchApi> ConvertToListJsonPatch(string operation, WorkItemFields workItemFields) {
@@ -193,16 +193,16 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// Mise à jour d'un WorkItem
         /// </summary>
         /// <param name="workItemId">L'identifiant du WorkItem</param>
-        /// <param name="workItemFields">Les champs du WorkItem à modifier</param>
+        /// <param name="workItemUpdateFields">Les champs du WorkItem à modifier</param>
         /// <returns>Le WorkItem mise à jour</returns>
-        public async Task<WorkItem> UpdateWorkItemAsync(int workItemId, WorkItemFields workItemFields) {
-            if (workItemFields == null)
-                throw new ArgumentNullException(nameof(workItemFields));
+        public async Task<WorkItem> UpdateWorkItemAsync(int workItemId, WorkItemUpdateFields workItemUpdateFields) {
+            if (workItemUpdateFields == null)
+                throw new ArgumentNullException(nameof(workItemUpdateFields));
             if (workItemId <= 0)
                 throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif",
                                             nameof(workItemId));
-            ThrowIfNotValidForUpdate(workItemFields);
-            List<JsonPatchApi> listJsonPatchApi = ConvertToListJsonPatch("replace", workItemFields);
+            ThrowIfNotValidForUpdate(workItemUpdateFields);
+            List<JsonPatchApi> listJsonPatchApi = ConvertToListJsonPatch("replace", workItemUpdateFields);
             return await UpdateWorkItemAsync(workItemId, listJsonPatchApi);
         }
 
@@ -219,19 +219,19 @@ namespace ItsMyConsole.Tools.AzureDevOps
             return await GetWorkItemAsync(workItemId);
         }
 
-        private static void ThrowIfNotValidForUpdate(WorkItemFields workItemFields) {
-            if (workItemFields.AreaPath == "")
-                throw new ArgumentException("La zone ne doit pas être vide", nameof(workItemFields.AreaPath));
-            if (workItemFields.TeamProject == "")
-                throw new ArgumentException("Le projet ne doit pas être vide", nameof(workItemFields.TeamProject));
-            if (workItemFields.IterationPath == "")
-                throw new ArgumentException("L'itération ne doit pas être vide", nameof(workItemFields.IterationPath));
-            if (workItemFields.Title == "")
-                throw new ArgumentException("Le titre ne doit pas être vide", nameof(workItemFields.Title));
-            if (workItemFields.State == "")
-                throw new ArgumentException("L'état ne doit pas être vide", nameof(workItemFields.State));
-            if (workItemFields.WorkItemType == "")
-                throw new ArgumentException("Le type ne doit pas être vide", nameof(workItemFields.WorkItemType));
+        private static void ThrowIfNotValidForUpdate(WorkItemUpdateFields workItemUpdateFields) {
+            if (workItemUpdateFields.AreaPath == "")
+                throw new ArgumentException("La zone ne doit pas être vide", nameof(workItemUpdateFields.AreaPath));
+            if (workItemUpdateFields.TeamProject == "")
+                throw new ArgumentException("Le projet ne doit pas être vide", nameof(workItemUpdateFields.TeamProject));
+            if (workItemUpdateFields.IterationPath == "")
+                throw new ArgumentException("L'itération ne doit pas être vide", nameof(workItemUpdateFields.IterationPath));
+            if (workItemUpdateFields.Title == "")
+                throw new ArgumentException("Le titre ne doit pas être vide", nameof(workItemUpdateFields.Title));
+            if (workItemUpdateFields.State == "")
+                throw new ArgumentException("L'état ne doit pas être vide", nameof(workItemUpdateFields.State));
+            if (workItemUpdateFields.WorkItemType == "")
+                throw new ArgumentException("Le type ne doit pas être vide", nameof(workItemUpdateFields.WorkItemType));
         }
 
         /// <summary>

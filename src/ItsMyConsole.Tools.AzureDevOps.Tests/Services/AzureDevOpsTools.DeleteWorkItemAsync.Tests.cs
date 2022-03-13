@@ -62,8 +62,8 @@ public class AzureDevOpsTools_DeleteWorkItemAsync_Tests
     [Fact]
     public async Task DeleteWorkItemAsync_Valid() {
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
-        WorkItemFields workItemFields = ConfigForTests.GetWorkItemFieldsNew();
-        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemFields);
+        WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
+        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 

@@ -1,10 +1,12 @@
-﻿namespace ItsMyConsole.Tools.AzureDevOps
+namespace ItsMyConsole.Tools.AzureDevOps
 {
-    /// <summary>
-    /// Champs à modifier sur un WorkItem
+    // <summary>
+    /// Champs sur un WorkItem
     /// </summary>
     public class WorkItemFields
     {
+        internal WorkItemFields() { }
+
         /// <summary>
         /// La zone du WorkItem
         /// </summary>

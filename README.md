@@ -249,7 +249,7 @@ Vous avez en retour un objet de type ```WorkItem```.
 | SystemInfo | Les informations systèmes du WorkItem |
 | AcceptanceCriteria | Les critères d'acceptation du WorkItem |
 | Childs | La liste des identifiants des WorkItems enfants |
-| Parents | La liste des identifiants des WorkItems parents |
+| Parent | L'identifiant du WorkItem parent |
 | Related | La liste des identifiants des WorkItems associés |
 | Tags | La liste des balises du WorkItem |
 

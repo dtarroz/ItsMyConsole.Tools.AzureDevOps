@@ -56,7 +56,7 @@ public static class WorkItemAssert
         Assert.Equal(workItem.Url, workItemUpdate.Url);
         Assert.Equal(workItem.Id, workItemUpdate.Id);
         Assert.Equal(workItem.Childs, workItemUpdate.Childs);
-        Assert.Equal(workItem.Parents, workItemUpdate.Parents);
+        Assert.Equal(workItem.Parent, workItemUpdate.Parent);
         Assert.Equal(workItem.Related, workItemUpdate.Related);
         Assert.False(workItemUpdate.IsFixedInChangeset);
         Assert.Equal(workItem.Tags, workItemUpdate.Tags);
@@ -98,7 +98,7 @@ public static class WorkItemAssert
         Assert.NotNull(workItem);
         if (relations == null || relations.Count == 0) {
             Assert.Null(workItem.Childs);
-            Assert.Null(workItem.Parents);
+            Assert.Null(workItem.Parent);
             Assert.Null(workItem.Related);
         }
         else {
@@ -108,7 +108,8 @@ public static class WorkItemAssert
                         Assert.Equal(workItemIds, workItem.Childs);
                         break;
                     case LinkType.Parent:
-                        Assert.Equal(workItemIds, workItem.Parents);
+                        Assert.True(workItemIds.Count <= 1);
+                        Assert.Equal(workItemIds.FirstOrDefault(), workItem.Parent);
                         break;
                     case LinkType.Related:
                         Assert.Equal(workItemIds, workItem.Related);
@@ -137,7 +138,7 @@ public static class WorkItemAssert
         Assert.Equal(expected.SystemInfo, actual.SystemInfo);
         Assert.Equal(expected.AcceptanceCriteria, actual.AcceptanceCriteria);
         Assert.Equal(expected.Childs, actual.Childs);
-        Assert.Equal(expected.Parents, actual.Parents);
+        Assert.Equal(expected.Parent, actual.Parent);
         Assert.Equal(expected.Related, actual.Related);
         Assert.Equal(expected.IsFixedInChangeset, actual.IsFixedInChangeset);
         Assert.Equal(expected.Tags, actual.Tags);

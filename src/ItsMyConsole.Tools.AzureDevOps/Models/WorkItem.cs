@@ -80,9 +80,9 @@
         public int[] Childs { get; internal set; }
 
         /// <summary>
-        /// Liste des WorkItems parents du WorkItem
+        /// Le WorkItem parent du WorkItem
         /// </summary>
-        public int[] Parents { get; internal set; }
+        public int? Parent { get; internal set; }
 
         /// <summary>
         /// Liste des WorkItems associés du WorkItem

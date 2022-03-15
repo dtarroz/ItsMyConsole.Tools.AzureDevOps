@@ -42,8 +42,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// <param name="workItemId">L'identifiant du WorkItem</param>
         public async Task<WorkItem> GetWorkItemAsync(int workItemId) {
             if (workItemId <= 0)
-                throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif",
-                                            nameof(workItemId));
+                throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif", nameof(workItemId));
             await LoadAzureDevOpsOptionsAsync();
             string url = CombineUrl(_azureDevOpsServer.Url, "_apis/wit/workitems", workItemId.ToString(), "?$expand=relations");
             string content = await GetContentFromRequestAsync(HttpMethod.Get, url);
@@ -161,6 +160,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 throw new ArgumentException("L'état ne doit pas être vide", nameof(workItemCreateFields.State));
             if (string.IsNullOrEmpty(workItemCreateFields.WorkItemType))
                 throw new ArgumentException("Le type est obligatoire", nameof(workItemCreateFields.WorkItemType));
+            if (workItemCreateFields.Tags != null && workItemCreateFields.Tags.Any(t => t?.Contains(";") ?? false))
+                throw new ArgumentException("Une balise ne doit pas contenir de \";\"", nameof(workItemCreateFields.Tags));
         }
 
         private static List<JsonPatchApi> ConvertToListJsonPatch(string operation, WorkItemFields workItemFields) {
@@ -178,6 +179,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 { "/fields/Microsoft.VSTS.TCM.SystemInfo", workItemFields.SystemInfo },
                 { "/fields/Microsoft.VSTS.Common.AcceptanceCriteria", workItemFields.AcceptanceCriteria }
             };
+            if (workItemFields is WorkItemCreateFields workItemCreateFields)
+                fields.Add("/fields/System.Tags", ConvertTagsToSystemTags(workItemCreateFields.Tags));
             return fields.Where(f => f.Value != null)
                          .Aggregate(new List<JsonPatchApi>(), (list, field) => {
                              list.Add(new JsonPatchApi {
@@ -187,6 +190,11 @@ namespace ItsMyConsole.Tools.AzureDevOps
                                       });
                              return list;
                          });
+        }
+
+        private static string ConvertTagsToSystemTags(IEnumerable<string> tags) {
+            string[] cleanTags = tags?.Where(t => !string.IsNullOrWhiteSpace(t)).ToArray();
+            return cleanTags == null || cleanTags.Length == 0 ? null : string.Join(";", cleanTags);
         }
 
         /// <summary>
@@ -199,8 +207,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
             if (workItemUpdateFields == null)
                 throw new ArgumentNullException(nameof(workItemUpdateFields));
             if (workItemId <= 0)
-                throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif",
-                                            nameof(workItemId));
+                throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif", nameof(workItemId));
             ThrowIfNotValidForUpdate(workItemUpdateFields);
             List<JsonPatchApi> listJsonPatchApi = ConvertToListJsonPatch("replace", workItemUpdateFields);
             return await UpdateWorkItemAsync(workItemId, listJsonPatchApi);
@@ -243,8 +250,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// <returns>Le WorkItem mise à jour</returns>
         public async Task<WorkItem> AddWorkItemRelationAsync(int workItemId, WorkItem workItemToAdd, LinkType linkType) {
             if (workItemId <= 0)
-                throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif",
-                                            nameof(workItemId));
+                throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif", nameof(workItemId));
             if (workItemToAdd == null)
                 throw new ArgumentNullException(nameof(workItemToAdd));
             if (workItemId == workItemToAdd.Id)
@@ -261,8 +267,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// <returns>Le WorkItem mise à jour</returns>
         public async Task<WorkItem> AddWorkItemRelationsAsync(int workItemId, List<WorkItem> workItemsToAdd, LinkType linkType) {
             if (workItemId <= 0)
-                throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif",
-                                            nameof(workItemId));
+                throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif", nameof(workItemId));
             if (workItemsToAdd == null)
                 throw new ArgumentNullException(nameof(workItemsToAdd));
             if (linkType == LinkType.Parent && workItemsToAdd.Count > 1)
@@ -291,8 +296,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// <param name="workItemId">L'identifiant du WorkItem</param>
         public async Task DeleteWorkItemAsync(int workItemId) {
             if (workItemId <= 0)
-                throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif",
-                                            nameof(workItemId));
+                throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif", nameof(workItemId));
             await LoadAzureDevOpsOptionsAsync();
             string url = CombineUrl(_azureDevOpsServer.Url, "_apis/wit/workitems", workItemId.ToString(), "?api-version=6.0");
             await GetContentFromRequestAsync(HttpMethod.Delete, url);

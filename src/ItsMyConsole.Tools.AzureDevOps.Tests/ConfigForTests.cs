@@ -25,7 +25,8 @@ public static class ConfigForTests
             Description = "DESCRIPTION",
             ReproSteps = "REPRO_STEPS",
             SystemInfo = "SYSTEM_INFO",
-            AcceptanceCriteria = "ACCEPTANCE_CRITERIA"
+            AcceptanceCriteria = "ACCEPTANCE_CRITERIA",
+            Tags = new[] { "CREATE", "CREATE 1" }
         };
     }
 

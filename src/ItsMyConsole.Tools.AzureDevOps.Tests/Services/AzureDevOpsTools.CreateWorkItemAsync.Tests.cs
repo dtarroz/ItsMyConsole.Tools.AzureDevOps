@@ -511,4 +511,175 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
         WorkItemAssert.CheckCreate(workItemCreateFields, workItem);
         WorkItemAssert.Equal(workItem, workItemGet);
     }
+
+    [Fact]
+    public async Task CreateWorkItemAsync_Tags_List_Null() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
+        workItemCreateFields.Tags = null;
+
+        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+
+        WorkItemAssert.CheckCreate(workItemCreateFields, workItem);
+        WorkItemAssert.Equal(workItem, workItemGet);
+    }
+
+    [Fact]
+    public async Task CreateWorkItemAsync_Tags_List_Empty() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
+        workItemCreateFields.Tags = Array.Empty<string>();
+
+        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+
+        WorkItemAssert.CheckCreate(workItemCreateFields, workItem);
+        WorkItemAssert.Equal(workItem, workItemGet);
+    }
+
+    [Fact]
+    public async Task CreateWorkItemAsync_Tags_Null() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
+        workItemCreateFields.Tags = new[] { null, "TAGS_NULL" };
+
+        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+
+        WorkItemAssert.CheckCreate(workItemCreateFields, workItem);
+        WorkItemAssert.Equal(workItem, workItemGet);
+    }
+
+    [Fact]
+    public async Task CreateWorkItemAsync_Tags_Empty() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
+        workItemCreateFields.Tags = new[] { "", "TAGS_EMPTY" };
+
+        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+
+        WorkItemAssert.CheckCreate(workItemCreateFields, workItem);
+        WorkItemAssert.Equal(workItem, workItemGet);
+    }
+
+    [Fact]
+    public async Task CreateWorkItemAsync_Tags_One() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
+        workItemCreateFields.Tags = new[] { "TAGS_ONE" };
+
+        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+
+        WorkItemAssert.CheckCreate(workItemCreateFields, workItem);
+        WorkItemAssert.Equal(workItem, workItemGet);
+    }
+
+    [Fact]
+    public async Task CreateWorkItemAsync_Tags_Multi() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
+
+        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+
+        WorkItemAssert.CheckCreate(workItemCreateFields, workItem);
+        WorkItemAssert.Equal(workItem, workItemGet);
+    }
+
+    [Fact]
+    public async Task CreateWorkItemAsync_Tags_Spaces() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
+        workItemCreateFields.Tags = new[] { "  SPACES  EVERYWHERE  " };
+
+        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+
+        WorkItemAssert.CheckCreate(workItemCreateFields, workItem);
+        WorkItemAssert.Equal(workItem, workItemGet);
+    }
+
+    [Fact]
+    public async Task CreateWorkItemAsync_Tags_Order() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
+        workItemCreateFields.Tags = new[] { "C", "A", "B" };
+
+        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+
+        WorkItemAssert.CheckCreate(workItemCreateFields, workItem);
+        WorkItemAssert.Equal(workItem, workItemGet);
+    }
+
+    [Fact]
+    public async Task CreateWorkItemAsync_Tags_SameValue() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
+        workItemCreateFields.Tags = new[] { "SAME_VALUE", "SAME_VALUE" };
+
+        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+
+        WorkItemAssert.CheckCreate(workItemCreateFields, workItem);
+        WorkItemAssert.Equal(workItem, workItemGet);
+    }
+
+    [Fact]
+    public async Task CreateWorkItemAsync_Tags_SameValue_CaseInsensitive() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
+        workItemCreateFields.Tags = new[] { "SAME_VALUE_CI", "Same_Value_ci" };
+
+        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+
+        WorkItemAssert.CheckCreate(workItemCreateFields, workItem);
+        WorkItemAssert.Equal(workItem, workItemGet);
+    }
+
+    [Fact]
+    public async Task CreateWorkItemAsync_Tags_Exists_CaseInsensitive() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
+        string tag = Guid.NewGuid().ToString().ToUpper();
+        workItemCreateFields.Tags = new[] { tag };
+        WorkItem workItemUpper = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
+
+        workItemCreateFields.Tags = new[] { tag.ToLower() };
+        WorkItem workItemLower = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItemLower.Id);
+
+        await azureDevOpsTools.DeleteWorkItemAsync(workItemUpper.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItemLower.Id);
+
+        WorkItemAssert.CheckCreate(workItemCreateFields, workItemLower);
+        WorkItemAssert.Equal(workItemLower, workItemGet);
+    }
+
+    [Fact]
+    public async Task CreateWorkItemAsync_Tags_Semicolon() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
+        workItemCreateFields.Tags = new[] { "SEMI;COLON" };
+
+        Exception exception = await Assert.ThrowsAsync<ArgumentException>(async () => {
+            await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
+        });
+
+        Assert.Equal("Une balise ne doit pas contenir de \";\" (Parameter 'Tags')", exception.Message);
+    }
 }

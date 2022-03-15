@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace ItsMyConsole.Tools.AzureDevOps.Tests.Asserts;
@@ -12,7 +13,6 @@ public static class WorkItemAssert
         Assert.True(workItem.Id > 0);
         CheckRelations(null, workItem);
         Assert.False(workItem.IsFixedInChangeset);
-        Assert.Null(workItem.Tags);
         EqualNew(workItemCreateFields, workItem);
     }
 
@@ -31,6 +31,14 @@ public static class WorkItemAssert
         Assert.Equal(EmptyToNull(workItemCreateFields.ReproSteps), workItem.ReproSteps);
         Assert.Equal(EmptyToNull(workItemCreateFields.SystemInfo), workItem.SystemInfo);
         Assert.Equal(EmptyToNull(workItemCreateFields.AcceptanceCriteria), workItem.AcceptanceCriteria);
+        if (workItemCreateFields.Tags == null || !workItemCreateFields.Tags.Any())
+            Assert.Null(workItem.Tags);
+        else
+            Assert.Equal(CleanTags(workItemCreateFields.Tags), workItem.Tags);
+    }
+
+    private static IEnumerable<string> CleanTags(IEnumerable<string> tags) {
+        return tags.Where(t => !string.IsNullOrWhiteSpace(t)).Select(t => t.ToUpper().Trim()).Distinct().OrderBy(t => t);
     }
 
     private static string EmptyToNull(string text) {
@@ -51,7 +59,7 @@ public static class WorkItemAssert
         Assert.Equal(workItem.Parents, workItemUpdate.Parents);
         Assert.Equal(workItem.Related, workItemUpdate.Related);
         Assert.False(workItemUpdate.IsFixedInChangeset);
-        Assert.Null(workItemUpdate.Tags);
+        Assert.Equal(workItem.Tags, workItemUpdate.Tags);
         WorkItemUpdateFields workItemUpdateFieldsExpected = new WorkItemUpdateFields {
             AreaPath = workItemUpdateFields.AreaPath ?? workItem.AreaPath,
             TeamProject = workItemUpdateFields.TeamProject ?? workItem.TeamProject,

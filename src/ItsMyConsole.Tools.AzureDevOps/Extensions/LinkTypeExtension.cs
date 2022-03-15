@@ -1,6 +1,6 @@
 ﻿namespace ItsMyConsole.Tools.AzureDevOps
 {
-    internal static class LinkTypeExtensions
+    internal static class LinkTypeExtension
     {
         public static string GetName(this LinkType linkType) {
             switch (linkType) {

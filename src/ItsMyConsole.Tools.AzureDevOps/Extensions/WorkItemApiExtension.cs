@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ItsMyConsole.Tools.AzureDevOps
 {
-    internal static class WorkItemApiExtensions
+    internal static class WorkItemApiExtension
     {
         public static WorkItem ToModel(this WorkItemApi workItemApi) {
             return new WorkItem {

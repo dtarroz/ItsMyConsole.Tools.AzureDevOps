@@ -2,7 +2,7 @@
 
 namespace ItsMyConsole.Tools.AzureDevOps
 {
-    internal static class TeamSettingsIterationApiExtensions
+    internal static class TeamSettingsIterationApiExtension
     {
         public static TeamIteration ToSingleModel(this TeamSettingsIterationApi teamSettingsIterationApi) {
             return new TeamIteration {

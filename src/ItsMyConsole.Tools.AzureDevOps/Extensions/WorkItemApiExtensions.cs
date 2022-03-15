@@ -22,7 +22,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 ReproSteps = workItemApi.GetFieldValue<string>("Microsoft.VSTS.TCM.ReproSteps"),
                 SystemInfo = workItemApi.GetFieldValue<string>("Microsoft.VSTS.TCM.SystemInfo"),
                 AcceptanceCriteria = workItemApi.GetFieldValue<string>("Microsoft.VSTS.Common.AcceptanceCriteria"),
-                Childs = workItemApi.GetRelationIds(LinkType.Child),
+                Children = workItemApi.GetRelationIds(LinkType.Child),
                 Parent = workItemApi.GetRelationIds(LinkType.Parent)?.FirstOrDefault(),
                 Related = workItemApi.GetRelationIds(LinkType.Related),
                 IsFixedInChangeset = workItemApi.Relations?.Any(r => r.Attributes.Name == "Fixed in Changeset") ?? false,

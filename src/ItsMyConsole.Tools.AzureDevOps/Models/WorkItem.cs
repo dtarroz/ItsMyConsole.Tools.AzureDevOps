@@ -77,7 +77,7 @@
         /// <summary>
         /// La liste des identifiants des WorkItems enfants
         /// </summary>
-        public int[] Childs { get; internal set; }
+        public int[] Children { get; internal set; }
 
         /// <summary>
         /// L'identifiant du WorkItem parent

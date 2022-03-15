@@ -55,7 +55,7 @@ public static class WorkItemAssert
         Assert.NotNull(workItemUpdate);
         Assert.Equal(workItem.Url, workItemUpdate.Url);
         Assert.Equal(workItem.Id, workItemUpdate.Id);
-        Assert.Equal(workItem.Childs, workItemUpdate.Childs);
+        Assert.Equal(workItem.Children, workItemUpdate.Children);
         Assert.Equal(workItem.Parent, workItemUpdate.Parent);
         Assert.Equal(workItem.Related, workItemUpdate.Related);
         Assert.False(workItemUpdate.IsFixedInChangeset);
@@ -97,7 +97,7 @@ public static class WorkItemAssert
     public static void CheckRelations(Dictionary<LinkType, List<int>> relations, WorkItem workItem) {
         Assert.NotNull(workItem);
         if (relations == null || relations.Count == 0) {
-            Assert.Null(workItem.Childs);
+            Assert.Null(workItem.Children);
             Assert.Null(workItem.Parent);
             Assert.Null(workItem.Related);
         }
@@ -105,7 +105,7 @@ public static class WorkItemAssert
             foreach ((LinkType linkType, List<int> workItemIds) in relations) {
                 switch (linkType) {
                     case LinkType.Child:
-                        Assert.Equal(workItemIds, workItem.Childs);
+                        Assert.Equal(workItemIds, workItem.Children);
                         break;
                     case LinkType.Parent:
                         Assert.True(workItemIds.Count <= 1);
@@ -137,7 +137,7 @@ public static class WorkItemAssert
         Assert.Equal(expected.ReproSteps, actual.ReproSteps);
         Assert.Equal(expected.SystemInfo, actual.SystemInfo);
         Assert.Equal(expected.AcceptanceCriteria, actual.AcceptanceCriteria);
-        Assert.Equal(expected.Childs, actual.Childs);
+        Assert.Equal(expected.Children, actual.Children);
         Assert.Equal(expected.Parent, actual.Parent);
         Assert.Equal(expected.Related, actual.Related);
         Assert.Equal(expected.IsFixedInChangeset, actual.IsFixedInChangeset);

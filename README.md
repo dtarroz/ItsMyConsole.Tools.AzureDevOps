@@ -248,7 +248,7 @@ Vous avez en retour un objet de type ```WorkItem```.
 | ReproSteps | Les étapes de reproduction du WorkItem |
 | SystemInfo | Les informations systèmes du WorkItem |
 | AcceptanceCriteria | Les critères d'acceptation du WorkItem |
-| Childs | La liste des identifiants des WorkItems enfants |
+| Children | La liste des identifiants des WorkItems enfants |
 | Parent | L'identifiant du WorkItem parent |
 | Related | La liste des identifiants des WorkItems associés |
 | IsFixedInChangeset | Indicateur si des ensembles de modifications sont liés au Workitem |

@@ -12,8 +12,8 @@ public static class ConfigForTests
         };
     }
 
-    public static WorkItemFields GetWorkItemFieldsNew() {
-        return new WorkItemFields {
+    public static WorkItemCreateFields GetWorkItemCreateFields() {
+        return new WorkItemCreateFields {
             AreaPath = AreaPathNew,
             TeamProject = TeamProject,
             IterationPath = IterationPathNew,
@@ -30,8 +30,8 @@ public static class ConfigForTests
         };
     }
 
-    public static WorkItemFields GetWorkItemFieldsUpdate() {
-        return new WorkItemFields {
+    public static WorkItemUpdateFields GetWorkItemUpdateFields() {
+        return new WorkItemUpdateFields {
             AreaPath = AreaPathUpdate,
             TeamProject = TeamProject,
             IterationPath = IterationPathUpdate,

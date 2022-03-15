@@ -75,17 +75,17 @@
         public string AcceptanceCriteria { get; internal set; }
 
         /// <summary>
-        /// Liste des WorkItems enfants du WorkItem
+        /// La liste des identifiants des WorkItems enfants
         /// </summary>
         public int[] Childs { get; internal set; }
 
         /// <summary>
-        /// Le WorkItem parent du WorkItem
+        /// L'identifiant du WorkItem parent
         /// </summary>
         public int? Parent { get; internal set; }
 
         /// <summary>
-        /// Liste des WorkItems associés du WorkItem
+        /// La liste des identifiants des WorkItems associés
         /// </summary>
         public int[] Related { get; internal set; }
 

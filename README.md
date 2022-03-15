@@ -152,7 +152,7 @@ Vous pouvez créer des WorkItems en utilisant ```CreateWorkItemAsync```.
 ccli.AddCommand("<PATTERN>", async tools => 
 {
     WorkItem newWorkItem = await tools.AzureDevOps("<NAME>")
-                                      .CreateWorkItemAsync(new WorkItemFields {
+                                      .CreateWorkItemAsync(new WorkItemCreateFields {
                                           // Insert yours fields here
                                       });
 });
@@ -174,6 +174,7 @@ Vous pouvez modifier les champs suivants :
 | ReproSteps | Les étapes de reproduction du WorkItem |
 | SystemInfo | Les informations systèmes du WorkItem |
 | AcceptanceCriteria | Les critères d'acceptation du WorkItem |
+| Tags | Les balises du WorkItem |
 
 Vous avez en retour un objet de type [```WorkItem```](#récupération-des-informations-dun-workitem).
 
@@ -189,7 +190,7 @@ Vous pouvez modifier un WorkItem en utilisant ```UpdateWorkItemAsync```.
 ```cs
 ccli.AddCommand("<PATTERN>", async tools => 
 {
-    await tools.AzureDevOps("<NAME>").UpdateWorkItemAsync(1234, new WorkItemFields 
+    await tools.AzureDevOps("<NAME>").UpdateWorkItemAsync(1234, new WorkItemUpdateFields 
     {
         // Insert yours fields here
     });

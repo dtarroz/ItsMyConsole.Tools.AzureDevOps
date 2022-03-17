@@ -98,5 +98,10 @@
         /// Liste des balises du WorkItem
         /// </summary>
         public string[] Tags { get; internal set; }
+
+        /// <summary>
+        /// L'effort du WorkItem
+        /// </summary>
+        public double? Effort { get; internal set; }
     }
 }

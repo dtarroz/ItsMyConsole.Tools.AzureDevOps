@@ -26,7 +26,8 @@ public static class ConfigForTests
             ReproSteps = "REPRO_STEPS",
             SystemInfo = "SYSTEM_INFO",
             AcceptanceCriteria = "ACCEPTANCE_CRITERIA",
-            Tags = new[] { "CREATE", "CREATE 1" }
+            Tags = new[] { "CREATE", "CREATE 1" },
+            Effort = 0.5
         };
     }
 
@@ -43,7 +44,8 @@ public static class ConfigForTests
             Description = "DESCRIPTION_UPDATE",
             ReproSteps = "REPRO_STEPS_UPDATE",
             SystemInfo = "SYSTEM_INFO_UPDATE",
-            AcceptanceCriteria = "ACCEPTANCE_CRITERIA_UPDATE"
+            AcceptanceCriteria = "ACCEPTANCE_CRITERIA_UPDATE",
+            Effort = 1.9
         };
     }
 

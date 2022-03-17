@@ -26,7 +26,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 Parent = workItemApi.GetRelationIds(LinkType.Parent)?.FirstOrDefault(),
                 Related = workItemApi.GetRelationIds(LinkType.Related),
                 IsFixedInChangeset = workItemApi.Relations?.Any(r => r.Attributes.Name == "Fixed in Changeset") ?? false,
-                Tags = workItemApi.GetFieldValue<string>("System.Tags")?.Split(';').Select(t => t.Trim()).ToArray()
+                Tags = workItemApi.GetFieldValue<string>("System.Tags")?.Split(';').Select(t => t.Trim()).ToArray(),
+                Effort = workItemApi.GetFieldValue<double?>("Microsoft.VSTS.Scheduling.Effort")
             };
         }
 

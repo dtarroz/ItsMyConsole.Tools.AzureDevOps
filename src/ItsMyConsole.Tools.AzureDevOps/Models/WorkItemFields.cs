@@ -66,5 +66,10 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// Les critères d'acceptation du WorkItem
         /// </summary>
         public string AcceptanceCriteria { get; set; }
+
+        /// <summary>
+        /// L'effort du WorkItem
+        /// </summary>
+        public double? Effort { get; set; }
     }
 }

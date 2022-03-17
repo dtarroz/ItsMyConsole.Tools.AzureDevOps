@@ -175,6 +175,7 @@ Vous pouvez modifier les champs suivants :
 | SystemInfo | Les informations systèmes du WorkItem |
 | AcceptanceCriteria | Les critères d'acceptation du WorkItem |
 | Tags | Les balises du WorkItem |
+| Effort | L'effort du WorkItem |
 
 Vous avez en retour un objet de type [```WorkItem```](#récupération-des-informations-dun-workitem).
 
@@ -213,6 +214,7 @@ Vous pouvez modifier les champs suivants :
 | ReproSteps | *(facultatif)* Les étapes de reproduction du WorkItem |
 | SystemInfo | *(facultatif)* Les informations systèmes du WorkItem |
 | AcceptanceCriteria | *(facultatif)* Les critères d'acceptation du WorkItem |
+| Effort | *(facultatif)* L'effort du WorkItem |
 
 Vous avez en retour un objet de type [```WorkItem```](#récupération-des-informations-dun-workitem).
 
@@ -253,6 +255,7 @@ Vous avez en retour un objet de type ```WorkItem```.
 | Related | La liste des identifiants des WorkItems associés |
 | IsFixedInChangeset | Indicateur si des ensembles de modifications sont liés au Workitem |
 | Tags | La liste des balises du WorkItem |
+| Effort | L'effort du WorkItem |
 
 ## Suppression d'un WorkItem
 

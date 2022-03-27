@@ -19,7 +19,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
         private readonly AzureDevOpsServer _azureDevOpsServer;
         private static readonly Dictionary<string, OptionsApiValue[]> AzureDevOpsOptions = new Dictionary<string, OptionsApiValue[]>();
         private static readonly HttpClient HttpClient = new HttpClient();
-        private static readonly object thisLock = new object();
+        private static readonly object ThisLock = new object();
 
         static AzureDevOpsTools() {
             Environment.SetEnvironmentVariable("VSS_ALLOW_UNSAFE_BASICAUTH", "true");
@@ -83,9 +83,9 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 string url = CombineUrl(_azureDevOpsServer.Url, "_apis");
                 string content = await GetContentFromRequestAsync(HttpMethod.Options, url);
                 OptionsApi optionsApi = JsonConvert.DeserializeObject<OptionsApi>(content);
-                lock (thisLock) {
+                lock (ThisLock) {
                     if (!AzureDevOpsOptions.ContainsKey(GetAzureDevOpsServerName()))
-                        AzureDevOpsOptions.Add(GetAzureDevOpsServerName(), optionsApi.Value);
+                        AzureDevOpsOptions.Add(GetAzureDevOpsServerName(), optionsApi?.Value);
                 }
             }
         }

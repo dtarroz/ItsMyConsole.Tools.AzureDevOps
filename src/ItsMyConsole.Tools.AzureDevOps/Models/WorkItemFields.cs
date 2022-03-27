@@ -1,6 +1,6 @@
 namespace ItsMyConsole.Tools.AzureDevOps
 {
-    // <summary>
+    /// <summary>
     /// Champs sur un WorkItem
     /// </summary>
     public class WorkItemFields

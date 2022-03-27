@@ -17,8 +17,9 @@ namespace ItsMyConsole.Tools.AzureDevOps
     public class AzureDevOpsTools
     {
         private readonly AzureDevOpsServer _azureDevOpsServer;
-        private static readonly List<string> IsAzureDevOpsOptionsLoaded = new List<string>();
+        private static readonly Dictionary<string, OptionsApiValue[]> AzureDevOpsOptions = new Dictionary<string, OptionsApiValue[]>();
         private static readonly HttpClient HttpClient = new HttpClient();
+        private static readonly object thisLock = new object();
 
         static AzureDevOpsTools() {
             Environment.SetEnvironmentVariable("VSS_ALLOW_UNSAFE_BASICAUTH", "true");
@@ -44,7 +45,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
             if (workItemId <= 0)
                 throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif", nameof(workItemId));
             await LoadAzureDevOpsOptionsAsync();
-            string url = CombineUrl(_azureDevOpsServer.Url, "_apis/wit/workitems", workItemId.ToString(), "?$expand=relations");
+            string query = $"?$expand=relations&api-version={GetVersionFromOptionId("72c7ddf8-2cdc-4f60-90cd-ab71c14a399b")}";
+            string url = CombineUrl(_azureDevOpsServer.Url, "_apis/wit/workitems", workItemId.ToString(), query);
             string content = await GetContentFromRequestAsync(HttpMethod.Get, url);
             WorkItemApi workItemApi = ConvertToWorkItemApi(content);
             return workItemApi.ToModel();
@@ -68,7 +70,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
             if (string.IsNullOrEmpty(project))
                 throw new ArgumentException("Le projet est obligatoire", nameof(project));
             await LoadAzureDevOpsOptionsAsync();
-            const string endUrl = "_apis/work/teamsettings/iterations?$timeframe=current";
+            string query = $"$timeframe=current&api-version={GetVersionFromOptionId("c9175577-28a1-4b06-9197-8636af9f64ad")}";
+            string endUrl = $"_apis/work/teamsettings/iterations?{query}";
             string url = CombineUrl(_azureDevOpsServer.Url, project, team, endUrl);
             string content = await GetContentFromRequestAsync(HttpMethod.Get, url);
             TeamSettingsIterationApi teamSettingsIterationApi = JsonConvert.DeserializeObject<TeamSettingsIterationApi>(content);
@@ -76,12 +79,14 @@ namespace ItsMyConsole.Tools.AzureDevOps
         }
 
         private async Task LoadAzureDevOpsOptionsAsync() {
-            if (!IsAzureDevOpsOptionsLoaded.Contains(_azureDevOpsServer.Name)) {
-                // use "OPTIONS _apis" for check authorization
-                // future : check version and template route
+            if (!AzureDevOpsOptions.ContainsKey(GetAzureDevOpsServerName())) {
                 string url = CombineUrl(_azureDevOpsServer.Url, "_apis");
-                await GetContentFromRequestAsync(HttpMethod.Options, url);
-                IsAzureDevOpsOptionsLoaded.Add(_azureDevOpsServer.Name);
+                string content = await GetContentFromRequestAsync(HttpMethod.Options, url);
+                OptionsApi optionsApi = JsonConvert.DeserializeObject<OptionsApi>(content);
+                lock (thisLock) {
+                    if (!AzureDevOpsOptions.ContainsKey(GetAzureDevOpsServerName()))
+                        AzureDevOpsOptions.Add(GetAzureDevOpsServerName(), optionsApi.Value);
+                }
             }
         }
 
@@ -139,12 +144,17 @@ namespace ItsMyConsole.Tools.AzureDevOps
             await LoadAzureDevOpsOptionsAsync();
             const string pathUrl = "_apis/wit/workitems";
             string type = "$" + workItemCreateFields.WorkItemType;
-            const string apiVersion = "?api-version=6.0";
+            string apiVersion = $"?api-version={GetVersionFromOptionId("62d3d110-0047-428c-ad3c-4fe872c91c74")}";
             string url = CombineUrl(_azureDevOpsServer.Url, workItemCreateFields.TeamProject, pathUrl, type, apiVersion);
             List<JsonPatchApi> listJsonPatchApi = ConvertToListJsonPatch("add", workItemCreateFields);
             string content = await GetContentFromRequestAsync(HttpMethod.Post, url, listJsonPatchApi);
             WorkItemApi workItemApi = ConvertToWorkItemApi(content);
             return workItemApi.ToModel();
+        }
+
+        private string GetVersionFromOptionId(string optionId) {
+            OptionsApiValue[] optionApis = AzureDevOpsOptions[GetAzureDevOpsServerName()];
+            return optionApis.First(o => o.Id == optionId).ReleasedVersion;
         }
 
         private static void ThrowIfNotValidForCreate(WorkItemCreateFields workItemCreateFields) {
@@ -217,7 +227,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
         private async Task<WorkItem> UpdateWorkItemAsync(int workItemId, ICollection listJsonPatchApi) {
             await LoadAzureDevOpsOptionsAsync();
             string pathUrl = $"_apis/wit/workitems/{workItemId}";
-            const string apiVersion = "?api-version=6.0";
+            string apiVersion = $"?api-version={GetVersionFromOptionId("72c7ddf8-2cdc-4f60-90cd-ab71c14a399b")}";
             string url = CombineUrl(_azureDevOpsServer.Url, pathUrl, apiVersion);
             if (listJsonPatchApi.Count > 0) {
                 string content = await GetContentFromRequestAsync(new HttpMethod("PATCH"), url, listJsonPatchApi);
@@ -299,7 +309,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
             if (workItemId <= 0)
                 throw new ArgumentException("L'identifiant du WorkItem doit être un nombre strictement positif", nameof(workItemId));
             await LoadAzureDevOpsOptionsAsync();
-            string url = CombineUrl(_azureDevOpsServer.Url, "_apis/wit/workitems", workItemId.ToString(), "?api-version=6.0");
+            string apiVersion = $"?api-version={GetVersionFromOptionId("72c7ddf8-2cdc-4f60-90cd-ab71c14a399b")}";
+            string url = CombineUrl(_azureDevOpsServer.Url, "_apis/wit/workitems", workItemId.ToString(), apiVersion);
             await GetContentFromRequestAsync(HttpMethod.Delete, url);
         }
     }

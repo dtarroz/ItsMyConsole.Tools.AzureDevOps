@@ -6,7 +6,7 @@ using Xunit;
 
 namespace ItsMyConsole.Tools.AzureDevOps.Tests.Services;
 
-public class AzureDevOpsTools_UpdateWorkItemAsync_Tests
+public class AzureDevOpsTools_UpdateWorkItemAsync_Id_Tests
 {
     [Fact]
     public async Task UpdateWorkItemAsync_Server_Url_Fail() {

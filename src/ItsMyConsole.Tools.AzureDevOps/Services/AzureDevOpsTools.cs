@@ -224,6 +224,20 @@ namespace ItsMyConsole.Tools.AzureDevOps
             return await UpdateWorkItemAsync(workItemId, listJsonPatchApi);
         }
 
+        /// <summary>
+        /// Mise à jour d'un WorkItem
+        /// </summary>
+        /// <param name="workItem">Le WorkItem</param>
+        /// <param name="workItemUpdateFields">Les champs du WorkItem à modifier</param>
+        /// <returns>Le WorkItem mise à jour</returns>
+        public async Task<WorkItem> UpdateWorkItemAsync(WorkItem workItem, WorkItemUpdateFields workItemUpdateFields) {
+            if (workItemUpdateFields == null)
+                throw new ArgumentNullException(nameof(workItemUpdateFields));
+            ThrowIfNotValidForUpdate(workItemUpdateFields);
+            List<JsonPatchApi> listJsonPatchApi = ConvertToListJsonPatch("replace", workItemUpdateFields);
+            return await UpdateWorkItemAsync(workItem.Id, listJsonPatchApi);
+        }
+
         private async Task<WorkItem> UpdateWorkItemAsync(int workItemId, ICollection listJsonPatchApi) {
             await LoadAzureDevOpsOptionsAsync();
             string pathUrl = $"_apis/wit/workitems/{workItemId}";

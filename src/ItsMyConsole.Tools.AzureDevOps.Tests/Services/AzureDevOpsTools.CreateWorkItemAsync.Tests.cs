@@ -613,7 +613,7 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
     public async Task CreateWorkItemAsync_Tags_Order() {
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
         WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
-        workItemCreateFields.Tags = new[] { "C", "A", "B" };
+        workItemCreateFields.Tags = new[] { "CC", "AA", "BB" };
 
         WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
         WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);

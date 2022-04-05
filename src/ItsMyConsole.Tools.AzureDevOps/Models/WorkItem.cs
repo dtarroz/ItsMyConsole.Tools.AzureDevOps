@@ -8,6 +8,7 @@
         internal WorkItem() { }
 
         internal string Url { get; set; }
+        internal int Rev { get; set; }
 
         /// <summary>
         /// L'identifiant du WorkItem

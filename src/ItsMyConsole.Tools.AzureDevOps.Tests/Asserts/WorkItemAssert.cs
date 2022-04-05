@@ -10,6 +10,7 @@ public static class WorkItemAssert
     public static void CheckCreate(WorkItemCreateFields workItemCreateFields, WorkItem workItem) {
         Assert.NotNull(workItem);
         Assert.Matches($"^{ConfigForTests.ServerUrl}.*/[_]apis/wit/workItems/{workItem.Id}$", workItem.Url);
+        Assert.Equal(1, workItem.Rev);
         Assert.True(workItem.Id > 0);
         CheckRelations(null, workItem);
         Assert.False(workItem.IsFixedInChangeset);
@@ -54,8 +55,9 @@ public static class WorkItemAssert
         Assert.NotNull(workItem);
         Assert.NotNull(workItemUpdateFields);
         Assert.NotNull(workItemUpdate);
-        Assert.Equal(workItem.Url, workItemUpdate.Url);
         Assert.Equal(workItem.Id, workItemUpdate.Id);
+        Assert.Equal(workItem.Url, workItemUpdate.Url);
+        Assert.Equal(workItem.Rev + (IsEmptyObject(workItemUpdateFields) ? 0 : 1), workItemUpdate.Rev);
         Assert.Equal(workItem.Children, workItemUpdate.Children);
         Assert.Equal(workItem.Parent, workItemUpdate.Parent);
         Assert.Equal(workItem.Related, workItemUpdate.Related);
@@ -77,6 +79,10 @@ public static class WorkItemAssert
             Effort = workItemUpdateFields.Effort ?? workItem.Effort
         };
         EqualUpdate(workItemUpdateFieldsExpected, workItemUpdate);
+    }
+
+    private static bool IsEmptyObject(object obj) {
+        return obj.GetType().GetProperties().All(p => p.GetValue(obj) == null);
     }
 
     private static void EqualUpdate(WorkItemUpdateFields workItemUpdateFields, WorkItem workItem) {
@@ -126,8 +132,9 @@ public static class WorkItemAssert
     public static void Equal(WorkItem expected, WorkItem actual) {
         Assert.NotNull(expected);
         Assert.NotNull(actual);
-        Assert.Equal(expected.Url, actual.Url);
         Assert.Equal(expected.Id, actual.Id);
+        Assert.Equal(expected.Url, actual.Url);
+        Assert.Equal(expected.Rev, actual.Rev);
         Assert.Equal(expected.AreaPath, actual.AreaPath);
         Assert.Equal(expected.TeamProject, actual.TeamProject);
         Assert.Equal(expected.IterationPath, actual.IterationPath);

@@ -8,6 +8,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
         public Dictionary<string, object> Fields { get; set; }
         public WorkItemApiRelation[] Relations { get; set; }
         public string Url { get; set; }
+        public int Rev { get; set; }
     }
 
     internal class WorkItemApiRelation

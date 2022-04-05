@@ -50,8 +50,7 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
             await azureDevOpsTools.AddWorkItemRelationAsync(-1, workItem, linkType);
         });
 
-        Assert.Equal("L'identifiant du WorkItem doit être un nombre strictement positif (Parameter 'workItemId')",
-                     exception.Message);
+        Assert.Equal("L'identifiant du WorkItem doit être un nombre strictement positif (Parameter 'workItemId')", exception.Message);
     }
 
     [Theory]
@@ -64,8 +63,7 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
             await azureDevOpsTools.AddWorkItemRelationAsync(0, workItem, linkType);
         });
 
-        Assert.Equal("L'identifiant du WorkItem doit être un nombre strictement positif (Parameter 'workItemId')",
-                     exception.Message);
+        Assert.Equal("L'identifiant du WorkItem doit être un nombre strictement positif (Parameter 'workItemId')", exception.Message);
     }
 
     [Theory]
@@ -152,11 +150,13 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         WorkItem workItemUpdated = await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItemToAdd, LinkType.Child);
         WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         AddAndCheckRelations(ref relations, workItemUpdated, LinkType.Child, workItemToAdd.Id);
+        Assert.Equal(1, workItemUpdated.Rev);
         WorkItemAssert.Equal(workItemUpdated, workItemGet);
 
         workItemUpdated = await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItemToAdd2, LinkType.Child);
         workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         AddAndCheckRelations(ref relations, workItemUpdated, LinkType.Child, workItemToAdd2.Id);
+        Assert.Equal(1, workItemUpdated.Rev);
         WorkItemAssert.Equal(workItemUpdated, workItemGet);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
@@ -184,6 +184,7 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         WorkItem workItemUpdated = await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItemToAdd, LinkType.Parent);
         WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         AddAndCheckRelations(ref relations, workItemUpdated, LinkType.Parent, workItemToAdd.Id);
+        Assert.Equal(1, workItemUpdated.Rev);
         WorkItemAssert.Equal(workItemUpdated, workItemGet);
 
         Exception exception = await Assert.ThrowsAsync<Exception>(async () => {
@@ -213,11 +214,13 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         WorkItem workItemUpdated = await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItemToAdd, LinkType.Related);
         WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         AddAndCheckRelations(ref relations, workItemUpdated, LinkType.Related, workItemToAdd.Id);
+        Assert.Equal(1, workItemUpdated.Rev);
         WorkItemAssert.Equal(workItemUpdated, workItemGet);
 
         workItemUpdated = await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItemToAdd2, LinkType.Related);
         workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         AddAndCheckRelations(ref relations, workItemUpdated, LinkType.Related, workItemToAdd2.Id);
+        Assert.Equal(1, workItemUpdated.Rev);
         WorkItemAssert.Equal(workItemUpdated, workItemGet);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
@@ -238,16 +241,19 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         WorkItem workItemUpdated = await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItemToAdd, LinkType.Child);
         WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         AddAndCheckRelations(ref relations, workItemUpdated, LinkType.Child, workItemToAdd.Id);
+        Assert.Equal(1, workItemUpdated.Rev);
         WorkItemAssert.Equal(workItemUpdated, workItemGet);
 
         workItemUpdated = await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItemToAdd2, LinkType.Parent);
         workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         AddAndCheckRelations(ref relations, workItemUpdated, LinkType.Parent, workItemToAdd2.Id);
+        Assert.Equal(1, workItemUpdated.Rev);
         WorkItemAssert.Equal(workItemUpdated, workItemGet);
 
         workItemUpdated = await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItemToAdd3, LinkType.Related);
         workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         AddAndCheckRelations(ref relations, workItemUpdated, LinkType.Related, workItemToAdd3.Id);
+        Assert.Equal(1, workItemUpdated.Rev);
         WorkItemAssert.Equal(workItemUpdated, workItemGet);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
@@ -267,6 +273,7 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         WorkItem workItemUpdated = await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItemToAdd, LinkType.Child);
         WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         AddAndCheckRelations(ref relations, workItemUpdated, LinkType.Child, workItemToAdd.Id);
+        Assert.Equal(1, workItemUpdated.Rev);
         WorkItemAssert.Equal(workItemUpdated, workItemGet);
 
         Exception exception = await Assert.ThrowsAsync<Exception>(async () => {
@@ -294,11 +301,13 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         WorkItem workItemUpdated = await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItemToAdd, LinkType.Child);
         WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         AddAndCheckRelations(ref relations, workItemUpdated, LinkType.Child, workItemToAdd.Id);
+        Assert.Equal(1, workItemUpdated.Rev);
         WorkItemAssert.Equal(workItemUpdated, workItemGet);
 
         workItemUpdated = await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItemToAdd, LinkType.Related);
         workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         AddAndCheckRelations(ref relations, workItemUpdated, LinkType.Related, workItemToAdd.Id);
+        Assert.Equal(1, workItemUpdated.Rev);
         WorkItemAssert.Equal(workItemUpdated, workItemGet);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
@@ -316,11 +325,13 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
         WorkItem workItemUpdated = await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItemToAdd, LinkType.Parent);
         WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         AddAndCheckRelations(ref relations, workItemUpdated, LinkType.Parent, workItemToAdd.Id);
+        Assert.Equal(1, workItemUpdated.Rev);
         WorkItemAssert.Equal(workItemUpdated, workItemGet);
 
         workItemUpdated = await azureDevOpsTools.AddWorkItemRelationAsync(workItem.Id, workItemToAdd, LinkType.Related);
         workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
         AddAndCheckRelations(ref relations, workItemUpdated, LinkType.Related, workItemToAdd.Id);
+        Assert.Equal(1, workItemUpdated.Rev);
         WorkItemAssert.Equal(workItemUpdated, workItemGet);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
@@ -351,6 +362,7 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
             }
         };
         WorkItemAssert.CheckRelations(relations, workItem);
+        Assert.Equal(1, workItem.Rev);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItemToAdd1.Id);
@@ -382,6 +394,7 @@ public class AzureDevOpsTools_AddWorkItemRelationAsync_Tests
             }
         };
         WorkItemAssert.CheckRelations(relations, workItem);
+        Assert.Equal(1, workItem.Rev);
 
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItemToAdd1.Id);

@@ -10,6 +10,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
             return new WorkItem {
                 Id = workItemApi.Id,
                 Url = workItemApi.Url,
+                Rev = workItemApi.Rev,
                 AreaPath = workItemApi.GetFieldValue<string>("System.AreaPath"),
                 TeamProject = workItemApi.GetFieldValue<string>("System.TeamProject"),
                 IterationPath = workItemApi.GetFieldValue<string>("System.IterationPath"),

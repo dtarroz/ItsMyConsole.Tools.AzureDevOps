@@ -115,7 +115,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
                         }
                         case HttpStatusCode.NotFound:
                         case HttpStatusCode.BadRequest:
-                        case HttpStatusCode.InternalServerError: {
+                        case HttpStatusCode.InternalServerError:
+                        case HttpStatusCode.PreconditionFailed: {
                             string content = await response.Content.ReadAsStringAsync();
                             ExceptionApi exceptionApi = JsonConvert.DeserializeObject<ExceptionApi>(content);
                             throw new Exception(exceptionApi?.Message);
@@ -225,7 +226,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
         }
 
         /// <summary>
-        /// Mise à jour d'un WorkItem
+        /// Mise à jour d'un WorkItem avec une vérification de mise à jour depuis la lecture du WorkItem
         /// </summary>
         /// <param name="workItem">Le WorkItem</param>
         /// <param name="workItemUpdateFields">Les champs du WorkItem à modifier</param>
@@ -235,7 +236,16 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 throw new ArgumentNullException(nameof(workItemUpdateFields));
             ThrowIfNotValidForUpdate(workItemUpdateFields);
             List<JsonPatchApi> listJsonPatchApi = ConvertToListJsonPatch("replace", workItemUpdateFields);
+            listJsonPatchApi.Add(GetJsonPatchTestRev(workItem.Rev));
             return await UpdateWorkItemAsync(workItem.Id, listJsonPatchApi);
+        }
+
+        private static JsonPatchApi GetJsonPatchTestRev(int rev) {
+            return new JsonPatchApi {
+                Op = "test",
+                Path = "/rev",
+                Value = rev
+            };
         }
 
         private async Task<WorkItem> UpdateWorkItemAsync(int workItemId, ICollection listJsonPatchApi) {

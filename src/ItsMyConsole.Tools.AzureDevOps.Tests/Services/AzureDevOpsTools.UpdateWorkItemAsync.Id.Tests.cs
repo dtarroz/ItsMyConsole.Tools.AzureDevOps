@@ -943,4 +943,39 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_Id_Tests
         WorkItemAssert.CheckUpdate(workItem, workItemUpdateFields, workItemUpdate);
         WorkItemAssert.Equal(workItemUpdate, workItemGet);
     }
+
+    [Fact]
+    public async Task UpdateWorkItemAsync_SameCall() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
+        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
+        WorkItemUpdateFields workItemUpdateFields = ConfigForTests.GetWorkItemUpdateFields();
+
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemUpdateFields);
+        await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemUpdateFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+
+        WorkItemAssert.CheckUpdate(workItem, workItemUpdateFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
+    }
+
+    [Fact]
+    public async Task UpdateWorkItemAsync_Rev3() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
+        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
+        WorkItemUpdateFields workItemUpdateFields = ConfigForTests.GetWorkItemUpdateFields();
+
+        workItem = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemUpdateFields);
+
+        workItemUpdateFields.Title = "TITLE_UPDATE_2";
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem.Id, workItemUpdateFields);
+
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+
+        WorkItemAssert.CheckUpdate(workItem, workItemUpdateFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
+    }
 }

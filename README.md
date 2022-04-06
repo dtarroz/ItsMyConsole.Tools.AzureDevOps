@@ -188,6 +188,10 @@ Vous pouvez modifier un WorkItem en utilisant ```UpdateWorkItemAsync```.
 | workItemId | L'identifiant du WorkItem à mettre à jour |
 | workItemFields | La liste des champs à mettre à jour sur le WorkItem. Tous les champs sont facultatifs, vous pouvez mettre à jour seulement ceux que vous voulez. |
 
+Vous avez aussi la possibilité de modifier un WorkItem en lui passant directement l'objet WorkItem. De cette façon, il permettra d'effectuer la mise à jour seulement si le Workitem n'a pas été modifié depuis la lecture de l'objet passé en paramètre. 
+Par exemple, on récupére les informations du Workitem, on vérifie que les données soient correctes et puis on le modifie avec de nouvelles valeurs. Si entre la lecture et la modification, le WorkItem a été changé, alors notre mise à jour échouera.
+Si vous ne voulez aucune vérification de contrôle, vous devez passer l'identifiant du WorkItem au lieu de l'objet.
+
 ```cs
 ccli.AddCommand("<PATTERN>", async tools => 
 {

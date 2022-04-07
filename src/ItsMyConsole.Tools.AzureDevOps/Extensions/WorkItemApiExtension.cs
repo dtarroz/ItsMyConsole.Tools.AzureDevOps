@@ -28,7 +28,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 Related = workItemApi.GetRelationIds(LinkType.Related),
                 IsFixedInChangeset = workItemApi.Relations?.Any(r => r.Attributes.Name == "Fixed in Changeset") ?? false,
                 Tags = workItemApi.GetFieldValue<string>("System.Tags")?.Split(';').Select(t => t.Trim()).ToArray(),
-                Effort = workItemApi.GetFieldValue<double?>("Microsoft.VSTS.Scheduling.Effort")
+                Effort = workItemApi.GetFieldValue<double?>("Microsoft.VSTS.Scheduling.Effort"),
+                CustomFields = workItemApi.GetCustomFields()
             };
         }
 
@@ -43,6 +44,15 @@ namespace ItsMyConsole.Tools.AzureDevOps
                                        .ToList();
             ids?.Sort();
             return ids == null || ids.Count == 0 ? null : ids.ToArray();
+        }
+
+        private static Dictionary<string, object> GetCustomFields(this WorkItemApi workItemApi) {
+            List<KeyValuePair<string, object>> customFields = workItemApi.Fields.Where(f => IsCustomField(f.Key)).ToList();
+            return customFields.Any() ? customFields.ToDictionary(f => f.Key, f => f.Value) : null;
+        }
+
+        private static bool IsCustomField(string field) {
+            return !field.StartsWith("System.") && !field.StartsWith("Microsoft.");
         }
     }
 }

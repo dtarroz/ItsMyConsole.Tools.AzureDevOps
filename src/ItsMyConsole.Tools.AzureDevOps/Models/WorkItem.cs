@@ -1,4 +1,6 @@
-﻿namespace ItsMyConsole.Tools.AzureDevOps
+﻿using System.Collections.Generic;
+
+namespace ItsMyConsole.Tools.AzureDevOps
 {
     /// <summary>
     /// Les informations du WorkItem
@@ -104,5 +106,10 @@
         /// L'effort du WorkItem
         /// </summary>
         public double? Effort { get; internal set; }
+
+        /// <summary>
+        /// Les champs personnalisés du WorkItem
+        /// </summary>
+        public Dictionary<string, object> CustomFields { get; internal set; }
     }
 }

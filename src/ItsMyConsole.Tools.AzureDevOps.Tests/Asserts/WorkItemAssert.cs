@@ -14,6 +14,7 @@ public static class WorkItemAssert
         Assert.True(workItem.Id > 0);
         CheckRelations(null, workItem);
         Assert.False(workItem.IsFixedInChangeset);
+        Assert.Null(workItem.CustomFields);
         EqualNew(workItemCreateFields, workItem);
     }
 
@@ -63,6 +64,7 @@ public static class WorkItemAssert
         Assert.Equal(workItem.Related, workItemUpdate.Related);
         Assert.False(workItemUpdate.IsFixedInChangeset);
         Assert.Equal(workItem.Tags, workItemUpdate.Tags);
+        Assert.Null(workItem.CustomFields);
         WorkItemUpdateFields workItemUpdateFieldsExpected = new WorkItemUpdateFields {
             AreaPath = workItemUpdateFields.AreaPath ?? workItem.AreaPath,
             TeamProject = workItemUpdateFields.TeamProject ?? workItem.TeamProject,

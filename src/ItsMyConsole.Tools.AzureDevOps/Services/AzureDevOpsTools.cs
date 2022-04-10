@@ -146,7 +146,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
             const string pathUrl = "_apis/wit/workitems";
             string type = "$" + workItemCreateFields.WorkItemType;
             string apiVersion = $"?api-version={GetVersionFromOptionId("62d3d110-0047-428c-ad3c-4fe872c91c74")}";
-            string url = CombineUrl(_azureDevOpsServer.Url, workItemCreateFields.TeamProject, pathUrl, type, apiVersion);
+            string url = CombineUrl(_azureDevOpsServer.Url, workItemCreateFields.Project, pathUrl, type, apiVersion);
             List<JsonPatchApi> listJsonPatchApi = ConvertToListJsonPatch("add", workItemCreateFields);
             string content = await GetContentFromRequestAsync(HttpMethod.Post, url, listJsonPatchApi);
             WorkItemApi workItemApi = ConvertToWorkItemApi(content);
@@ -161,8 +161,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
         private static void ThrowIfNotValidForCreate(WorkItemCreateFields workItemCreateFields) {
             if (workItemCreateFields.AreaPath == "")
                 throw new ArgumentException("La zone ne doit pas être vide", nameof(workItemCreateFields.AreaPath));
-            if (string.IsNullOrEmpty(workItemCreateFields.TeamProject))
-                throw new ArgumentException("Le projet est obligatoire", nameof(workItemCreateFields.TeamProject));
+            if (string.IsNullOrEmpty(workItemCreateFields.Project))
+                throw new ArgumentException("Le projet est obligatoire", nameof(workItemCreateFields.Project));
             if (workItemCreateFields.IterationPath == "")
                 throw new ArgumentException("L'itération ne doit pas être vide", nameof(workItemCreateFields.IterationPath));
             if (string.IsNullOrEmpty(workItemCreateFields.Title))
@@ -178,7 +178,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
         private static List<JsonPatchApi> ConvertToListJsonPatch(string operation, WorkItemFields workItemFields) {
             Dictionary<string, string> fields = new Dictionary<string, string> {
                 { "/fields/System.AreaPath", workItemFields.AreaPath },
-                { "/fields/System.TeamProject", workItemFields.TeamProject },
+                { "/fields/System.TeamProject", workItemFields.Project },
                 { "/fields/System.IterationPath", workItemFields.IterationPath },
                 { "/fields/System.Title", workItemFields.Title },
                 { "/fields/System.State", workItemFields.State },
@@ -264,8 +264,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
         private static void ThrowIfNotValidForUpdate(WorkItemUpdateFields workItemUpdateFields) {
             if (workItemUpdateFields.AreaPath == "")
                 throw new ArgumentException("La zone ne doit pas être vide", nameof(workItemUpdateFields.AreaPath));
-            if (workItemUpdateFields.TeamProject == "")
-                throw new ArgumentException("Le projet ne doit pas être vide", nameof(workItemUpdateFields.TeamProject));
+            if (workItemUpdateFields.Project == "")
+                throw new ArgumentException("Le projet ne doit pas être vide", nameof(workItemUpdateFields.Project));
             if (workItemUpdateFields.IterationPath == "")
                 throw new ArgumentException("L'itération ne doit pas être vide", nameof(workItemUpdateFields.IterationPath));
             if (workItemUpdateFields.Title == "")

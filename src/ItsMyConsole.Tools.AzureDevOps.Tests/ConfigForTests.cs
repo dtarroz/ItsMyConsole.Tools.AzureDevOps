@@ -15,7 +15,7 @@ public static class ConfigForTests
     public static WorkItemCreateFields GetWorkItemCreateFields() {
         return new WorkItemCreateFields {
             AreaPath = AreaPathNew,
-            TeamProject = TeamProject,
+            Project = Project,
             IterationPath = IterationPathNew,
             Title = "TITLE",
             State = StateNew,
@@ -34,7 +34,7 @@ public static class ConfigForTests
     public static WorkItemUpdateFields GetWorkItemUpdateFields() {
         return new WorkItemUpdateFields {
             AreaPath = AreaPathUpdate,
-            TeamProject = TeamProject,
+            Project = Project,
             IterationPath = IterationPathUpdate,
             Title = "TITLE_UPDATE",
             State = StateUpdate,
@@ -55,7 +55,7 @@ public static class ConfigForTests
     public const string AreaPathNew = "<AREA_PATH_NEW>";
     public const string AreaPathUpdate = "<AREA_PATH_UPDATE>";
 
-    public const string TeamProject = "<TEAM_PROJECT>";
+    public const string Project = "<TEAM_PROJECT>";
 
     public const string IterationPathDefault = "<ITERATION_PATH_DEFAULT>";
     public const string IterationPathNew = "<ITERATION_PATH_NEW>";

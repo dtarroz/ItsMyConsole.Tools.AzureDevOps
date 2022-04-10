@@ -22,7 +22,7 @@ public static class WorkItemAssert
         Assert.NotNull(workItemCreateFields);
         Assert.NotNull(workItem);
         Assert.Equal(NullToDefault(workItemCreateFields.AreaPath, ConfigForTests.AreaPathDefault), workItem.AreaPath);
-        Assert.Equal(workItemCreateFields.TeamProject, workItem.TeamProject);
+        Assert.Equal(workItemCreateFields.Project, workItem.Project);
         Assert.Equal(NullToDefault(workItemCreateFields.IterationPath, ConfigForTests.IterationPathDefault), workItem.IterationPath);
         Assert.Equal(workItemCreateFields.Title, workItem.Title);
         Assert.Equal(NullToDefault(workItemCreateFields.State, ConfigForTests.StateDefault), workItem.State);
@@ -67,7 +67,7 @@ public static class WorkItemAssert
         Assert.Null(workItem.CustomFields);
         WorkItemUpdateFields workItemUpdateFieldsExpected = new WorkItemUpdateFields {
             AreaPath = workItemUpdateFields.AreaPath ?? workItem.AreaPath,
-            TeamProject = workItemUpdateFields.TeamProject ?? workItem.TeamProject,
+            Project = workItemUpdateFields.Project ?? workItem.Project,
             IterationPath = workItemUpdateFields.IterationPath ?? workItem.IterationPath,
             Title = workItemUpdateFields.Title ?? workItem.Title,
             State = workItemUpdateFields.State ?? workItem.State,
@@ -91,7 +91,7 @@ public static class WorkItemAssert
         Assert.NotNull(workItemUpdateFields);
         Assert.NotNull(workItem);
         Assert.Equal(workItemUpdateFields.AreaPath, workItem.AreaPath);
-        Assert.Equal(workItemUpdateFields.TeamProject, workItem.TeamProject);
+        Assert.Equal(workItemUpdateFields.Project, workItem.Project);
         Assert.Equal(workItemUpdateFields.IterationPath, workItem.IterationPath);
         Assert.Equal(workItemUpdateFields.Title, workItem.Title);
         Assert.Equal(workItemUpdateFields.State, workItem.State);
@@ -144,7 +144,7 @@ public static class WorkItemAssert
         Assert.Equal(expected.Url, actual.Url);
         Assert.Equal(expected.Rev, actual.Rev);
         Assert.Equal(expected.AreaPath, actual.AreaPath);
-        Assert.Equal(expected.TeamProject, actual.TeamProject);
+        Assert.Equal(expected.Project, actual.Project);
         Assert.Equal(expected.IterationPath, actual.IterationPath);
         Assert.Equal(expected.Title, actual.Title);
         Assert.Equal(expected.State, actual.State);

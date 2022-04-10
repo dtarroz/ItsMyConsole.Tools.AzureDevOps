@@ -52,7 +52,7 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
             await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
         });
 
-        Assert.Equal("Le projet est obligatoire (Parameter 'TeamProject')", exception.Message);
+        Assert.Equal("Le projet est obligatoire (Parameter 'Project')", exception.Message);
     }
 
     [Fact]
@@ -72,7 +72,7 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
     public async Task CreateWorkItemAsync_Valid_Min() {
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
         WorkItemCreateFields workItemCreateFields = new WorkItemCreateFields {
-            TeamProject = ConfigForTests.TeamProject,
+            Project = ConfigForTests.Project,
             Title = "TITLE",
             WorkItemType = ConfigForTests.WorkItemTypeNew
         };
@@ -128,36 +128,36 @@ public class AzureDevOpsTools_CreateWorkItemAsync_Tests
     }
 
     [Fact]
-    public async Task CreateWorkItemAsync_TeamProject_Null() {
+    public async Task CreateWorkItemAsync_Project_Null() {
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
         WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
-        workItemCreateFields.TeamProject = null;
+        workItemCreateFields.Project = null;
 
         Exception exception = await Assert.ThrowsAsync<ArgumentException>(async () => {
             await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
         });
 
-        Assert.Equal("Le projet est obligatoire (Parameter 'TeamProject')", exception.Message);
+        Assert.Equal("Le projet est obligatoire (Parameter 'Project')", exception.Message);
     }
 
     [Fact]
-    public async Task CreateWorkItemAsync_TeamProject_Empty() {
+    public async Task CreateWorkItemAsync_Project_Empty() {
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
         WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
-        workItemCreateFields.TeamProject = "";
+        workItemCreateFields.Project = "";
 
         Exception exception = await Assert.ThrowsAsync<ArgumentException>(async () => {
             await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
         });
 
-        Assert.Equal("Le projet est obligatoire (Parameter 'TeamProject')", exception.Message);
+        Assert.Equal("Le projet est obligatoire (Parameter 'Project')", exception.Message);
     }
 
     [Fact]
-    public async Task CreateWorkItemAsync_TeamProject_NotExists() {
+    public async Task CreateWorkItemAsync_Project_NotExists() {
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
         WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
-        workItemCreateFields.TeamProject = "NotExist";
+        workItemCreateFields.Project = "NotExist";
 
         Exception exception = await Assert.ThrowsAsync<Exception>(async () => {
             await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);

@@ -25,7 +25,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// <summary>
         /// Le projet du WorkItem
         /// </summary>
-        public string TeamProject { get; internal set; }
+        public string Project { get; internal set; }
 
         /// <summary>
         /// L'itération du WorkItem

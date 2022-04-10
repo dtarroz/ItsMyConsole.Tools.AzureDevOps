@@ -12,7 +12,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 Url = workItemApi.Url,
                 Rev = workItemApi.Rev,
                 AreaPath = workItemApi.GetFieldValue<string>("System.AreaPath"),
-                TeamProject = workItemApi.GetFieldValue<string>("System.TeamProject"),
+                Project = workItemApi.GetFieldValue<string>("System.TeamProject"),
                 IterationPath = workItemApi.GetFieldValue<string>("System.IterationPath"),
                 Title = workItemApi.GetFieldValue<string>("System.Title"),
                 State = workItemApi.GetFieldValue<string>("System.State"),

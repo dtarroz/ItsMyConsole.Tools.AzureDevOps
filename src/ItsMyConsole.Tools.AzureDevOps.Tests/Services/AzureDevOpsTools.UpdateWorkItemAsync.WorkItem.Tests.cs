@@ -165,12 +165,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_WorkItem_Tests
     }
 
     [Fact]
-    public async Task UpdateWorkItemAsync_TeamProject_Null() {
+    public async Task UpdateWorkItemAsync_Project_Null() {
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
         WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
         WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
         WorkItemUpdateFields workItemUpdateFields = ConfigForTests.GetWorkItemUpdateFields();
-        workItemCreateFields.TeamProject = null;
+        workItemCreateFields.Project = null;
 
         WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem, workItemUpdateFields);
         WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
@@ -181,12 +181,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_WorkItem_Tests
     }
 
     [Fact]
-    public async Task UpdateWorkItemAsync_TeamProject_SameValue() {
+    public async Task UpdateWorkItemAsync_Project_SameValue() {
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
         WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
         WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
         WorkItemUpdateFields workItemUpdateFields = ConfigForTests.GetWorkItemUpdateFields();
-        workItemUpdateFields.TeamProject = workItem.TeamProject;
+        workItemUpdateFields.Project = workItem.Project;
 
         WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem, workItemUpdateFields);
         WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
@@ -197,12 +197,12 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_WorkItem_Tests
     }
 
     [Fact]
-    public async Task UpdateWorkItemAsync_TeamProject_Empty() {
+    public async Task UpdateWorkItemAsync_Project_Empty() {
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
         WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
         WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
         WorkItemUpdateFields workItemUpdateFields = ConfigForTests.GetWorkItemUpdateFields();
-        workItemUpdateFields.TeamProject = "";
+        workItemUpdateFields.Project = "";
 
         Exception exception = await Assert.ThrowsAsync<ArgumentException>(async () => {
             await azureDevOpsTools.UpdateWorkItemAsync(workItem, workItemUpdateFields);
@@ -210,16 +210,16 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_WorkItem_Tests
         await CheckWorkItemNotModifiedAsync(azureDevOpsTools, workItem);
         await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
 
-        Assert.Equal("Le projet ne doit pas être vide (Parameter 'TeamProject')", exception.Message);
+        Assert.Equal("Le projet ne doit pas être vide (Parameter 'Project')", exception.Message);
     }
 
     [Fact]
-    public async Task UpdateWorkItemAsync_TeamProject_NotExists() {
+    public async Task UpdateWorkItemAsync_Project_NotExists() {
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
         WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
         WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
         WorkItemUpdateFields workItemUpdateFields = ConfigForTests.GetWorkItemUpdateFields();
-        workItemUpdateFields.TeamProject = "NotExists";
+        workItemUpdateFields.Project = "NotExists";
 
         Exception exception = await Assert.ThrowsAsync<Exception>(async () => {
             await azureDevOpsTools.UpdateWorkItemAsync(workItem, workItemUpdateFields);

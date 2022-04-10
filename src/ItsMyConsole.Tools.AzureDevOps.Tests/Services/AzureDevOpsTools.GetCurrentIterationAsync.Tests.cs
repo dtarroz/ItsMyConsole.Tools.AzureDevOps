@@ -16,7 +16,7 @@ public class AzureDevOpsTools_GetCurrentIterationAsync_Tests
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(azureDevOpsServer);
 
         await Assert.ThrowsAsync<HttpRequestException>(async () => {
-            await azureDevOpsTools.GetCurrentIterationAsync(ConfigForTests.TeamProject);
+            await azureDevOpsTools.GetCurrentIterationAsync(ConfigForTests.Project);
         });
     }
 
@@ -28,7 +28,7 @@ public class AzureDevOpsTools_GetCurrentIterationAsync_Tests
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(azureDevOpsServer);
 
         Exception exception = await Assert.ThrowsAsync<Exception>(async () => {
-            await azureDevOpsTools.GetCurrentIterationAsync(ConfigForTests.TeamProject);
+            await azureDevOpsTools.GetCurrentIterationAsync(ConfigForTests.Project);
         });
 
         Assert.Equal($"Vous n'avez pas les accès au serveur Azure DevOps '{azureDevOpsServer.Name}'", exception.Message);
@@ -72,7 +72,7 @@ public class AzureDevOpsTools_GetCurrentIterationAsync_Tests
     public async Task GetCurrentIterationAsync_Team_Empty() {
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
 
-        Iteration iteration = await azureDevOpsTools.GetCurrentIterationAsync(ConfigForTests.TeamProject, "");
+        Iteration iteration = await azureDevOpsTools.GetCurrentIterationAsync(ConfigForTests.Project, "");
 
         IterationAssert.Equal(ConfigForTests.IterationPathCurrentDefault, iteration);
     }
@@ -82,7 +82,7 @@ public class AzureDevOpsTools_GetCurrentIterationAsync_Tests
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
 
         Exception exception = await Assert.ThrowsAsync<Exception>(async () => {
-            await azureDevOpsTools.GetCurrentIterationAsync(ConfigForTests.TeamProject, "NotExists");
+            await azureDevOpsTools.GetCurrentIterationAsync(ConfigForTests.Project, "NotExists");
         });
 
         Assert.Contains(" 'NotExists' ", exception.Message);
@@ -92,16 +92,16 @@ public class AzureDevOpsTools_GetCurrentIterationAsync_Tests
     public async Task GetCurrentIterationAsync_Valid() {
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
 
-        Iteration iteration = await azureDevOpsTools.GetCurrentIterationAsync(ConfigForTests.TeamProject);
+        Iteration iteration = await azureDevOpsTools.GetCurrentIterationAsync(ConfigForTests.Project);
         IterationAssert.Equal(ConfigForTests.IterationPathCurrentDefault, iteration);
 
-        iteration = await azureDevOpsTools.GetCurrentIterationAsync(ConfigForTests.TeamProject, ConfigForTests.Team1);
+        iteration = await azureDevOpsTools.GetCurrentIterationAsync(ConfigForTests.Project, ConfigForTests.Team1);
         IterationAssert.Equal(ConfigForTests.IterationPathCurrentTeam1, iteration);
 
-        iteration = await azureDevOpsTools.GetCurrentIterationAsync(ConfigForTests.TeamProject, ConfigForTests.Team2);
+        iteration = await azureDevOpsTools.GetCurrentIterationAsync(ConfigForTests.Project, ConfigForTests.Team2);
         IterationAssert.Equal(ConfigForTests.IterationPathCurrentTeam2, iteration);
 
-        iteration = await azureDevOpsTools.GetCurrentIterationAsync(ConfigForTests.TeamProject, ConfigForTests.Team3);
+        iteration = await azureDevOpsTools.GetCurrentIterationAsync(ConfigForTests.Project, ConfigForTests.Team3);
         IterationAssert.Equal(ConfigForTests.IterationPathCurrentTeam3, iteration);
     }
 }

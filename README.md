@@ -163,7 +163,7 @@ Vous pouvez modifier les champs suivants :
 | Nom du champ | Description |
 | :----------- | :---------- |
 | AreaPath | La zone du WorkItem |
-| TeamProject |  *(obligatoire)* Le projet du WorkItem |
+| Project |  *(obligatoire)* Le projet du WorkItem |
 | IterationPath | L'itération du WorkItem |
 | Title | Le titre du WorkItem |
 | State | L'état du WorkItem |
@@ -207,7 +207,7 @@ Vous pouvez modifier les champs suivants :
 | Nom du champ | Description |
 | :----------- | :---------- |
 | AreaPath | *(facultatif)* La zone du WorkItem |
-| TeamProject | *(facultatif)* Le projet du WorkItem |
+| Project | *(facultatif)* Le projet du WorkItem |
 | IterationPath | *(facultatif)* L'itération du WorkItem |
 | Title | *(facultatif)* Le titre du WorkItem |
 | State | *(facultatif)* L'état du WorkItem |
@@ -243,7 +243,7 @@ Vous avez en retour un objet de type ```WorkItem```.
 | :------------------ | :---------- |
 | Id | L'identifiant du WorkItem |
 | AreaPath | La zone du WorkItem |
-| TeamProject | Le projet du WorkItem |
+| Project | Le projet du WorkItem |
 | IterationPath | L'itération du WorkItem |
 | Title | Le titre du WorkItem |
 | State | L'état du WorkItem |

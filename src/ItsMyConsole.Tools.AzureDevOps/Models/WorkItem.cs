@@ -93,6 +93,16 @@ namespace ItsMyConsole.Tools.AzureDevOps
         public int[] Related { get; internal set; }
 
         /// <summary>
+        /// La liste des identifiants des WorkItems prédécesseurs
+        /// </summary>
+        public int[] Predecessors { get; internal set; }
+
+        /// <summary>
+        /// La liste des identifiants des WorkItems successeurs
+        /// </summary>
+        public int[] Successors { get; internal set; }
+
+        /// <summary>
         /// Indicateur si des ensembles de modifications sont liés au Workitem
         /// </summary>
         public bool IsFixedInChangeset { get; internal set; }

@@ -125,6 +125,12 @@ public static class WorkItemAssert
                     case LinkType.Related:
                         Assert.Equal(workItemIds, workItem.Related);
                         break;
+                    case LinkType.Successor:
+                        Assert.Equal(workItemIds, workItem.Successors);
+                        break;
+                    case LinkType.Predecessor:
+                        Assert.Equal(workItemIds, workItem.Predecessors);
+                        break;
                     default: throw new NotImplementedException();
                 }
             }

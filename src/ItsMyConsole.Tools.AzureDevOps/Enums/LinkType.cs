@@ -18,6 +18,16 @@
         /// <summary>
         /// Lien Associé
         /// </summary>
-        Related
+        Related,
+
+        /// <summary>
+        /// Prédécesseur
+        /// </summary>
+        Predecessor,
+
+        /// <summary>
+        /// Successeur
+        /// </summary>
+        Successor
     }
 }

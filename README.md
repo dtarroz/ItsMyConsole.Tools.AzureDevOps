@@ -257,6 +257,8 @@ Vous avez en retour un objet de type ```WorkItem```.
 | Children | La liste des identifiants des WorkItems enfants |
 | Parent | L'identifiant du WorkItem parent |
 | Related | La liste des identifiants des WorkItems associés |
+| Predecessors | La liste des identifiants des WorkItems prédécesseurs |
+| Successors | La liste des identifiants des WorkItems successeurs |
 | IsFixedInChangeset | Indicateur si des ensembles de modifications sont liés au Workitem |
 | Tags | La liste des balises du WorkItem |
 | Effort | L'effort du WorkItem |
@@ -297,7 +299,7 @@ Vous avez en retour un objet de type [```WorkItem```](#récupération-des-inform
 
 ## Récupération de l'itération courante d'un projet
 
-Vous pouvez récupérer l'itération courante d'un projet en utilisant ```GetCurrentTeamIterationAsync```.
+Vous pouvez récupérer l'itération courante d'un projet en utilisant ```GetCurrentIterationAsync```.
 
 | Propriété | Description |
 | :-------- | :---------- |
@@ -307,11 +309,11 @@ Vous pouvez récupérer l'itération courante d'un projet en utilisant ```GetCur
 ```cs
 ccli.AddCommand("<PATTERN>", async tools => 
 {
-    TeamIteration teamsIteration = await tools.AzureDevOps("<NAME>").GetCurrentTeamIterationAsync("<PROJECT>");
+    Iteration iteration = await tools.AzureDevOps("<NAME>").GetCurrentIterationAsync("<PROJECT>");
 });
 ```
 
-Vous avez en retour un objet de type ```TeamIteration```.
+Vous avez en retour un objet de type ```Iteration```.
 
 | Nom de la propriété | Description |
 | :------------------ | :---------- |

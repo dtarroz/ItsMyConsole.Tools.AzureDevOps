@@ -73,7 +73,7 @@ public static class ConfigForTests
     public const string ActivityNew = "Development";
     public const string ActivityUpdate = "Design";
 
-    public static readonly TeamIteration IterationPathCurrentDefaultTeam = new() {
+    public static readonly Iteration IterationCurrentDefaultTeam = new() {
         Name = "<NAME>",
         Path = "<PATH>",
         StartDate = new DateTime(2022, 1, 1),
@@ -82,7 +82,7 @@ public static class ConfigForTests
 
     public const string Team1 = "<TEAM_1>";
 
-    public static readonly TeamIteration IterationPathCurrentTeam1 = new() {
+    public static readonly Iteration IterationCurrentTeam1 = new() {
         Name = "<NAME>",
         Path = "<PATH>",
         StartDate = new DateTime(2022, 1, 1),
@@ -91,7 +91,7 @@ public static class ConfigForTests
 
     public const string Team2 = "<TEAM_2>";
 
-    public static readonly TeamIteration IterationPathCurrentTeam2 = new() {
+    public static readonly Iteration IterationCurrentTeam2 = new() {
         Name = "<NAME>",
         Path = "<PATH>",
         StartDate = new DateTime(2022, 1, 1),
@@ -100,7 +100,7 @@ public static class ConfigForTests
 
     public const string Team3 = "<TEAM_3>";
 
-    public static readonly TeamIteration IterationPathCurrentTeam3 = new() {
+    public static readonly Iteration IterationCurrentTeam3 = new() {
         Name = "<NAME>",
         Path = "<PATH>",
         StartDate = new DateTime(2022, 1, 1),

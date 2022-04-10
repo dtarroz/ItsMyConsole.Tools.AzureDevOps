@@ -74,7 +74,7 @@ public class AzureDevOpsTools_GetCurrentIterationAsync_Tests
 
         Iteration iteration = await azureDevOpsTools.GetCurrentIterationAsync(ConfigForTests.Project, "");
 
-        IterationAssert.Equal(ConfigForTests.IterationPathCurrentDefault, iteration);
+        IterationAssert.Equal(ConfigForTests.IterationCurrentDefaultTeam, iteration);
     }
 
     [Fact]
@@ -93,15 +93,15 @@ public class AzureDevOpsTools_GetCurrentIterationAsync_Tests
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
 
         Iteration iteration = await azureDevOpsTools.GetCurrentIterationAsync(ConfigForTests.Project);
-        IterationAssert.Equal(ConfigForTests.IterationPathCurrentDefault, iteration);
+        IterationAssert.Equal(ConfigForTests.IterationCurrentDefaultTeam, iteration);
 
         iteration = await azureDevOpsTools.GetCurrentIterationAsync(ConfigForTests.Project, ConfigForTests.Team1);
-        IterationAssert.Equal(ConfigForTests.IterationPathCurrentTeam1, iteration);
+        IterationAssert.Equal(ConfigForTests.IterationCurrentTeam1, iteration);
 
         iteration = await azureDevOpsTools.GetCurrentIterationAsync(ConfigForTests.Project, ConfigForTests.Team2);
-        IterationAssert.Equal(ConfigForTests.IterationPathCurrentTeam2, iteration);
+        IterationAssert.Equal(ConfigForTests.IterationCurrentTeam2, iteration);
 
         iteration = await azureDevOpsTools.GetCurrentIterationAsync(ConfigForTests.Project, ConfigForTests.Team3);
-        IterationAssert.Equal(ConfigForTests.IterationPathCurrentTeam3, iteration);
+        IterationAssert.Equal(ConfigForTests.IterationCurrentTeam3, iteration);
     }
 }

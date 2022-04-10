@@ -412,6 +412,8 @@ public class AzureDevOpsTools_AddWorkItemRelationsAsync_Tests
         await azureDevOpsTools.DeleteWorkItemAsync(workItemToAdd.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItemToAdd2.Id);
         await azureDevOpsTools.DeleteWorkItemAsync(workItemToAdd3.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItemToAdd4.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItemToAdd5.Id);
     }
 
     [Fact]

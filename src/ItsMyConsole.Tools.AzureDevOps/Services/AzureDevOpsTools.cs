@@ -66,7 +66,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// </summary>
         /// <param name="project">Le nom du projet</param>
         /// <param name="team">Le nom de l'équipe</param>
-        public async Task<TeamIteration> GetCurrentTeamIterationAsync(string project, string team = null) {
+        public async Task<Iteration> GetCurrentIterationAsync(string project, string team = null) {
             if (string.IsNullOrEmpty(project))
                 throw new ArgumentException("Le projet est obligatoire", nameof(project));
             await LoadAzureDevOpsOptionsAsync();

@@ -2,9 +2,9 @@ using Xunit;
 
 namespace ItsMyConsole.Tools.AzureDevOps.Tests.Asserts;
 
-public static class TeamIterationAssert
+public static class IterationAssert
 {
-    public static void Equal(TeamIteration expected, TeamIteration actual) {
+    public static void Equal(Iteration expected, Iteration actual) {
         Assert.NotNull(expected);
         Assert.NotNull(actual);
         Assert.Equal(expected.Name, actual.Name);

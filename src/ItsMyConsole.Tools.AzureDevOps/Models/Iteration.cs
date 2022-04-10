@@ -5,7 +5,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
     /// <summary>
     /// Les informations d'une itération d'un projet
     /// </summary>
-    public class TeamIteration
+    public class Iteration
     {
         /// <summary>
         /// Le nom de l'itération

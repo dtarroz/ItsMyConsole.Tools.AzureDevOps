@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageVersion>0.6.0</PackageVersion>
+    <PackageVersion>0.7.0</PackageVersion>
     <Title>ItsMyConsole.Tools.AzureDevOps</Title>
     <Authors>Damien TARROZ</Authors>
     <Description>Outil Azure DevOps (Création/Modification WorkItem) pour le Framework ItsMyConsole</Description>
-    <Copyright>Copyright © 2022 Damien TARROZ</Copyright>
+    <Copyright>Copyright © 2024 Damien TARROZ</Copyright>
     <PackageProjectUrl>https://github.com/dtarroz/ItsMyConsole.Tools.AzureDevOps</PackageProjectUrl>
-    <AssemblyVersion>0.6.0</AssemblyVersion>
-    <FileVersion>0.6.0</FileVersion>
+    <AssemblyVersion>0.7.0</AssemblyVersion>
+    <FileVersion>0.7.0</FileVersion>
     <PackageIcon>logo.png</PackageIcon>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>console cli azure devops</PackageTags>

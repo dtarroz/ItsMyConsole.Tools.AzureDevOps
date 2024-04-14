@@ -126,5 +126,15 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// L'estimation d'origine
         /// </summary>
         public double? OriginalEstimate { get; internal set; }
+
+        /// <summary>
+        /// Le travail restant
+        /// </summary>
+        public double? RemainingWork { get; internal set; }
+
+        /// <summary>
+        /// Le travail accompli
+        /// </summary>
+        public double? CompletedWork { get; internal set; }
     }
 }

@@ -28,7 +28,9 @@ public static class ConfigForTests
             AcceptanceCriteria = "ACCEPTANCE_CRITERIA",
             Tags = new[] { "CREATE", "CREATE 1" },
             Effort = 0.5,
-            OriginalEstimate = 1.5
+            OriginalEstimate = 1.5,
+            RemainingWork = 1.1,
+            CompletedWork = 0.4
         };
     }
 
@@ -47,7 +49,9 @@ public static class ConfigForTests
             SystemInfo = "SYSTEM_INFO_UPDATE",
             AcceptanceCriteria = "ACCEPTANCE_CRITERIA_UPDATE",
             Effort = 1.9,
-            OriginalEstimate = 2.25
+            OriginalEstimate = 2.25,
+            RemainingWork = 1.2,
+            CompletedWork = 1.05
         };
     }
 

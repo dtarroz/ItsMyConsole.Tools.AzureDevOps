@@ -32,6 +32,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 Tags = workItemApi.GetFieldValue<string>("System.Tags")?.Split(';').Select(t => t.Trim()).ToArray(),
                 Effort = workItemApi.GetFieldValue<double?>("Microsoft.VSTS.Scheduling.Effort"),
                 OriginalEstimate = workItemApi.GetFieldValue<double?>("Microsoft.VSTS.Scheduling.OriginalEstimate"),
+                RemainingWork = workItemApi.GetFieldValue<double?>("Microsoft.VSTS.Scheduling.RemainingWork"),
+                CompletedWork = workItemApi.GetFieldValue<double?>("Microsoft.VSTS.Scheduling.CompletedWork"),
                 CustomFields = workItemApi.GetCustomFields()
             };
         }

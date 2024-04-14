@@ -39,6 +39,8 @@ public static class WorkItemAssert
             Assert.Equal(CleanTags(workItemCreateFields.Tags), workItem.Tags);
         Assert.Equal(workItemCreateFields.Effort, workItem.Effort);
         Assert.Equal(workItemCreateFields.OriginalEstimate, workItem.OriginalEstimate);
+        Assert.Equal(workItemCreateFields.RemainingWork, workItem.RemainingWork);
+        Assert.Equal(workItemCreateFields.CompletedWork, workItem.CompletedWork);
     }
 
     private static IEnumerable<string> CleanTags(IEnumerable<string> tags) {
@@ -80,7 +82,9 @@ public static class WorkItemAssert
             SystemInfo = workItemUpdateFields.SystemInfo ?? workItem.SystemInfo,
             AcceptanceCriteria = workItemUpdateFields.AcceptanceCriteria ?? workItem.AcceptanceCriteria,
             Effort = workItemUpdateFields.Effort ?? workItem.Effort,
-            OriginalEstimate = workItemUpdateFields.OriginalEstimate ?? workItem.OriginalEstimate
+            OriginalEstimate = workItemUpdateFields.OriginalEstimate ?? workItem.OriginalEstimate,
+            RemainingWork = workItemUpdateFields.RemainingWork ?? workItem.RemainingWork,
+            CompletedWork = workItemUpdateFields.CompletedWork ?? workItem.CompletedWork
         };
         EqualUpdate(workItemUpdateFieldsExpected, workItemUpdate);
     }
@@ -106,6 +110,8 @@ public static class WorkItemAssert
         Assert.Equal(workItemUpdateFields.AcceptanceCriteria, workItem.AcceptanceCriteria);
         Assert.Equal(workItemUpdateFields.Effort, workItem.Effort);
         Assert.Equal(workItemUpdateFields.OriginalEstimate, workItem.OriginalEstimate);
+        Assert.Equal(workItemUpdateFields.RemainingWork, workItem.RemainingWork);
+        Assert.Equal(workItemUpdateFields.CompletedWork, workItem.CompletedWork);
     }
 
     public static void CheckRelations(Dictionary<LinkType, List<int>> relations, WorkItem workItem) {
@@ -165,5 +171,7 @@ public static class WorkItemAssert
         Assert.Equal(expected.Tags, actual.Tags);
         Assert.Equal(expected.Effort, actual.Effort);
         Assert.Equal(expected.OriginalEstimate, actual.OriginalEstimate);
+        Assert.Equal(expected.RemainingWork, actual.RemainingWork);
+        Assert.Equal(expected.CompletedWork, actual.CompletedWork);
     }
 }

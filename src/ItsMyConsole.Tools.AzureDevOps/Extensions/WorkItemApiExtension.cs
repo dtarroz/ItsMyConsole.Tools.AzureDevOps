@@ -31,6 +31,7 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 IsFixedInChangeset = workItemApi.Relations?.Any(r => r.Attributes.Name == "Fixed in Changeset") ?? false,
                 Tags = workItemApi.GetFieldValue<string>("System.Tags")?.Split(';').Select(t => t.Trim()).ToArray(),
                 Effort = workItemApi.GetFieldValue<double?>("Microsoft.VSTS.Scheduling.Effort"),
+                OriginalEstimate = workItemApi.GetFieldValue<double?>("Microsoft.VSTS.Scheduling.OriginalEstimate"),
                 CustomFields = workItemApi.GetCustomFields()
             };
         }

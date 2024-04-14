@@ -189,7 +189,8 @@ namespace ItsMyConsole.Tools.AzureDevOps
                 { "/fields/Microsoft.VSTS.TCM.ReproSteps", workItemFields.ReproSteps },
                 { "/fields/Microsoft.VSTS.TCM.SystemInfo", workItemFields.SystemInfo },
                 { "/fields/Microsoft.VSTS.Common.AcceptanceCriteria", workItemFields.AcceptanceCriteria },
-                { "/fields/Microsoft.VSTS.Scheduling.Effort", workItemFields.Effort?.ToString() }
+                { "/fields/Microsoft.VSTS.Scheduling.Effort", workItemFields.Effort?.ToString() },
+                { "/fields/Microsoft.VSTS.Scheduling.OriginalEstimate", workItemFields.OriginalEstimate?.ToString() }
             };
             if (workItemFields is WorkItemCreateFields workItemCreateFields)
                 fields.Add("/fields/System.Tags", ConvertTagsToSystemTags(workItemCreateFields.Tags));

@@ -71,5 +71,10 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// L'effort du WorkItem
         /// </summary>
         public double? Effort { get; set; }
+
+        /// <summary>
+        /// L'estimation d'origine
+        /// </summary>
+        public double? OriginalEstimate { get; set; }
     }
 }

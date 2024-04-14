@@ -121,5 +121,10 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// Les champs personnalisés du WorkItem
         /// </summary>
         public Dictionary<string, object> CustomFields { get; internal set; }
+
+        /// <summary>
+        /// L'estimation d'origine
+        /// </summary>
+        public double? OriginalEstimate { get; internal set; }
     }
 }

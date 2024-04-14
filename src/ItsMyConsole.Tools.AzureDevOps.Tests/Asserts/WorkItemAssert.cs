@@ -38,6 +38,7 @@ public static class WorkItemAssert
         else
             Assert.Equal(CleanTags(workItemCreateFields.Tags), workItem.Tags);
         Assert.Equal(workItemCreateFields.Effort, workItem.Effort);
+        Assert.Equal(workItemCreateFields.OriginalEstimate, workItem.OriginalEstimate);
     }
 
     private static IEnumerable<string> CleanTags(IEnumerable<string> tags) {
@@ -78,7 +79,8 @@ public static class WorkItemAssert
             ReproSteps = workItemUpdateFields.ReproSteps ?? workItem.ReproSteps,
             SystemInfo = workItemUpdateFields.SystemInfo ?? workItem.SystemInfo,
             AcceptanceCriteria = workItemUpdateFields.AcceptanceCriteria ?? workItem.AcceptanceCriteria,
-            Effort = workItemUpdateFields.Effort ?? workItem.Effort
+            Effort = workItemUpdateFields.Effort ?? workItem.Effort,
+            OriginalEstimate = workItemUpdateFields.OriginalEstimate ?? workItem.OriginalEstimate
         };
         EqualUpdate(workItemUpdateFieldsExpected, workItemUpdate);
     }
@@ -103,6 +105,7 @@ public static class WorkItemAssert
         Assert.Equal(workItemUpdateFields.SystemInfo, workItem.SystemInfo);
         Assert.Equal(workItemUpdateFields.AcceptanceCriteria, workItem.AcceptanceCriteria);
         Assert.Equal(workItemUpdateFields.Effort, workItem.Effort);
+        Assert.Equal(workItemUpdateFields.OriginalEstimate, workItem.OriginalEstimate);
     }
 
     public static void CheckRelations(Dictionary<LinkType, List<int>> relations, WorkItem workItem) {
@@ -161,5 +164,6 @@ public static class WorkItemAssert
         Assert.Equal(expected.IsFixedInChangeset, actual.IsFixedInChangeset);
         Assert.Equal(expected.Tags, actual.Tags);
         Assert.Equal(expected.Effort, actual.Effort);
+        Assert.Equal(expected.OriginalEstimate, actual.OriginalEstimate);
     }
 }

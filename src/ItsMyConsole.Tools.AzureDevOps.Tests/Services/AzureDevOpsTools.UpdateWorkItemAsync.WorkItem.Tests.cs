@@ -922,6 +922,102 @@ public class AzureDevOpsTools_UpdateWorkItemAsync_WorkItem_Tests
     }
 
     [Fact]
+    public async Task UpdateWorkItemAsync_OriginalEstimate_Null() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
+        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
+        WorkItemUpdateFields workItemUpdateFields = ConfigForTests.GetWorkItemUpdateFields();
+        workItemUpdateFields.OriginalEstimate = null;
+
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem, workItemUpdateFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+
+        WorkItemAssert.CheckUpdate(workItem, workItemUpdateFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
+    }
+
+    [Fact]
+    public async Task UpdateWorkItemAsync_OriginalEstimate_Negative() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
+        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
+        WorkItemUpdateFields workItemUpdateFields = ConfigForTests.GetWorkItemUpdateFields();
+        workItemUpdateFields.OriginalEstimate = -1;
+
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem, workItemUpdateFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+
+        WorkItemAssert.CheckUpdate(workItem, workItemUpdateFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
+    }
+
+    [Fact]
+    public async Task UpdateWorkItemAsync_OriginalEstimate_Zero() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
+        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
+        WorkItemUpdateFields workItemUpdateFields = ConfigForTests.GetWorkItemUpdateFields();
+        workItemUpdateFields.OriginalEstimate = 0;
+
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem, workItemUpdateFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+
+        WorkItemAssert.CheckUpdate(workItem, workItemUpdateFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
+    }
+
+    [Fact]
+    public async Task UpdateWorkItemAsync_OriginalEstimate_Double() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
+        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
+        WorkItemUpdateFields workItemUpdateFields = ConfigForTests.GetWorkItemUpdateFields();
+        workItemUpdateFields.OriginalEstimate = 3.14159265;
+
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem, workItemUpdateFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+
+        WorkItemAssert.CheckUpdate(workItem, workItemUpdateFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
+    }
+
+    [Fact]
+    public async Task UpdateWorkItemAsync_OriginalEstimate_Int() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
+        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
+        WorkItemUpdateFields workItemUpdateFields = ConfigForTests.GetWorkItemUpdateFields();
+        workItemUpdateFields.OriginalEstimate = 10;
+
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem, workItemUpdateFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+
+        WorkItemAssert.CheckUpdate(workItem, workItemUpdateFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
+    }
+
+    [Fact]
+    public async Task UpdateWorkItemAsync_OriginalEstimate_SameValue() {
+        AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
+        WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();
+        WorkItem workItem = await azureDevOpsTools.CreateWorkItemAsync(workItemCreateFields);
+        WorkItemUpdateFields workItemUpdateFields = ConfigForTests.GetWorkItemUpdateFields();
+        workItemUpdateFields.OriginalEstimate = workItem.OriginalEstimate;
+
+        WorkItem workItemUpdate = await azureDevOpsTools.UpdateWorkItemAsync(workItem, workItemUpdateFields);
+        WorkItem workItemGet = await azureDevOpsTools.GetWorkItemAsync(workItem.Id);
+        await azureDevOpsTools.DeleteWorkItemAsync(workItem.Id);
+
+        WorkItemAssert.CheckUpdate(workItem, workItemUpdateFields, workItemUpdate);
+        WorkItemAssert.Equal(workItemUpdate, workItemGet);
+    }
+
+    [Fact]
     public async Task UpdateWorkItemAsync_SameCall() {
         AzureDevOpsTools azureDevOpsTools = new AzureDevOpsTools(ConfigForTests.GetAzureDevOpsServer());
         WorkItemCreateFields workItemCreateFields = ConfigForTests.GetWorkItemCreateFields();

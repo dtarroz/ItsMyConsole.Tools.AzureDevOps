@@ -176,6 +176,9 @@ Vous pouvez modifier les champs suivants :
 | AcceptanceCriteria | Les critères d'acceptation du WorkItem |
 | Tags | Les balises du WorkItem |
 | Effort | L'effort du WorkItem |
+| OriginalEstimate | L'estimation d'origine |
+| RemainingWork | Le travail restant |
+| CompletedWork | Le travail accompli |
 
 Vous avez en retour un objet de type [```WorkItem```](#récupération-des-informations-dun-workitem).
 
@@ -219,6 +222,9 @@ Vous pouvez modifier les champs suivants :
 | SystemInfo | *(facultatif)* Les informations systèmes du WorkItem |
 | AcceptanceCriteria | *(facultatif)* Les critères d'acceptation du WorkItem |
 | Effort | *(facultatif)* L'effort du WorkItem |
+| OriginalEstimate | *(facultatif)* L'estimation d'origine |
+| RemainingWork | *(facultatif)* Le travail restant |
+| CompletedWork | *(facultatif)* Le travail accompli |
 
 Vous avez en retour un objet de type [```WorkItem```](#récupération-des-informations-dun-workitem).
 
@@ -262,6 +268,9 @@ Vous avez en retour un objet de type ```WorkItem```.
 | IsFixedInChangeset | Indicateur si des ensembles de modifications sont liés au Workitem |
 | Tags | La liste des balises du WorkItem |
 | Effort | L'effort du WorkItem |
+| OriginalEstimate | L'estimation d'origine |
+| RemainingWork | Le travail restant |
+| CompletedWork | Le travail accompli |
 
 ## Suppression d'un WorkItem
 

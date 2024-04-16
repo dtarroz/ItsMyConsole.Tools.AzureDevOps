@@ -80,11 +80,11 @@ namespace ItsMyConsole.Tools.AzureDevOps
         /// <summary>
         /// Le travail restant
         /// </summary>
-        public double? RemainingWork { get; internal set; }
+        public double? RemainingWork { get; set; }
 
         /// <summary>
         /// Le travail accompli
         /// </summary>
-        public double? CompletedWork { get; internal set; }
+        public double? CompletedWork { get; set; }
     }
 }
